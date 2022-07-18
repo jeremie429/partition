@@ -99,7 +99,8 @@ code {
 }
 .note-text{
   position: absolute;
-  right: 0;
+  top: -30px;
+  font-size: 10px;
 }
 
 .submit-delay{

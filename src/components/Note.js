@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 function Note({ currentNote, currentAudio, handleNoteClick, pupitreName }) {
   const [visible, setVisible] = useState(false);
   const [vueDelayButton, setVueDelayButton] = useState(true);
-  const [delay, setDelay] = useState(0.5);
+  const [delay, setDelay] = useState(0.3);
   let id = uuidv4();
 
   //console.log(visible);
@@ -45,7 +45,7 @@ function Note({ currentNote, currentAudio, handleNoteClick, pupitreName }) {
             type="number"
             value={delay}
             onChange={handleDelay}
-            min={0.5}
+            min={0.2}
             max={5.0}
             step={0.2}
           />
@@ -62,6 +62,7 @@ function Note({ currentNote, currentAudio, handleNoteClick, pupitreName }) {
       <div className="note-circle">
         <div className="note-line"></div>
       </div>
+      {visible && <p className="note-text">{currentNote}</p>}
     </div>
   );
 }
