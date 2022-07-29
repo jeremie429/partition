@@ -65,7 +65,9 @@ code {
   margin-bottom: 10px;
   background-color: white;
   padding-bottom: 10px;
- 
+  position: relative;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 
@@ -89,7 +91,7 @@ code {
 }
 
 .input-delay{
-  width: 30px;
+  max-width: 40px;
   height: 10px;
   font-size: 10px;
 }
@@ -121,12 +123,17 @@ code {
 .line:hover,
 .band:hover {
   background-color: blueviolet;
+  cursor: pointer;
 }
 
 
 .selected{
   visibility: visible;
   background-color: black !important;
+}
+.playing{
+  transform: scale(1.1);
+  background-color: chartreuse !important;
 }
 .controls{
   display: flex;
@@ -154,4 +161,48 @@ audio{
   height: 150px;
 }
 
+.img-icon{
+  position: absolute;
+  left: -20px;
+  width: 100px;
+  top: 40px;
+  
+ 
+}
+
+
+.input-title{
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  width: 50%;
+}
+
+button{
+  border-radius: 5px;
+  border-width: 0;
+  
+}
+
+button:hover{
+  background-color: burlywood;
+}
+
+.note-circle{
+  cursor: pointer;
+}
+
+.input-tempo,
+.input-altokey,
+.input-tenorkey{
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  max-width: 75px;
+  text-align: center;
+}
 

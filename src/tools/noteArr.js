@@ -1,4 +1,6 @@
 export const audioSolKey = [
+  "A3",
+  "B3",
   "C4",
   "D4",
   "E4",
@@ -43,6 +45,8 @@ export const audioSolKey = [
   "B9",
 ];
 export const audioFaKey = [
+  "C3",
+  "D3",
   "E3",
   "F3",
   "G3",
@@ -93,11 +97,6 @@ export const audioFaKey = [
 ];
 
 export const notesSolKey = [
-  "do",
-  "re",
-  "mi",
-  "fa",
-  "sol",
   "la",
   "si",
   "do",
@@ -107,8 +106,18 @@ export const notesSolKey = [
   "sol",
   "la",
   "si",
+  "do",
+  "re",
+  "mi",
+  "fa",
+  "sol",
+  "la",
+  "si",
+  "do",
 ];
 export const notesFaKey = [
+  "do",
+  "re",
   "mi",
   "fa",
   "sol",
