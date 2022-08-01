@@ -45,33 +45,6 @@ function App() {
 
   let titleref = useRef();
 
-  /* useEffect(() => {
-    // const solBlock = document.getElementById("block");
-    let tempoStr = prompt("Please enter tempo of song", "90");
-
-    setTempo(parseInt(tempoStr));
-
-    let keyChoiceForAlto = prompt(
-      "Please enter your partition for Alto. Type sol or fa",
-      "sol"
-    );
-    let keyChoiceForTenor = prompt(
-      "Please enter your partition for Alto. Type sol or fa",
-      "fa"
-    );
-
-    if (keyChoiceForAlto == "fa") {
-      setNotesArrForAlto(audioFaKey);
-      setKeyForAlto("fa");
-    }
-
-    if (keyChoiceForTenor == "sol") {
-      // console.log({ keyForTenor });
-      setNotesForTenor(audioSolKey);
-      setKeyForTenor("sol");
-    }
-  }, [tempo, keyForAlto, keyForTenor]);*/
-
   function handleNoteClick(currentAudioSrc, pupitreName, delay, visible, id) {
     // window.location.reload(false);
 
@@ -152,10 +125,6 @@ function App() {
     let tenorNote = tenorNotes.find((obj) => obj.id == id);
     let bassNote = bassNotes.find((obj) => obj.id == id);
 
-    /* console.log({ id });
-    console.log({ sopranoNotes });
-    console.log(sopranoNote);*/
-
     if (altoNote != undefined) {
       let index = altoNotes.indexOf(altoNote);
       altoNote.duration = value;
@@ -177,8 +146,6 @@ function App() {
       bassNote.duration = value;
       bassNotes[index] = bassNote;
     }
-    // setDelay(value);
-    // setVueDelayButton(true);
   }
 
   function handleAddBtn(e, pupitre) {
