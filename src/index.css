@@ -70,6 +70,31 @@ code {
   padding-right: 20px;
 }
 
+.dieze-line{
+  position: absolute;
+  right: -10px;
+  font-size: x-small;
+  cursor: pointer;
+  color: rgb(136, 149, 161);
+}
+.dieze-line:hover{
+  color: chocolate;
+}
+
+.dieze-line-selected{
+  position: absolute;
+  right: -10px;
+  font-size: x-small;
+  cursor: pointer;
+  color: chocolate;
+}
+
+.complete-line{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
 
 .notes-bloc{
   width: 7px;
@@ -155,6 +180,7 @@ code {
   justify-content: space-between;
  margin-bottom: 10px;
  flex-wrap: wrap;
+
 }
 
 button{
@@ -193,7 +219,7 @@ audio{
   border-radius: 10px;
   border: none;
   outline: none;
-  width: 50%;
+  
 }
 
 button{
@@ -227,6 +253,7 @@ button:hover{
   justify-content:center;
   max-width: fit-content;
   align-items: center;
+  z-index: 2;
 }
 
 

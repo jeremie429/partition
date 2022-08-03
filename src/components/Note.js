@@ -9,19 +9,28 @@ function Note({
   handleDelay,
   tempo,
   cancelVisibility,
+  isDieze,
 }) {
   let count = 0;
+  let currentAudioDieze = currentAudio.split("");
+  currentAudioDieze.splice(1, 0, "#");
+  currentAudioDieze = currentAudioDieze.join("");
+  let currentNoteDieze = currentNote + "#";
   const [visible, setVisible] = useState(false);
   const [vueDelayButton, setVueDelayButton] = useState(true);
   const [delay, setDelay] = useState(tempo);
-  const [noteText, setNoteText] = useState(currentNote);
-  const [noteAudio, setNoteAudio] = useState(currentAudio);
+  const [noteText, setNoteText] = useState(
+    !isDieze ? currentNote : currentNoteDieze
+  );
+  const [noteAudio, setNoteAudio] = useState(
+    !isDieze ? currentAudio : currentAudioDieze
+  );
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
 
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log({ noteAudio });
+
     handleNoteClick(noteAudio, pupitreName, delay, visible, id.current);
     //console.log({ delay });
     setVueDelayButton(false);
@@ -82,17 +91,17 @@ function Note({
                 type="button"
                 value="Ok"
               />
-              <input
-                onClick={(e) => {
-                  currentAudio = currentAudio.replace("x", "#");
-                  currentNote = currentNote + "#";
-                  setNoteText(currentNote);
-                  setNoteAudio(currentAudio);
-                }}
-                className="btn dieze"
-                value="#"
-                type="button"
-              />
+              {!isDieze && (
+                <input
+                  onClick={(e) => {
+                    setNoteText(currentNoteDieze);
+                    setNoteAudio(currentAudioDieze);
+                  }}
+                  className="btn dieze"
+                  value="#"
+                  type="button"
+                />
+              )}
             </div>
           )}
         </div>

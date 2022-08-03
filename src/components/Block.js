@@ -22,7 +22,7 @@ function Block({
   let currentNote;
   let currentAudioSrc;
 
-  function Line({ note, audio, classType }) {
+  function Line({ note, audio, classType, isDieze }) {
     const [createNote, setCreateNote] = useState();
 
     useEffect(() => {
@@ -54,9 +54,33 @@ function Block({
                   pupitreName={pupitreName}
                   tempo={tempo}
                   cancelVisibility={cancelVisibility}
+                  isDieze={isDieze}
                 />
               );
             })}
+      </div>
+    );
+  }
+
+  function CompleteLine({ currentNote, currentAudioSrc, classType }) {
+    const [isDieze, setIsDieze] = useState(false);
+
+    return (
+      <div className="complete-line">
+        <Line
+          note={currentNote}
+          audio={currentAudioSrc}
+          classType={classType}
+          isDieze={isDieze}
+        />
+        <div
+          onClick={(e) => {
+            setIsDieze((prev) => !prev);
+          }}
+          className={isDieze ? "dieze-line-selected" : "dieze-line"}
+        >
+          #
+        </div>
       </div>
     );
   }
@@ -71,9 +95,9 @@ function Block({
           currentAudioSrc = audioSrc[i];
           let classType = num === 0 && i < 13 && i > 3 ? "line" : "band";
           return (
-            <Line
-              note={currentNote}
-              audio={currentAudioSrc}
+            <CompleteLine
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
               classType={classType}
               key={uuidv4()}
             />
