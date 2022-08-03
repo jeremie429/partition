@@ -14,12 +14,15 @@ function Note({
   const [visible, setVisible] = useState(false);
   const [vueDelayButton, setVueDelayButton] = useState(true);
   const [delay, setDelay] = useState(tempo);
+  const [noteText, setNoteText] = useState(currentNote);
+  const [noteAudio, setNoteAudio] = useState(currentAudio);
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleNoteClick(currentAudio, pupitreName, delay, visible, id.current);
+    // console.log({ noteAudio });
+    handleNoteClick(noteAudio, pupitreName, delay, visible, id.current);
     //console.log({ delay });
     setVueDelayButton(false);
   }
@@ -63,22 +66,34 @@ function Note({
             step={step}
           />
           {vueDelayButton && (
-            <>
+            <div className="note-controls">
               <input
-                className="submit-delay"
+                onClick={(e) => {
+                  // console.log("cancel button clicked");
+                  setVisible(false);
+                }}
+                className="btn cancel"
+                value="X"
+                type="button"
+              />
+              <input
+                className="btn ok"
                 onClick={handleSubmit}
                 type="button"
                 value="Ok"
               />
               <input
                 onClick={(e) => {
-                  // console.log("cancel button clicked");
-                  setVisible(false);
+                  currentAudio = currentAudio.replace("x", "#");
+                  currentNote = currentNote + "#";
+                  setNoteText(currentNote);
+                  setNoteAudio(currentAudio);
                 }}
-                value="Cancel"
+                className="btn dieze"
+                value="#"
                 type="button"
               />
-            </>
+            </div>
           )}
         </div>
       )}
@@ -87,7 +102,7 @@ function Note({
           <div className="note-line"></div>
         </div>
       )}
-      {visible && <p className="note-text">{currentNote}</p>}
+      {visible && <p className="note-text">{noteText}</p>}
     </div>
   );
 }

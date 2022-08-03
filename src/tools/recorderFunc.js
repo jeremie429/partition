@@ -8,7 +8,7 @@ export async function startRecording() {
     recorder = new MediaRecorder(stream);
     recorder.start();
     recorder.addEventListener("dataavailable", (event) => {
-      console.log("we are here...", event.data);
+      //console.log("we are here...", event.data);
       chunks.push(event.data);
     });
 

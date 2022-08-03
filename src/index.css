@@ -12,7 +12,7 @@ code {
 
 
 .container{
-  width: 90vw;
+  width: 100vw;
 
   display: flex;
   align-items: center;
@@ -105,9 +105,24 @@ code {
   font-size: 10px;
 }
 
-.submit-delay{
-  z-index: 2;
+.btn{
   cursor: pointer;
+  border-width: 1px;
+  margin: 0;
+}
+
+.cancel{
+  background-color: red;
+  color: white;
+ font-weight: 500;
+}
+
+.ok{
+  background-color: green;
+}
+
+.dieze{
+
 }
 
 .note-line{
@@ -139,14 +154,15 @@ code {
   display: flex;
   justify-content: space-between;
  margin-bottom: 10px;
+ flex-wrap: wrap;
 }
 
 button{
   cursor: pointer;
-  margin-right: 5px;
+  margin : 5px;
 }
 input{
-  margin-right: 5px;
+  margin: 5px;
 }
 
 audio::-webkit-media-controls-play-button {
@@ -205,4 +221,13 @@ button:hover{
   max-width: 75px;
   text-align: center;
 }
+
+.note-controls{
+  display: flex;
+  justify-content:center;
+  max-width: fit-content;
+  align-items: center;
+}
+
+
 

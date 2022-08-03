@@ -1,7 +1,7 @@
 import * as Tone from "tone";
-function sleep(time) {
+/*function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
-}
+}*/
 
 export async function playSnd(arrObj) {
   const synth = new Tone.Synth().toDestination();
