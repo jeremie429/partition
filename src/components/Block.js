@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Note from "./Note";
 import { v4 as uuidv4 } from "uuid";
-import Icon from "../tools/keysIcon";
 
 function Block({
   audioSrc,
@@ -22,7 +21,7 @@ function Block({
   let currentNote;
   let currentAudioSrc;
 
-  function Line({ note, audio, classType, isDieze }) {
+  function Line({ note, audio, classType, isDieze, isBemol }) {
     const [createNote, setCreateNote] = useState();
 
     useEffect(() => {
@@ -33,7 +32,7 @@ function Block({
 
     function handleLineClick(e) {
       e.preventDefault();
-      if (createNote == false) {
+      if (createNote === false) {
         setCreateNote(true);
         //console.log(createNote);
       }
@@ -55,6 +54,7 @@ function Block({
                   tempo={tempo}
                   cancelVisibility={cancelVisibility}
                   isDieze={isDieze}
+                  isBemol={isBemol}
                 />
               );
             })}
@@ -64,6 +64,7 @@ function Block({
 
   function CompleteLine({ currentNote, currentAudioSrc, classType }) {
     const [isDieze, setIsDieze] = useState(false);
+    const [isBemol, setIsBemol] = useState(false);
 
     return (
       <div className="complete-line">
@@ -72,6 +73,7 @@ function Block({
           audio={currentAudioSrc}
           classType={classType}
           isDieze={isDieze}
+          isBemol={isBemol}
         />
         <div
           onClick={(e) => {
@@ -81,6 +83,15 @@ function Block({
         >
           #
         </div>
+
+        <div
+          onClick={(e) => {
+            setIsBemol((prev) => !prev);
+          }}
+          className={isBemol ? "bemol-line-selected" : "bemol-line"}
+        >
+          &#9837;
+        </div>
       </div>
     );
   }
@@ -88,7 +99,7 @@ function Block({
   return (
     <>
       <div ref={divRef} className="div-line-container">
-        <img src={imgIcon} className="img-icon" />
+        <img src={imgIcon} className="img-icon" alt="key icon" />
         {arr.map((i) => {
           let num = i % 2;
           currentNote = notesSrc[i];

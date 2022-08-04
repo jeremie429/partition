@@ -31,8 +31,8 @@ code {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
- 
+  padding: 10px 30px 10px 5px;
+ position: relative;
 }
 .pupitre{
   display: flex;
@@ -67,7 +67,7 @@ code {
   padding-bottom: 10px;
   position: relative;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 30px;
 }
 
 .dieze-line{
@@ -84,6 +84,25 @@ code {
 .dieze-line-selected{
   position: absolute;
   right: -10px;
+  font-size: x-small;
+  cursor: pointer;
+  color: chocolate;
+}
+
+.bemol-line{
+  position: absolute;
+  right: -20px;
+  font-size: x-small;
+  cursor: pointer;
+  color: rgb(136, 149, 161);
+}
+.bemol-line:hover{
+  color: chocolate;
+}
+
+.bemol-line-selected{
+  position: absolute;
+  right: -20px;
   font-size: x-small;
   cursor: pointer;
   color: chocolate;
@@ -124,11 +143,7 @@ code {
 .notes-bloc:hover{
   background-color: blueviolet; 
 }
-.note-text{
-  position: absolute;
-  top: -30px;
-  font-size: 10px;
-}
+
 
 .btn{
   cursor: pointer;
@@ -146,9 +161,7 @@ code {
   background-color: green;
 }
 
-.dieze{
 
-}
 
 .note-line{
 
@@ -255,6 +268,54 @@ button:hover{
   align-items: center;
   z-index: 2;
 }
+
+.white-label{
+  color: white;
+  font-weight: 500;
+
+}
+
+
+.top{
+  position: fixed;
+  top: calc(100vh/3);
+  flex-direction: column;
+  right: 0;
+  
+}
+
+.top:hover{
+  z-index: 3;
+  
+}
+
+#soprano-btn,
+#alto-btn,
+#tenor-btn,
+#bass-btn,
+#add-soprano,
+#add-alto,
+#add-tenor,
+#add-bass{
+ 
+ padding: 5px;
+  
+}
+
+.note-text{
+  position: absolute;
+  top: -30px;
+  left: -7px;
+  font-size: 10px;
+  max-width: 20px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  margin: 0 ;
+  background-color: rgb(224, 199, 231);
+}
+
+
 
 
 

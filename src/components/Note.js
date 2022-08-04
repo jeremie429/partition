@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 function Note({
@@ -10,20 +10,27 @@ function Note({
   tempo,
   cancelVisibility,
   isDieze,
+  isBemol,
 }) {
-  let count = 0;
   let currentAudioDieze = currentAudio.split("");
   currentAudioDieze.splice(1, 0, "#");
   currentAudioDieze = currentAudioDieze.join("");
   let currentNoteDieze = currentNote + "#";
+
+  let currentAudioBemol = currentAudio.split("");
+  currentAudioBemol.splice(1, 0, "b");
+  currentAudioBemol = currentAudioBemol.join("");
+  var uniCodeBemol = "\u266d";
+  let currentNoteBemol = currentNote + uniCodeBemol;
+
   const [visible, setVisible] = useState(false);
   const [vueDelayButton, setVueDelayButton] = useState(true);
   const [delay, setDelay] = useState(tempo);
   const [noteText, setNoteText] = useState(
-    !isDieze ? currentNote : currentNoteDieze
+    isDieze ? currentNoteDieze : isBemol ? currentNoteBemol : currentNote
   );
   const [noteAudio, setNoteAudio] = useState(
-    !isDieze ? currentAudio : currentAudioDieze
+    isDieze ? currentAudioDieze : isBemol ? currentAudioBemol : currentAudio
   );
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
@@ -44,8 +51,6 @@ function Note({
     setVisible(false);
     cancelVisibility(id.current, pupitreName);
   }
-
-  //console.log();
 
   return (
     <div
@@ -91,7 +96,7 @@ function Note({
                 type="button"
                 value="Ok"
               />
-              {!isDieze && (
+              {!isDieze && !isBemol && (
                 <input
                   onClick={(e) => {
                     setNoteText(currentNoteDieze);
@@ -99,6 +104,17 @@ function Note({
                   }}
                   className="btn dieze"
                   value="#"
+                  type="button"
+                />
+              )}
+              {!isBemol && !isDieze && (
+                <input
+                  onClick={(e) => {
+                    setNoteText(currentNoteBemol);
+                    setNoteAudio(currentAudioBemol);
+                  }}
+                  className="btn bemol"
+                  value="&#9837;"
                   type="button"
                 />
               )}
@@ -111,7 +127,14 @@ function Note({
           <div className="note-line"></div>
         </div>
       )}
-      {visible && <p className="note-text">{noteText}</p>}
+      {visible && (
+        <input
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+          className="note-text"
+          type="text"
+        />
+      )}
     </div>
   );
 }

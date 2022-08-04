@@ -7,7 +7,7 @@ import {
   audioSolKey,
   audioFaKey,
 } from "./tools/noteArr";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Block from "./components/Block";
 import Icon from "./tools/keysIcon";
 import { startRecording, stopRecording } from "./tools/recorderFunc";
@@ -22,9 +22,6 @@ function App() {
   let sopranoNotes = [];
   let tenorNotes = [];
   let bassNotes = [];
-
-  let chunks = [];
-  let recorder = null;
 
   const [notesArrForAlto, setNotesArrForAlto] = useState(notesSolKey);
   const [notesForTenor, setNotesForTenor] = useState(notesFaKey);
@@ -51,11 +48,8 @@ function App() {
     let noteInArray;
     switch (pupitreName) {
       case "Soprano":
-        // console.log({ visible });
-
-        let index = sopranoNotes.length;
-        noteInArray = sopranoNotes.find((note) => note.id == id);
-        if (noteInArray != undefined) {
+        noteInArray = sopranoNotes.find((note) => note.id === id);
+        if (noteInArray !== undefined) {
           console.log("note in array");
           return;
         }
@@ -67,8 +61,8 @@ function App() {
 
         break;
       case "Alto":
-        noteInArray = altoNotes.find((note) => note.id == id);
-        if (noteInArray != undefined) return;
+        noteInArray = altoNotes.find((note) => note.id === id);
+        if (noteInArray !== undefined) return;
         altoNotes.push({
           note: currentAudioSrc,
           duration: delay,
@@ -76,8 +70,8 @@ function App() {
         });
         break;
       case "Tenor":
-        noteInArray = tenorNotes.find((note) => note.id == id);
-        if (noteInArray != undefined) return;
+        noteInArray = tenorNotes.find((note) => note.id === id);
+        if (noteInArray !== undefined) return;
         tenorNotes.push({
           note: currentAudioSrc,
           duration: delay,
@@ -85,8 +79,8 @@ function App() {
         });
         break;
       case "Bass":
-        noteInArray = bassNotes.find((note) => note.id == id);
-        if (noteInArray != undefined) return;
+        noteInArray = bassNotes.find((note) => note.id === id);
+        if (noteInArray !== undefined) return;
         bassNotes.push({
           note: currentAudioSrc,
           duration: delay,
@@ -120,28 +114,28 @@ function App() {
   }
 
   function handleDelay(id, value) {
-    let altoNote = altoNotes.find((obj) => obj.id == id);
-    let sopranoNote = sopranoNotes.find((obj) => obj.id == id);
-    let tenorNote = tenorNotes.find((obj) => obj.id == id);
-    let bassNote = bassNotes.find((obj) => obj.id == id);
+    let altoNote = altoNotes.find((obj) => obj.id === id);
+    let sopranoNote = sopranoNotes.find((obj) => obj.id === id);
+    let tenorNote = tenorNotes.find((obj) => obj.id === id);
+    let bassNote = bassNotes.find((obj) => obj.id === id);
 
-    if (altoNote != undefined) {
+    if (altoNote !== undefined) {
       let index = altoNotes.indexOf(altoNote);
       altoNote.duration = value;
       altoNotes[index] = altoNote;
     }
 
-    if (sopranoNote != undefined) {
+    if (sopranoNote !== undefined) {
       let index = sopranoNotes.indexOf(sopranoNote);
       sopranoNote.duration = value;
       sopranoNotes[index] = sopranoNote;
     }
-    if (tenorNote != undefined) {
+    if (tenorNote !== undefined) {
       let index = tenorNotes.indexOf(tenorNote);
       tenorNote.duration = value;
       tenorNotes[index] = tenorNote;
     }
-    if (bassNote != undefined) {
+    if (bassNote !== undefined) {
       let index = bassNotes.indexOf(bassNote);
       bassNote.duration = value;
       bassNotes[index] = bassNote;
@@ -219,7 +213,7 @@ function App() {
   return (
     <div className="container">
       <div className="sol-key" id="block">
-        <div className="controls">
+        <div className="controls top">
           <button onClick={handlePlayBtn} id="soprano-btn">
             Play Soprano
           </button>
@@ -244,10 +238,7 @@ function App() {
           <button onClick={(e) => handleAddBtn(e, "bass")} id="add-bass">
             Add Bass
           </button>
-        </div>
-
-        <div className="controls">
-          <button onClick={handleSaveBtn}>Save Current Audio</button>
+          <button onClick={handleSaveBtn}>Save Video</button>
         </div>
 
         <div className="controls">
@@ -256,39 +247,58 @@ function App() {
             className="input-title"
             placeholder="Enter title of song"
           />
-          <input
-            className="input-tempo"
-            placeholder="Enter tempo"
-            type="number"
-            value={tempo}
-            onChange={(e) => setTempo(e.target.value)}
-          />
-          <input
-            className="input-altokey"
-            placeholder="Key for alto"
-            value={keyForAlto}
-            onChange={(e) => {
-              let key = e.target.value;
-              setKeyForAlto(key);
-              if (key == "fa") {
-                setAudioForAlto(audioFaKey);
-                setNotesArrForAlto(notesFaKey);
-              }
-            }}
-          />
-          <input
-            className="input-tenorkey"
-            placeholder="Key for alto"
-            value={keyForTenor}
-            onChange={(e) => {
-              let key = e.target.value;
-              setKeyForTenor(key);
-              if (key == "sol") {
-                setAudioForTenor(audioSolKey);
-                setNotesForTenor(notesSolKey);
-              }
-            }}
-          />
+          <div>
+            <label className="white-label" htmlFor="tempo">
+              Tempo
+            </label>
+            <input
+              className="input-tempo"
+              placeholder="Enter tempo"
+              name="tempo"
+              type="number"
+              value={tempo}
+              onChange={(e) => setTempo(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="white-label" htmlFor="keyalto">
+              Key for Alto
+            </label>
+            <input
+              className="input-altokey"
+              placeholder="Write sol or fa"
+              name="keyalto"
+              value={keyForAlto}
+              onChange={(e) => {
+                let key = e.target.value;
+                setKeyForAlto(key);
+                if (key === "fa") {
+                  setAudioForAlto(audioFaKey);
+                  setNotesArrForAlto(notesFaKey);
+                }
+              }}
+            />
+          </div>
+          <div>
+            <label className="white-label" htmlFor="keytenor">
+              Key for Tenor
+            </label>
+
+            <input
+              className="input-tenorkey"
+              name="keytenor"
+              placeholder="Write sol or fa"
+              value={keyForTenor}
+              onChange={(e) => {
+                let key = e.target.value;
+                setKeyForTenor(key);
+                if (key === "sol") {
+                  setAudioForTenor(audioSolKey);
+                  setNotesForTenor(notesSolKey);
+                }
+              }}
+            />
+          </div>
         </div>
 
         <div id="soprano" className="pupitre">
@@ -318,7 +328,7 @@ function App() {
                 notesSrc={notesArrForAlto}
                 pupitreName="Alto"
                 handleNoteClick={handleNoteClick}
-                imgIcon={keyForAlto == "sol" ? Icon.solIcon : Icon.faIcon}
+                imgIcon={keyForAlto === "sol" ? Icon.solIcon : Icon.faIcon}
                 handleDelay={handleDelay}
                 tempo={Math.round((60 / tempo) * 100) / 100}
                 cancelVisibility={cancelVisibility}
@@ -335,7 +345,7 @@ function App() {
                 notesSrc={notesForTenor}
                 pupitreName="Tenor"
                 handleNoteClick={handleNoteClick}
-                imgIcon={keyForTenor == "sol" ? Icon.solIcon : Icon.faIcon}
+                imgIcon={keyForTenor === "sol" ? Icon.solIcon : Icon.faIcon}
                 handleDelay={handleDelay}
                 tempo={Math.round((60 / tempo) * 100) / 100}
                 cancelVisibility={cancelVisibility}
@@ -360,6 +370,7 @@ function App() {
             ))}
         </div>
       </div>
+      <a href="" id="recordedLink"></a>
     </div>
   );
 }
