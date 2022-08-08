@@ -115,13 +115,27 @@ code {
 }
 
 
+.note-container{
+  position: relative;
+}
+
 .notes-bloc{
   width: 7px;
   height: 5px;
   border-radius: 50%;
-  position: relative;
   cursor: pointer;  
+  position: relative;
 
+}
+
+.soupir{
+  width: 7px;
+  height: 2px;
+  position: relative;
+}
+
+.note-choice-bloc{
+  display: flex;
 }
 
 .form-delay{
@@ -138,9 +152,14 @@ code {
   max-width: 40px;
   height: 10px;
   font-size: 10px;
+  margin-top: 5px;
 }
 
 .notes-bloc:hover{
+  background-color: blueviolet; 
+}
+
+.soupir:hover{
   background-color: blueviolet; 
 }
 
@@ -267,6 +286,7 @@ button:hover{
   max-width: fit-content;
   align-items: center;
   z-index: 2;
+
 }
 
 .white-label{
@@ -315,6 +335,11 @@ button:hover{
   background-color: rgb(224, 199, 231);
 }
 
+.infinite{
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+}
 
 
 

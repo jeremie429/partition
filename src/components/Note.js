@@ -32,13 +32,24 @@ function Note({
   const [noteAudio, setNoteAudio] = useState(
     isDieze ? currentAudioDieze : isBemol ? currentAudioBemol : currentAudio
   );
+
+  const [isSoupir, setIsSoupir] = useState(false);
+  const [isLinked, setIsLinked] = useState(false);
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    handleNoteClick(noteAudio, pupitreName, delay, visible, id.current);
+    handleNoteClick(
+      noteAudio,
+      pupitreName,
+      delay,
+      visible,
+      id.current,
+      isSoupir,
+      isLinked
+    );
     //console.log({ delay });
     setVueDelayButton(false);
   }
@@ -53,15 +64,7 @@ function Note({
   }
 
   return (
-    <div
-      className={visible ? "notes-bloc selected" : "notes-bloc"}
-      onClick={(e) => {
-        // console.log("parent div clicked");
-        if (!visible) setVisible(true);
-      }}
-      onDoubleClick={handleCancel}
-      id={id.current}
-    >
+    <div id={id.current} className="note-container">
       {visible && (
         <div className="form-delay">
           <input
@@ -118,15 +121,46 @@ function Note({
                   type="button"
                 />
               )}
+
+              <div
+                className="infinite"
+                onClick={(e) => {
+                  setIsLinked((prev) => !prev);
+                  console.log({ isLinked });
+                }}
+              >
+                {"\u221E"}
+              </div>
             </div>
           )}
         </div>
       )}
-      {visible && (
-        <div className="note-circle">
-          <div className="note-line"></div>
-        </div>
-      )}
+
+      <div className="note-choice-bloc">
+        {!isSoupir && (
+          <div
+            className={visible ? "notes-bloc selected" : "notes-bloc"}
+            onClick={(e) => {
+              e.preventDefault();
+              // console.log("note div clicked");
+              if (!visible) setVisible(true);
+              else handleCancel();
+            }}
+            //onDoubleClick={handleCancel}
+          >
+            <div className="note-line"></div>
+          </div>
+        )}
+        <div
+          className={isSoupir ? "soupir selected" : "soupir"}
+          onClick={(e) => {
+            setIsSoupir((prev) => !prev);
+            if (!visible) setVisible(true);
+            else handleCancel();
+          }}
+        ></div>
+      </div>
+
       {visible && (
         <input
           value={noteText}

@@ -42,7 +42,15 @@ function App() {
 
   let titleref = useRef();
 
-  function handleNoteClick(currentAudioSrc, pupitreName, delay, visible, id) {
+  function handleNoteClick(
+    currentAudioSrc,
+    pupitreName,
+    delay,
+    visible,
+    id,
+    isSoupir,
+    isLinked
+  ) {
     // window.location.reload(false);
 
     let noteInArray;
@@ -54,9 +62,11 @@ function App() {
           return;
         }
         sopranoNotes.push({
-          note: currentAudioSrc,
           duration: delay,
+          note: currentAudioSrc,
           id,
+          isSoupir,
+          isLinked,
         });
 
         break;
@@ -64,27 +74,33 @@ function App() {
         noteInArray = altoNotes.find((note) => note.id === id);
         if (noteInArray !== undefined) return;
         altoNotes.push({
-          note: currentAudioSrc,
           duration: delay,
+          note: currentAudioSrc,
           id,
+          isSoupir,
+          isLinked,
         });
         break;
       case "Tenor":
         noteInArray = tenorNotes.find((note) => note.id === id);
         if (noteInArray !== undefined) return;
         tenorNotes.push({
-          note: currentAudioSrc,
           duration: delay,
+          note: currentAudioSrc,
           id,
+          isSoupir,
+          isLinked,
         });
         break;
       case "Bass":
         noteInArray = bassNotes.find((note) => note.id === id);
         if (noteInArray !== undefined) return;
         bassNotes.push({
-          note: currentAudioSrc,
           duration: delay,
+          note: currentAudioSrc,
           id,
+          isSoupir,
+          isLinked,
         });
         break;
 
@@ -170,6 +186,12 @@ function App() {
     for (let i = 0; i < notesArr.length; i++) {
       const element = notesArr[i];
       let elDiv = document.getElementById(element.id);
+      if (!element.isSoupir) {
+        elDiv = elDiv.children[1].children[0];
+      } else {
+        elDiv = elDiv.children[1].children[0];
+      }
+
       elDiv.classList.add("playing");
       await sleep(element.duration * 1000).then(() => {
         elDiv.classList.remove("playing");
@@ -370,7 +392,6 @@ function App() {
             ))}
         </div>
       </div>
-      <a href="" id="recordedLink"></a>
     </div>
   );
 }

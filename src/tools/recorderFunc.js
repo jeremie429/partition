@@ -77,7 +77,7 @@ export async function saveRecord() {
     stream.getTracks().forEach((track) => track.stop());
     audio.getTracks().forEach((track) => track.stop());
 
-    const adiv = document.getElementById("recordedLink");
+    const adiv = document.createElement("a");
     adiv.href = url;
     let suffix = Math.floor(Math.random() * 100000);
     let name = pupitreName + "_" + titleName + "_" + suffix;
