@@ -5,6 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+   
 }
 
 code {
@@ -14,9 +15,6 @@ code {
 
 
 .container{
- 
-
-  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,8 +23,12 @@ code {
   background-color: rgb(133, 110, 110);
   flex-direction: column;
   overflow: scroll;
-  margin-top: 20px;
+  padding-bottom: 10px;
   
+}
+
+.container::-webkit-scrollbar{
+  display: none;
 }
 #block{
   width: 90vw;
@@ -36,6 +38,13 @@ code {
   align-items: center;
   padding: 10px 30px 10px 5px;
  position: relative;
+ 
+ margin-top: 20px;
+ 
+}
+
+#block::-webkit-scrollbar{
+  display: none;
 }
 .pupitre{
   display: flex;
@@ -365,6 +374,17 @@ margin: 0;
 padding: 0;
 display: inline-block;
 font-size: large;
+}
+
+.coming-soon{
+  color: white;
+}
+
+a{
+  outline: none;
+  color: rgb(21, 11, 158);
+  cursor: pointer;
+  
 }
 
 
