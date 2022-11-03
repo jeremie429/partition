@@ -38,6 +38,8 @@ function Note({
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
 
+  const [hideText, setHideText] = useState(true);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -52,6 +54,7 @@ function Note({
     );
     //console.log({ delay });
     setVueDelayButton(false);
+    setHideText(false);
   }
 
   /*useEffect(() => {
@@ -77,6 +80,8 @@ function Note({
               //console.log({ delay });
               if (!vueDelayButton) setVueDelayButton(true);
               handleDelay(id.current, value);
+
+              setHideText(true);
             }}
             //min={0.3}
             // max={5.0}
@@ -126,7 +131,7 @@ function Note({
                 className="infinite"
                 onClick={(e) => {
                   setIsLinked((prev) => !prev);
-                  console.log({ isLinked });
+                  // console.log({ isLinked });
                 }}
               >
                 {"\u221E"}
@@ -148,7 +153,7 @@ function Note({
             }}
             //onDoubleClick={handleCancel}
           >
-            <div className="note-line"></div>
+            <div className={visible ? "note-line" : ""}></div>
           </div>
         )}
         <div
@@ -161,10 +166,13 @@ function Note({
         ></div>
       </div>
 
-      {visible && (
+      {visible && !hideText && (
         <input
           value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
+          onChange={(e) => {
+            setNoteText(e.target.value);
+            e.target.style.width = e.target.value.length + "ch";
+          }}
           className="note-text"
           type="text"
         />

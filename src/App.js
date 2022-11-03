@@ -192,9 +192,11 @@ function App() {
         elDiv = elDiv.children[1].children[0];
       }
 
-      elDiv.classList.add("playing");
+      elDiv.classList.toggle("playing");
+      elDiv.children[0].classList.add("playing");
       await sleep(element.duration * 1000).then(() => {
         elDiv.classList.remove("playing");
+        elDiv.children[0].classList.toggle("playing");
       });
     }
   }

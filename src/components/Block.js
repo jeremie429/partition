@@ -23,7 +23,7 @@ function Block({
   let currentAudioSrc;
 
   return (
-    <>
+    <div className="block-container">
       <div ref={divRef} className="div-line-container">
         <img src={imgIcon} className="img-icon" alt="key icon" />
         {arr.map((i) => {
@@ -46,8 +46,8 @@ function Block({
           );
         })}
       </div>
-      <p className="pupitre-name"> {pupitreName}</p>
-    </>
+      <div className="pupitre-name"> {pupitreName}</div>
+    </div>
   );
 }
 

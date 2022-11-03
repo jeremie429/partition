@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,8 +14,9 @@ code {
 
 
 .container{
-  width: 100vw;
+ 
 
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,6 +156,8 @@ code {
   height: 10px;
   font-size: 10px;
   margin-top: 5px;
+  border: none;
+  color: rgba(87, 75, 75, 0.5);
 }
 
 .notes-bloc:hover{
@@ -186,9 +191,10 @@ code {
 
   position: absolute;
   right: 0;
-  top: -5px;
-  height: 7px;
+  bottom: 2px;
+  height: 10px;
   width: 1px;
+  background-color: black;
  
 }
 
@@ -204,7 +210,7 @@ code {
   background-color: black !important;
 }
 .playing{
-  transform: scale(1.1);
+  transform: scale(1.2);
   background-color: chartreuse !important;
 }
 .controls{
@@ -324,21 +330,41 @@ button:hover{
 
 .note-text{
   position: absolute;
-  top: -30px;
+  top: -20px;
   left: -7px;
-  font-size: 10px;
-  max-width: 20px;
   outline: none;
   border: none;
-  border-radius: 3px;
-  margin: 0 ;
-  background-color: rgb(224, 199, 231);
+
+  margin: 0 !important;
+ padding: 0 !important;
+  width: 3ch;
+  color: rgb(26, 11, 228);
+  font-weight: 600; 
+  background: transparent;
+  
 }
 
 .infinite{
   font-size: 20px;
   cursor: pointer;
   position: relative;
+}
+
+.block-container{
+  position: relative;
+}
+
+.pupitre-name{
+  position: absolute;
+  bottom: 10px;
+  transform: translate(-15px) rotate(-90deg);
+  transform-origin: 0;
+color: white;
+font-weight: 700;
+margin: 0;
+padding: 0;
+display: inline-block;
+font-size: large;
 }
 
 
