@@ -1,0 +1,372 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(133, 110, 110);
+    flex-direction: column;
+    overflow: scroll;
+    padding-bottom: 10px;
+    
+  }
+  
+  .container::-webkit-scrollbar{
+    display: none;
+  }
+  #block{
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px 10px 5px;
+   position: relative;
+   
+   margin-top: 20px;
+   
+  }
+  
+  #block::-webkit-scrollbar{
+    display: none;
+  }
+  .pupitre{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .line{
+    width: 80vw;
+    height: 1px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .band{
+    width: 80vw;
+    height: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  .div-line-container{
+    display: flex;
+    min-height: 150px;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: white;
+    padding-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 30px;
+  }
+  
+  .dieze-line{
+    position: absolute;
+    right: -10px;
+    font-size: x-small;
+    cursor: pointer;
+    color: rgb(136, 149, 161);
+  }
+  .dieze-line:hover{
+    color: chocolate;
+  }
+  
+  .dieze-line-selected{
+    position: absolute;
+    right: -10px;
+    font-size: x-small;
+    cursor: pointer;
+    color: chocolate;
+  }
+  
+  .bemol-line{
+    position: absolute;
+    right: -20px;
+    font-size: x-small;
+    cursor: pointer;
+    color: rgb(136, 149, 161);
+  }
+  .bemol-line:hover{
+    color: chocolate;
+  }
+  
+  .bemol-line-selected{
+    position: absolute;
+    right: -20px;
+    font-size: x-small;
+    cursor: pointer;
+    color: chocolate;
+  }
+  
+  .complete-line{
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  
+  .note-container{
+    position: relative;
+  }
+  
+  .notes-bloc{
+    width: 7px;
+    height: 5px;
+    border-radius: 50%;
+    cursor: pointer;  
+    position: relative;
+  
+  }
+  
+  .soupir{
+    width: 7px;
+    height: 2px;
+    position: relative;
+  }
+  
+  .note-choice-bloc{
+    display: flex;
+  }
+  
+  .form-delay{
+   width: 20px;
+    font-size: 8px;
+    display: flex;
+   flex-direction: column;
+   align-items: center;
+    position: absolute;
+    bottom: -20px;
+  }
+  
+  .input-delay{
+    max-width: 40px;
+    height: 10px;
+    font-size: 10px;
+    margin-top: 5px;
+    border: none;
+    color: rgba(87, 75, 75, 0.5);
+  }
+  
+  .notes-bloc:hover{
+    background-color: blueviolet; 
+  }
+  
+  .soupir:hover{
+    background-color: blueviolet; 
+  }
+  
+  
+  .btn{
+    cursor: pointer;
+    border-width: 1px;
+    margin: 0;
+  }
+  
+  .cancel{
+    background-color: red;
+    color: white;
+   font-weight: 500;
+  }
+  
+  .ok{
+    background-color: green;
+  }
+  
+  
+  
+  .note-line{
+  
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    height: 10px;
+    width: 1px;
+    background-color: black;
+   
+  }
+  
+  .line:hover,
+  .band:hover {
+    background-color: blueviolet;
+    cursor: pointer;
+  }
+  
+  
+  .selected{
+    visibility: visible;
+    background-color: black !important;
+  }
+  .playing{
+    transform: scale(1.2);
+    background-color: chartreuse !important;
+  }
+  .controls{
+    display: flex;
+    justify-content: space-between;
+   margin-bottom: 10px;
+   flex-wrap: wrap;
+  
+  }
+  
+  button{
+    cursor: pointer;
+    margin : 5px;
+  }
+  input{
+    margin: 5px;
+  }
+  
+  audio::-webkit-media-controls-play-button {
+    transform: scale(2, 2);
+  }
+  
+  audio::-webkit-media-controls-timeline {
+    height: 20px;
+  }
+  audio{
+    width: 70vw;
+    height: 150px;
+  }
+  
+  .img-icon{
+    position: absolute;
+    left: -20px;
+    width: 100px;
+    top: 40px;
+    
+   
+  }
+  
+  
+  .input-title{
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    
+  }
+  
+  button{
+    border-radius: 5px;
+    border-width: 0;
+    
+  }
+  
+  button:hover{
+    background-color: burlywood;
+  }
+  
+  .note-circle{
+    cursor: pointer;
+  }
+  
+  .input-tempo,
+  .input-altokey,
+  .input-tenorkey{
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    max-width: 75px;
+    text-align: center;
+  }
+  
+  .note-controls{
+    display: flex;
+    justify-content:center;
+    max-width: fit-content;
+    align-items: center;
+    z-index: 2;
+  
+  }
+  
+  .white-label{
+    color: white;
+    font-weight: 500;
+  
+  }
+  
+  
+  .top{
+    position: fixed;
+    top: calc(100vh/3);
+    flex-direction: column;
+    right: 0;
+    
+  }
+  
+  .top:hover{
+    z-index: 3;
+    
+  }
+  
+  #soprano-btn,
+  #alto-btn,
+  #tenor-btn,
+  #bass-btn,
+  #add-soprano,
+  #add-alto,
+  #add-tenor,
+  #add-bass{
+   
+   padding: 5px;
+    
+  }
+  
+  .note-text{
+    position: absolute;
+    top: -20px;
+    left: -7px;
+    outline: none;
+    border: none;
+  
+    margin: 0 !important;
+   padding: 0 !important;
+    width: 3ch;
+    color: rgb(26, 11, 228);
+    font-weight: 600; 
+    background: transparent;
+    
+  }
+  
+  .infinite{
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .block-container{
+    position: relative;
+  }
+  
+  .pupitre-name{
+    position: absolute;
+    bottom: 10px;
+    transform: translate(-15px) rotate(-90deg);
+    transform-origin: 0;
+  color: white;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  font-size: large;
+  }
+  
+  .coming-soon{
+    color: white;
+  }
+  
+  a{
+    outline: none;
+    color: rgb(21, 11, 158);
+    cursor: pointer;
+    
+  }

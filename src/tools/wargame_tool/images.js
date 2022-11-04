@@ -1,0 +1,14 @@
+export { default as player } from "../../assets/wargame/player.png";
+export { default as angler1 } from "../../assets/wargame/angler1.png";
+export { default as angler2 } from "../../assets/wargame/angler2.png";
+export { default as drone } from "../../assets/wargame/drone.png";
+export { default as fireExplosion } from "../../assets/wargame/fireExplosion.png";
+export { default as gears } from "../../assets/wargame/gears.png";
+export { default as hivewhale } from "../../assets/wargame/hivewhale.png";
+export { default as layer1 } from "../../assets/wargame/layer1.png";
+export { default as layer2 } from "../../assets/wargame/layer2.png";
+export { default as layer3 } from "../../assets/wargame/layer3.png";
+export { default as layer4 } from "../../assets/wargame/layer4.png";
+export { default as lucky } from "../../assets/wargame/lucky.png";
+export { default as projectile } from "../../assets/wargame/projectile.png";
+export { default as smokeExplosion } from "../../assets/wargame/smokeExplosion.png";

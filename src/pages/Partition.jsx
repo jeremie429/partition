@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Block from '../components/Block';
 import { audioFaKey, audioSolKey, notesFaKey, notesSolKey } from '../tools/noteArr';
-import Icon from "../tools/keysIcon";
+import {solIcon, faIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
 
+import "../styles/partition.css"
 const Partition = () => {
   
     let altoNotes = [];
@@ -31,6 +32,11 @@ const Partition = () => {
     const [numBassBlock, setNumBassBlock] = useState(1);
   
     let titleref = useRef();
+
+    useEffect(() => {
+      document.title = "Partion Reader"
+    }, [])
+    
   
     function handleNoteClick(
       currentAudioSrc,
@@ -326,7 +332,7 @@ const Partition = () => {
                   handleNoteClick={handleNoteClick}
                   handleDelay={handleDelay}
                   key={uuidv4()}
-                  imgIcon={Icon.solIcon}
+                  imgIcon={solIcon}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                 />
@@ -342,7 +348,7 @@ const Partition = () => {
                   notesSrc={notesArrForAlto}
                   pupitreName="Alto"
                   handleNoteClick={handleNoteClick}
-                  imgIcon={keyForAlto === "sol" ? Icon.solIcon : Icon.faIcon}
+                  imgIcon={keyForAlto === "sol" ? solIcon : faIcon}
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
@@ -359,7 +365,7 @@ const Partition = () => {
                   notesSrc={notesForTenor}
                   pupitreName="Tenor"
                   handleNoteClick={handleNoteClick}
-                  imgIcon={keyForTenor === "sol" ? Icon.solIcon : Icon.faIcon}
+                  imgIcon={keyForTenor === "sol" ? solIcon : faIcon}
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
@@ -376,7 +382,7 @@ const Partition = () => {
                   notesSrc={notesFaKey}
                   pupitreName="Bass"
                   handleNoteClick={handleNoteClick}
-                  imgIcon={Icon.faIcon}
+                  imgIcon={faIcon}
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}

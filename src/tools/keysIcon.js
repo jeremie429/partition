@@ -1,4 +1,2 @@
-import solIcon from "../assets/solkey.png";
-import faIcon from "../assets/fakey.png";
-
-export default { solIcon, faIcon };
+export { default as solIcon } from "../assets/solkey.png";
+export { default as faIcon } from "../assets/fakey.png";
