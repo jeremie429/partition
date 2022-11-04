@@ -34,7 +34,7 @@ const WarGame = () => {
     canvas.height = 500;
      ctx = canvas.getContext("2d");
     
-    window.title = "War game"
+    document.title = "War game"
     window.addEventListener("keydown", (e) => {
         const keyPressed = e.key;
 
