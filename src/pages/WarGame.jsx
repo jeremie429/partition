@@ -5,10 +5,9 @@ import { angler1, angler2, fireExplosion, gears, layer1, layer2, layer3, layer4,
 
 const WarGame = () => {
 
-    let canvas; 
-
-    
-    let ctx;
+    let canvas;
+   
+    let ctx ;
 
   
   let game = null;
@@ -29,10 +28,12 @@ const WarGame = () => {
   }
 
   useEffect(() => {
-    canvas = document.getElementById("canvas");
+    
+    canvas = document.getElementById('canvas')
     canvas.width = 1200;
     canvas.height = 500;
-    ctx = canvas.getContext("2d");
+     ctx = canvas.getContext("2d");
+    
     window.title = "War game"
     window.addEventListener("keydown", (e) => {
         const keyPressed = e.key;
@@ -41,7 +42,7 @@ const WarGame = () => {
        setIsPlaying(true)
   
         if (
-          keyPressed == "Enter" && game === null
+          keyPressed === "Enter" && game === null
         ) {
             game = new Game(canvas.width, canvas.height);
             animate(0)
@@ -62,10 +63,11 @@ const WarGame = () => {
   
 
   return (
-    <div className='container-game'>
+    <div >
 
         {!isPlaying && (<div className='start-game'> Press Enter Key to start the game </div>)}
     
+    <canvas id="canvas"></canvas>
     <img src={player} alt="player" id="player" className="player" />
     <img src={angler1} alt="angler1" id="angler1" className="angler1" />
     <img src={angler2} alt="angler2" id="angler2" className="angler2" />
