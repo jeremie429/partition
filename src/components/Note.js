@@ -11,6 +11,8 @@ function Note({
   cancelVisibility,
   isDieze,
   isBemol,
+  blockNum,
+  positionInLine,
 }) {
   let currentAudioDieze = currentAudio.split("");
   currentAudioDieze.splice(1, 0, "#");
@@ -50,7 +52,9 @@ function Note({
       visible,
       id.current,
       isSoupir,
-      isLinked
+      isLinked,
+      positionInLine,
+      blockNum
     );
     //console.log({ delay });
     setVueDelayButton(false);
@@ -171,7 +175,7 @@ function Note({
           value={noteText}
           onChange={(e) => {
             setNoteText(e.target.value);
-            e.target.style.width = e.target.value.length + "ch";
+            e.target.style.width = e.target.value.length + 1 + "ch";
           }}
           className="note-text"
           type="text"

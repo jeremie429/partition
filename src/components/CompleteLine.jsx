@@ -4,13 +4,14 @@ import Line from './Line';
  function CompleteLine({ currentNote, currentAudioSrc, classType, handleDelay,
     tempo,
     cancelVisibility,
-    handleNoteClick, pupitreName }) {
+    handleNoteClick, pupitreName, blockNum }) {
     const [isDieze, setIsDieze] = useState(false);
     const [isBemol, setIsBemol] = useState(false);
 
     return (
       <div className="complete-line">
         <Line
+        blockNum = {blockNum}
           note={currentNote}
           audio={currentAudioSrc}
           classType={classType}

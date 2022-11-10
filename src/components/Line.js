@@ -13,6 +13,7 @@ function Line({
   cancelVisibility,
   handleNoteClick,
   pupitreName,
+  blockNum,
 }) {
   const [createNote, setCreateNote] = useState();
 
@@ -34,7 +35,8 @@ function Line({
       {createNote &&
         Array(25)
           .fill()
-          .map((el) => {
+          .map((el, index) => {
+            //console.log(index);
             return (
               <Note
                 key={uuidv4()}
@@ -47,6 +49,8 @@ function Line({
                 cancelVisibility={cancelVisibility}
                 isDieze={isDieze}
                 isBemol={isBemol}
+                positionInLine={index}
+                blockNum={blockNum}
               />
             );
           })}

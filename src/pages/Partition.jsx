@@ -45,11 +45,14 @@ const Partition = () => {
       visible,
       id,
       isSoupir,
-      isLinked
+      isLinked,
+      positionInLine,
+      blockNum
     ) {
       // window.location.reload(false);
   
       let noteInArray;
+      let positionInArr = positionInLine + (blockNum*25)
       switch (pupitreName) {
         case "Soprano":
           noteInArray = sopranoNotes.find((note) => note.id === id);
@@ -63,7 +66,12 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-          });
+            positionInArr 
+          })
+
+          sopranoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
+
+          //console.log(sopranoNotes)
   
           break;
         case "Alto":
@@ -75,7 +83,10 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-          });
+            positionInArr 
+          })
+
+          altoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
           break;
         case "Tenor":
           noteInArray = tenorNotes.find((note) => note.id === id);
@@ -86,7 +97,12 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-          });
+            positionInArr 
+          })
+
+          tenorNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
+
+          //console.log(tenorNotes)
           break;
         case "Bass":
           noteInArray = bassNotes.find((note) => note.id === id);
@@ -97,7 +113,10 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-          });
+            positionInArr 
+          })
+
+          bassNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
           break;
   
         default:
@@ -324,8 +343,9 @@ const Partition = () => {
           <div id="soprano" className="pupitre">
             {Array(numSopranoBlock)
               .fill()
-              .map(() => (
+              .map((el, index) => (
                 <Block
+                blockNum = {index}
                   audioSrc={audioSolKey}
                   notesSrc={notesSolKey}
                   pupitreName="Soprano"
@@ -341,8 +361,9 @@ const Partition = () => {
           <div id="alto" className="pupitre">
             {Array(numAltoBlock)
               .fill()
-              .map(() => (
+              .map((el, index) => (
                 <Block
+                blockNum = {index}
                   key={uuidv4()}
                   audioSrc={audioForAlto}
                   notesSrc={notesArrForAlto}
@@ -358,8 +379,9 @@ const Partition = () => {
           <div id="tenor" className="pupitre">
             {Array(numTenorBlock)
               .fill()
-              .map(() => (
+              .map((el, index) => (
                 <Block
+                blockNum = {index}
                   key={uuidv4()}
                   audioSrc={audioForTenor}
                   notesSrc={notesForTenor}
@@ -375,8 +397,9 @@ const Partition = () => {
           <div id="bass" className="pupitre">
             {Array(numBassBlock)
               .fill()
-              .map(() => (
+              .map((el, index) => (
                 <Block
+                blockNum = {index}
                   key={uuidv4()}
                   audioSrc={audioFaKey}
                   notesSrc={notesFaKey}

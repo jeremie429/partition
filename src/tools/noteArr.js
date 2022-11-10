@@ -114,6 +114,9 @@ export const notesSolKey = [
   "la",
   "si",
   "do",
+  "re",
+  "mi",
+  "fa",
 ];
 export const notesFaKey = [
   "do",
@@ -132,4 +135,7 @@ export const notesFaKey = [
   "si",
   "do",
   "re",
+  "mi",
+  "fa",
+  "sol",
 ];

@@ -64,6 +64,7 @@
     position: relative;
     padding-left: 20px;
     padding-right: 30px;
+    
   }
   
   .dieze-line{
@@ -369,4 +370,11 @@
     color: rgb(21, 11, 158);
     cursor: pointer;
     
+  }
+
+  .piano-notes{
+    display: flex;
+    gap: 2px;
+    justify-content: space-between;
+    margin-top: 20px;
   }

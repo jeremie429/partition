@@ -22,7 +22,7 @@ export async function startRecording() {
     });
 
     if (stream && audio) {
-      console.log("recording ...");
+      // console.log("recording ...");
 
       mixedStream = new MediaStream([
         ...stream.getTracks(),
@@ -62,7 +62,7 @@ export function stopRecording(pupitre, title) {
   titleName = title;
   pupitreName = pupitre;
   recorder.stop();
-  console.log("stop recording");
+  //console.log("stop recording");
 }
 
 export async function saveRecord() {
