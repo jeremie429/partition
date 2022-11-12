@@ -4,7 +4,7 @@ import Line from './Line';
  function CompleteLine({ currentNote, currentAudioSrc, classType, handleDelay,
     tempo,
     cancelVisibility,
-    handleNoteClick, pupitreName, blockNum }) {
+    handleNoteClick, pupitreName, blockNum, incrementPos }) {
     const [isDieze, setIsDieze] = useState(false);
     const [isBemol, setIsBemol] = useState(false);
 
@@ -22,6 +22,7 @@ import Line from './Line';
           cancelVisibility={cancelVisibility}
           handleNoteClick={handleNoteClick}
           pupitreName={pupitreName}
+          incrementPos={incrementPos}
         />
         <div
           onClick={(e) => {

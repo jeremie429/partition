@@ -7,11 +7,14 @@ const Piano = ({
 }) => {
 
    async function handleSubmit(e) {
-       // e.preventDefault();
-       // console.log({index})
+        e.preventDefault();
+       // console.log(e.target.offsetParent)
+      
         const pos = incrementPos()
-        
-            const divToTrigger = e.target.offsetParent.children[1].children[index].children[0]
+        if(pos>24) return
+       
+     
+            const divToTrigger = e.target.offsetParent.children[2].children[index].children[0]
             
           await  divToTrigger.click()
 
@@ -33,27 +36,14 @@ const Piano = ({
             }
            
           
-/*
-          for(let i = 0;i<divToTrigger.children.length-1; i++){
-            let div = divToTrigger.children[i].children[0].children[0]
-           if( !div.classList.contains('selected')){
-                    
-               await div.click()
-               console.log(div)
-               // const divParent = divToTrigger.children[i].querySelector(".form-delay").querySelector(".note-controls").children[1]
-              //  const divChildren = divParent
-
-               //await divParent.click()
-
-                
-                break
-           }
-          }*/
-        
         
       }
+
+    
   return (
+   
     <button onClick={handleSubmit}>{currentNote}</button>
+    
   )
 }
 

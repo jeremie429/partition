@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import CompleteLine from "./CompleteLine";
@@ -14,20 +14,62 @@ function Block({
   cancelVisibility,
   handleNoteClick,
   blockNum,
+  composedArr,
 }) {
   const divRef = useRef();
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
   const pos = useRef(-1);
+  const wordsRef = useRef("");
 
-  function incrementPos() {
-    pos.current += 1;
+  function incrementPos(decrement = false) {
+    if (decrement) pos.current -= 1;
+    else pos.current += 1;
 
     return pos.current;
   }
 
-  // console.log({ imgIcon });
-  //console.log({ solIcon });
+  function handleAddNotes(e) {
+    let allWords = wordsRef.current.value;
+
+    let allWordsArr = allWords.split("-");
+
+    //console.log(e.target.offsetParent);
+
+    for (let index = 0; index < composedArr.length; index++) {
+      if (index > allWordsArr.length) break;
+      const element = composedArr[index];
+      element.noteTextDiv.value = allWordsArr[index];
+      //console.log(element.noteTextDiv.value);
+    }
+  }
+
+  async function handleAddSilent(e) {
+    e.preventDefault();
+    const pos = incrementPos();
+    if (pos > 24) return;
+
+    const divToTrigger =
+      e.target.offsetParent.children[2].children[9].children[0];
+
+    await divToTrigger.click();
+
+    const noteContainer = divToTrigger.querySelectorAll(".note-container")[pos];
+
+    // console.log({noteContainer})
+
+    const noteChoiceBloc = noteContainer.querySelector(".note-choice-bloc");
+    const noteBloc = noteChoiceBloc.querySelector(".soupir");
+
+    // console.log({noteBloc})
+    if (!noteBloc.classList.contains("selected")) {
+      await noteBloc.click();
+      const formDelay = noteContainer.querySelector(".form-delay");
+      const noteControls = formDelay.querySelector(".note-controls");
+      const okBtn = noteControls.querySelector(".ok");
+      await okBtn.click();
+    }
+  }
 
   return (
     <div className="block-container">
@@ -54,7 +96,21 @@ function Block({
             )
           );
         })}
+
+        <button onClick={handleAddSilent}>-</button>
       </div>
+
+      <div className="words">
+        <input
+          placeholder="Enter words of song for this bloc of partition separated by '-' for each syllable"
+          className="words-input"
+          /*value={wordsRef.current.valueOf()}
+          onChange={(e) => (wordsRef.current.valueOf() = e.target.value)}*/
+          ref={wordsRef}
+        />
+        <button onClick={handleAddNotes}>Add Words</button>
+      </div>
+
       <div ref={divRef} className="div-line-container">
         <img src={imgIcon} className="img-icon" alt="key icon" />
         {arr.map((i) => {
@@ -74,6 +130,7 @@ function Block({
               cancelVisibility={cancelVisibility}
               handleNoteClick={handleNoteClick}
               pupitreName={pupitreName}
+              incrementPos={incrementPos}
             />
           );
         })}

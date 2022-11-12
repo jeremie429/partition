@@ -13,6 +13,7 @@ function Note({
   isBemol,
   blockNum,
   positionInLine,
+  incrementPos,
 }) {
   let currentAudioDieze = currentAudio.split("");
   currentAudioDieze.splice(1, 0, "#");
@@ -31,6 +32,7 @@ function Note({
   const [noteText, setNoteText] = useState(
     isDieze ? currentNoteDieze : isBemol ? currentNoteBemol : currentNote
   );
+
   const [noteAudio, setNoteAudio] = useState(
     isDieze ? currentAudioDieze : isBemol ? currentAudioBemol : currentAudio
   );
@@ -39,11 +41,12 @@ function Note({
   const [isLinked, setIsLinked] = useState(false);
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
+  let noteTextId = useRef();
 
   const [hideText, setHideText] = useState(true);
 
   function handleSubmit(e) {
-    e.preventDefault();
+    let noteTextDiv = noteTextId.current;
 
     handleNoteClick(
       noteAudio,
@@ -54,16 +57,13 @@ function Note({
       isSoupir,
       isLinked,
       positionInLine,
-      blockNum
+      blockNum,
+      noteTextDiv
     );
-    //console.log({ delay });
+
     setVueDelayButton(false);
     setHideText(false);
   }
-
-  /*useEffect(() => {
-    console.log({ visible });
-  }, [visible]);*/
 
   function handleCancel(e) {
     setVisible(false);
@@ -81,21 +81,18 @@ function Note({
             onChange={(e) => {
               let value = parseFloat(e.target.value);
               setDelay(value);
-              //console.log({ delay });
+
               if (!vueDelayButton) setVueDelayButton(true);
               handleDelay(id.current, value);
 
               setHideText(true);
             }}
-            //min={0.3}
-            // max={5.0}
             step={step}
           />
           {vueDelayButton && (
             <div className="note-controls">
               <input
                 onClick={(e) => {
-                  // console.log("cancel button clicked");
                   setVisible(false);
                 }}
                 className="btn cancel"
@@ -135,7 +132,6 @@ function Note({
                 className="infinite"
                 onClick={(e) => {
                   setIsLinked((prev) => !prev);
-                  // console.log({ isLinked });
                 }}
               >
                 {"\u221E"}
@@ -151,11 +147,9 @@ function Note({
             className={visible ? "notes-bloc selected" : "notes-bloc"}
             onClick={(e) => {
               e.preventDefault();
-              // console.log("note div clicked");
               if (!visible) setVisible(true);
               else handleCancel();
             }}
-            //onDoubleClick={handleCancel}
           >
             <div className={visible ? "note-line" : ""}></div>
           </div>
@@ -170,13 +164,14 @@ function Note({
         ></div>
       </div>
 
-      {visible && !hideText && (
+      {visible && (
         <input
           value={noteText}
           onChange={(e) => {
             setNoteText(e.target.value);
-            e.target.style.width = e.target.value.length + 1 + "ch";
+            e.target.style.width = e.target.value.length + 2 + "ch";
           }}
+          ref={noteTextId}
           className="note-text"
           type="text"
         />

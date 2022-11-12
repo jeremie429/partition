@@ -30,6 +30,8 @@ const Partition = () => {
     const [numAltoBlock, setNumAltoBlock] = useState(1);
     const [numTenorBlock, setNumTenorBlock] = useState(1);
     const [numBassBlock, setNumBassBlock] = useState(1);
+
+    
   
     let titleref = useRef();
 
@@ -47,7 +49,8 @@ const Partition = () => {
       isSoupir,
       isLinked,
       positionInLine,
-      blockNum
+      blockNum,
+      noteTextDiv
     ) {
       // window.location.reload(false);
   
@@ -66,7 +69,8 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-            positionInArr 
+            positionInArr,
+            noteTextDiv 
           })
 
           sopranoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -83,7 +87,8 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-            positionInArr 
+            positionInArr,
+            noteTextDiv 
           })
 
           altoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -97,7 +102,8 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-            positionInArr 
+            positionInArr,
+            noteTextDiv 
           })
 
           tenorNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -113,7 +119,8 @@ const Partition = () => {
             id,
             isSoupir,
             isLinked,
-            positionInArr 
+            positionInArr,
+            noteTextDiv 
           })
 
           bassNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -201,10 +208,14 @@ const Partition = () => {
       for (let i = 0; i < notesArr.length; i++) {
         const element = notesArr[i];
         let elDiv = document.getElementById(element.id);
+       // elDiv = elDiv.children[1].children[0];
+       // console.log(elDiv)
+        
         if (!element.isSoupir) {
           elDiv = elDiv.children[1].children[0];
         } else {
-          elDiv = elDiv.children[1].children[0];
+          elDiv = elDiv.children[1];
+         // console.log(elDiv)
         }
   
         elDiv.classList.toggle("playing");
@@ -355,6 +366,7 @@ const Partition = () => {
                   imgIcon={solIcon}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
+                  composedArr={sopranoNotes}
                 />
               ))}
           </div>
@@ -373,6 +385,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
+                  composedArr={altoNotes}
                 />
               ))}
           </div>
@@ -391,6 +404,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
+                  composedArr={tenorNotes}
                 />
               ))}
           </div>
@@ -409,6 +423,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
+                  composedArr={bassNotes}
                 />
               ))}
           </div>

@@ -14,6 +14,7 @@ function Line({
   handleNoteClick,
   pupitreName,
   blockNum,
+  incrementPos,
 }) {
   const [createNote, setCreateNote] = useState();
 
@@ -51,6 +52,7 @@ function Line({
                 isBemol={isBemol}
                 positionInLine={index}
                 blockNum={blockNum}
+                incrementPos={incrementPos}
               />
             );
           })}
