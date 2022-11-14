@@ -35,9 +35,6 @@ const Partition = () => {
     const altoWordsRef = useRef()
     const tenorWordsRef = useRef()
     const bassWordsRef = useRef()
-    
-
-    
   
     let titleref = useRef();
 
@@ -434,7 +431,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  handleAdNotes={handleAdNotes}
+                  
                 />
               ))}
           </div>
@@ -457,7 +454,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  handleAdNotes={handleAdNotes}
+                  
                 />
               ))}
           </div>
@@ -480,7 +477,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  handleAdNotes={handleAdNotes}
+                  
                 />
               ))}
           </div>
