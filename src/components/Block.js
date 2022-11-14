@@ -14,13 +14,12 @@ function Block({
   cancelVisibility,
   handleNoteClick,
   blockNum,
-  composedArr,
 }) {
   const divRef = useRef();
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
   const pos = useRef(-1);
-  const wordsRef = useRef("");
+  //const wordsRef = useRef("");
 
   function incrementPos(decrement = false) {
     if (decrement) pos.current -= 1;
@@ -29,28 +28,13 @@ function Block({
     return pos.current;
   }
 
-  function handleAddNotes(e) {
-    let allWords = wordsRef.current.value;
-
-    let allWordsArr = allWords.split("-");
-
-    //console.log(e.target.offsetParent);
-
-    for (let index = 0; index < composedArr.length; index++) {
-      if (index > allWordsArr.length) break;
-      const element = composedArr[index];
-      element.noteTextDiv.value = allWordsArr[index];
-      //console.log(element.noteTextDiv.value);
-    }
-  }
-
   async function handleAddSilent(e) {
     e.preventDefault();
     const pos = incrementPos();
     if (pos > 24) return;
 
     const divToTrigger =
-      e.target.offsetParent.children[2].children[9].children[0];
+      e.target.offsetParent.children[1].children[9].children[0];
 
     await divToTrigger.click();
 
@@ -65,6 +49,10 @@ function Block({
     if (!noteBloc.classList.contains("selected")) {
       await noteBloc.click();
       const formDelay = noteContainer.querySelector(".form-delay");
+
+      const inputDelay = formDelay.querySelector(".input-delay");
+      let time = parseFloat(prompt("please enter duration by step 0.5"));
+      inputDelay.value = parseFloat(time * tempo).toFixed(2);
       const noteControls = formDelay.querySelector(".note-controls");
       const okBtn = noteControls.querySelector(".ok");
       await okBtn.click();
@@ -91,6 +79,7 @@ function Block({
                 //pupitreName={pupitreName}
                 index={i}
                 //pos={pos}
+                tempo={tempo}
                 incrementPos={incrementPos}
               />
             )
@@ -98,17 +87,6 @@ function Block({
         })}
 
         <button onClick={handleAddSilent}>-</button>
-      </div>
-
-      <div className="words">
-        <input
-          placeholder="Enter words of song for this bloc of partition separated by '-' for each syllable"
-          className="words-input"
-          /*value={wordsRef.current.valueOf()}
-          onChange={(e) => (wordsRef.current.valueOf() = e.target.value)}*/
-          ref={wordsRef}
-        />
-        <button onClick={handleAddNotes}>Add Words</button>
       </div>
 
       <div ref={divRef} className="div-line-container">

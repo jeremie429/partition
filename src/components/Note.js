@@ -13,7 +13,6 @@ function Note({
   isBemol,
   blockNum,
   positionInLine,
-  incrementPos,
 }) {
   let currentAudioDieze = currentAudio.split("");
   currentAudioDieze.splice(1, 0, "#");
@@ -28,7 +27,8 @@ function Note({
 
   const [visible, setVisible] = useState(false);
   const [vueDelayButton, setVueDelayButton] = useState(true);
-  const [delay, setDelay] = useState(tempo);
+  /*const [delay, setDelay] = useState(tempo);
+  const delayRef = useRef(tempo);*/
   const [noteText, setNoteText] = useState(
     isDieze ? currentNoteDieze : isBemol ? currentNoteBemol : currentNote
   );
@@ -42,16 +42,18 @@ function Note({
   let step = Math.round((tempo / 2) * 100) / 100;
   let id = useRef(uuidv4());
   let noteTextId = useRef();
+  let noteDelay = useRef();
 
   const [hideText, setHideText] = useState(true);
 
   function handleSubmit(e) {
     let noteTextDiv = noteTextId.current;
+    let duration = parseFloat(noteDelay.current.value);
 
     handleNoteClick(
       noteAudio,
       pupitreName,
-      delay,
+      duration,
       visible,
       id.current,
       isSoupir,
@@ -77,10 +79,11 @@ function Note({
           <input
             className="input-delay"
             type="number"
-            value={delay}
+            ref={noteDelay}
             onChange={(e) => {
+              // console.log("onChange triggered!");
               let value = parseFloat(e.target.value);
-              setDelay(value);
+              //setDelay(value);
 
               if (!vueDelayButton) setVueDelayButton(true);
               handleDelay(id.current, value);
@@ -172,7 +175,7 @@ function Note({
             e.target.style.width = e.target.value.length + 2 + "ch";
           }}
           ref={noteTextId}
-          className="note-text"
+          className={hideText ? "note-text up" : "note-text"}
           type="text"
         />
       )}

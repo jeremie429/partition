@@ -31,6 +31,12 @@ const Partition = () => {
     const [numTenorBlock, setNumTenorBlock] = useState(1);
     const [numBassBlock, setNumBassBlock] = useState(1);
 
+    const sopranoWordsRef = useRef()
+    const altoWordsRef = useRef()
+    const tenorWordsRef = useRef()
+    const bassWordsRef = useRef()
+    
+
     
   
     let titleref = useRef();
@@ -38,6 +44,41 @@ const Partition = () => {
     useEffect(() => {
       document.title = "Partion Reader"
     }, [])
+
+    function handleAdNotes(words,pupitre){
+
+      let wordsArr = words.split("-");
+
+      let composedArr
+
+      switch (pupitre) {
+        case "Soprano":
+          // console.log("soprano to delete");
+          composedArr = sopranoNotes
+          break;
+        case "Alto":
+          composedArr = altoNotes
+          break;
+        case "Tenor":
+          composedArr = tenorNotes
+          break;
+        case "Bass":
+          composedArr = bassNotes
+          break;
+  
+        default:
+          break;
+      }
+
+      
+    for (let index = 0; index < composedArr.length; index++) {
+      if (index > wordsArr.length) break;
+      const element = composedArr[index];
+      element.noteTextDiv.value = wordsArr[index];
+      //console.log(element.noteTextDiv.value);
+    }
+
+    }
     
   
     function handleNoteClick(
@@ -352,6 +393,10 @@ const Partition = () => {
           </div>
   
           <div id="soprano" className="pupitre">
+            <div className='words'>
+            <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
+            <button onClick={(e) => handleAdNotes(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
+            </div>
             {Array(numSopranoBlock)
               .fill()
               .map((el, index) => (
@@ -366,11 +411,15 @@ const Partition = () => {
                   imgIcon={solIcon}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  composedArr={sopranoNotes}
+                  handleAdNotes={handleAdNotes}
                 />
               ))}
           </div>
           <div id="alto" className="pupitre">
+          <div className='words'>
+            <textarea  className='words-input' ref={altoWordsRef} placeholder='Add words for Alto' ></textarea>
+            <button onClick={(e) => handleAdNotes(altoWordsRef.current.value, 'Alto')} >Add words</button>
+            </div>
             {Array(numAltoBlock)
               .fill()
               .map((el, index) => (
@@ -385,11 +434,15 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  composedArr={altoNotes}
+                  handleAdNotes={handleAdNotes}
                 />
               ))}
           </div>
           <div id="tenor" className="pupitre">
+          <div className='words'>
+            <textarea  className='words-input' ref={tenorWordsRef} placeholder='Add words for Tenor' ></textarea>
+            <button onClick={(e) => handleAdNotes(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
+            </div>
             {Array(numTenorBlock)
               .fill()
               .map((el, index) => (
@@ -404,11 +457,15 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  composedArr={tenorNotes}
+                  handleAdNotes={handleAdNotes}
                 />
               ))}
           </div>
           <div id="bass" className="pupitre">
+          <div className='words'>
+            <textarea  className='words-input' ref={bassWordsRef} placeholder='Add words for Bass' ></textarea>
+            <button onClick={(e) => handleAdNotes(bassWordsRef.current.value, 'Bass')} >Add words</button>
+            </div>
             {Array(numBassBlock)
               .fill()
               .map((el, index) => (
@@ -423,7 +480,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  composedArr={bassNotes}
+                  handleAdNotes={handleAdNotes}
                 />
               ))}
           </div>

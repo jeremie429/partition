@@ -380,7 +380,7 @@ box-shadow: 1px 5px 13px 5px #73FFA8;
     display: flex;
     gap: 2px;
     justify-content: space-between;
-    margin-top: 20px;
+    
   }
 
   .words{
@@ -388,6 +388,7 @@ box-shadow: 1px 5px 13px 5px #73FFA8;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 15px;
   }
 
   .words-input{
@@ -412,4 +413,29 @@ box-shadow: 1px 5px 13px 5px #73FFA8;
   .note-text .top{
  
     top: -100px;
+  }
+
+  .piano-time{
+    display: flex;
+    background-color: antiquewhite;
+    border-radius: 5px;
+    margin: 5px 0;
+   
+   
+  }
+
+  .piano-time input{
+    max-width: 5ch;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+  .piano-time button {
+    background-color: brown;
+    margin-left: 0;
+    color: white;
+  }
+
+  .up{
+    top: -100px !important;
   }
