@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
 
-import "../styles/partition.css"
+import "../styles/partition.scss"
 const Partition = () => {
   
     let altoNotes = [];
@@ -299,8 +299,8 @@ const Partition = () => {
     }
   
     return (
-      <div className="container">
-        <div className="sol-key" id="block">
+      <div className="partition-page">
+    
           <div className="controls top">
             <button onClick={handlePlayBtn} id="soprano-btn">
               Play Soprano
@@ -481,7 +481,7 @@ const Partition = () => {
                 />
               ))}
           </div>
-        </div>
+       
       </div>
     );
   }

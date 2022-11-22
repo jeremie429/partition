@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { playOneAudio } from '../tools/noteFunc';
 
 const Piano = ({        
             currentNote,    
             index,     
             incrementPos,
-            tempo
+            tempo,
+            currentAudioSrc
 }) => {
 
   const [time, setTime] = useState(1);
@@ -12,7 +14,8 @@ const Piano = ({
 
    async function handleSubmit(e) {
         e.preventDefault();
-  
+
+       
       
         const pos = incrementPos()
         if(pos>24) return
@@ -55,11 +58,15 @@ const Piano = ({
   return (
    
     <>
-    { showTimeSelect &&  <div className='piano-time'>
+    { showTimeSelect &&  <div className='piano-time' onMouseLeave={(e) => setShowTimeSelect(false)}>
       <input type="number" step={0.5} value={time} onChange={e => setTime(e.target.value)} />
       <button onClick={handleSubmit}>Ok</button>
     </div>}
-    {!showTimeSelect && <button onClick={(e) => setShowTimeSelect(true)}>{currentNote}</button>}
+    {!showTimeSelect && <button  className='piano-touch' onClick={(e) => {
+       //console.log({currentAudioSrc})
+
+       playOneAudio(currentAudioSrc)
+      setShowTimeSelect(true)}}>{currentNote}</button>}
     </>
     
   )
