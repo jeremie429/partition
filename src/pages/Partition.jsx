@@ -266,7 +266,9 @@ const Partition = () => {
     }
     async function handlePlayBtn(e) {
       e.preventDefault();
-      await startRecording();
+     if(window.outerWidth>1000)
+       await startRecording();
+
       switch (e.target.id) {
         case "soprano-btn":
           currentPitre = "S";
@@ -326,7 +328,7 @@ const Partition = () => {
             <button onClick={(e) => handleAddBtn(e, "bass")} id="add-bass">
               Add Bass
             </button>
-            <button onClick={handleSaveBtn}>Save Video</button>
+            { window.outerWidth > 1000 && <button onClick={handleSaveBtn}>Save Video</button>}
           </div>
   
           <div className="controls">
