@@ -26,15 +26,18 @@ const Partition = () => {
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
   
-    const [numSopranoBlock, setNumSopranoBlock] = useState(1);
-    const [numAltoBlock, setNumAltoBlock] = useState(1);
-    const [numTenorBlock, setNumTenorBlock] = useState(1);
-    const [numBassBlock, setNumBassBlock] = useState(1);
+    const [numSopranoBlock, setNumSopranoBlock] = useState(4);
+    const [numAltoBlock, setNumAltoBlock] = useState(4);
+    const [numTenorBlock, setNumTenorBlock] = useState(4);
+    const [numBassBlock, setNumBassBlock] = useState(4);
 
     const sopranoWordsRef = useRef()
     const altoWordsRef = useRef()
     const tenorWordsRef = useRef()
     const bassWordsRef = useRef()
+    
+
+    
   
     let titleref = useRef();
 
@@ -42,7 +45,7 @@ const Partition = () => {
       document.title = "Partion Reader"
     }, [])
 
-    function handleAdNotes(words,pupitre){
+    function handleAdText(words,pupitre){
 
       let wordsArr = words.split("-");
 
@@ -76,6 +79,8 @@ const Partition = () => {
     }
 
     }
+
+ 
     
   
     function handleNoteClick(
@@ -245,16 +250,18 @@ const Partition = () => {
     async function triggerClass(notesArr) {
       for (let i = 0; i < notesArr.length; i++) {
         const element = notesArr[i];
-        let elDiv = document.getElementById(element.id);
+        let elDiv =  document.getElementById(element.id);
        // elDiv = elDiv.children[1].children[0];
-       // console.log(elDiv)
+       //console.log(elDiv)
         
         if (!element.isSoupir) {
           elDiv = elDiv.children[1].children[0];
         } else {
           elDiv = elDiv.children[1];
-         // console.log(elDiv)
+         
         }
+
+       // console.log(elDiv)
   
         elDiv.classList.toggle("playing");
         elDiv.children[0].classList.add("playing");
@@ -394,8 +401,9 @@ const Partition = () => {
           <div id="soprano" className="pupitre">
             <div className='words'>
             <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
-            <button onClick={(e) => handleAdNotes(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
+            <button onClick={(e) => handleAdText(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
             </div>
+            
             {Array(numSopranoBlock)
               .fill()
               .map((el, index) => (
@@ -410,15 +418,16 @@ const Partition = () => {
                   imgIcon={solIcon}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  handleAdNotes={handleAdNotes}
+                  handleAdText={handleAdText}
                 />
               ))}
           </div>
           <div id="alto" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={altoWordsRef} placeholder='Add words for Alto' ></textarea>
-            <button onClick={(e) => handleAdNotes(altoWordsRef.current.value, 'Alto')} >Add words</button>
+            <button onClick={(e) => handleAdText(altoWordsRef.current.value, 'Alto')} >Add words</button>
             </div>
+          
             {Array(numAltoBlock)
               .fill()
               .map((el, index) => (
@@ -440,8 +449,9 @@ const Partition = () => {
           <div id="tenor" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={tenorWordsRef} placeholder='Add words for Tenor' ></textarea>
-            <button onClick={(e) => handleAdNotes(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
+            <button onClick={(e) => handleAdText(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
             </div>
+         
             {Array(numTenorBlock)
               .fill()
               .map((el, index) => (
@@ -463,8 +473,9 @@ const Partition = () => {
           <div id="bass" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={bassWordsRef} placeholder='Add words for Bass' ></textarea>
-            <button onClick={(e) => handleAdNotes(bassWordsRef.current.value, 'Bass')} >Add words</button>
+            <button onClick={(e) => handleAdText(bassWordsRef.current.value, 'Bass')} >Add words</button>
             </div>
+     
             {Array(numBassBlock)
               .fill()
               .map((el, index) => (

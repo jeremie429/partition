@@ -18,6 +18,8 @@ function Block({
   const divRef = useRef()
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
+  const notesRef = useRef()
+
   const pos = useRef(-1)
   //const wordsRef = useRef("");
 
@@ -34,7 +36,7 @@ function Block({
     if (pos > 24) return
 
     const divToTrigger =
-      e.target.offsetParent.children[1].children[9].children[0]
+      e.target.offsetParent.children[2].children[9].children[0]
 
     await divToTrigger.click()
 
@@ -57,6 +59,116 @@ function Block({
       const okBtn = noteControls.querySelector('.ok')
       await okBtn.click()
     }
+  }
+
+  async function handleAdNotes(e) {
+    let notesWithTimeArr = notesRef.current.value.split(';')
+
+    const divToTrigger = e.target.offsetParent.children[2]
+
+    const maxLength =
+      notesWithTimeArr.length > 25 ? 25 : notesWithTimeArr.length
+
+    for (let i = 0; i < maxLength; i++) {
+      const element = notesWithTimeArr[i]
+      const elNoteWithPos = element.split(',')[0]
+      const elTime = element.split(',')[1]
+      const regex = /[0-9]/
+
+      const elNote = elNoteWithPos.split(regex)[0]
+      const notePos = parseInt(elNoteWithPos.match(regex)[0])
+
+      const posInNoteArr = notesSrc.indexOf(elNote) + (notePos - 1) * 7
+
+      const divToClick = Array.from(
+        divToTrigger.querySelectorAll('.complete-line')
+      )
+        .reverse()
+        [posInNoteArr].children.item(0)
+      //console.log({ divToClick })
+      await divToClick.click()
+
+      const posOrder = incrementPos()
+
+      //let childrenOfDivClicked = divToClick.children
+
+      let noteContainer = divToClick.children.item(i)
+      let noteToTriggered = noteContainer.children.item(0).children.item(0)
+
+      //console.log({ noteContainer })
+      await noteToTriggered.click()
+
+      const formDelay = noteContainer.querySelector('.form-delay')
+      const noteControls = formDelay.querySelector('.note-controls')
+      const inputDelay = formDelay.querySelector('.input-delay')
+
+      // const e = new Event("onchange",  { 'bubbles': true });
+
+      let duration = parseFloat(elTime) * tempo
+
+      inputDelay.value = parseFloat(duration).toFixed(2)
+
+      const okBtn = noteControls.querySelector('.ok')
+      await okBtn.click()
+      /*
+      console.log({
+        element,
+        elNote,
+        elTime,
+        notePos,
+        notesSrc: notesSrc[posInNoteArr],
+        posOrder,
+        noteToTriggered,
+        i,
+        posInNoteArr,
+      })*/
+    }
+
+    //let additionalBlock = notesWithTimeArr.length % 25 > 0 ? 1 : 0
+    /*
+    let lengthOfPupitre =
+      Math.floor(notesWithTimeArr.length / 25) + additionalBlock*/
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+    // duration  -> ok
+
+    /*
+
+    sopranoNotes.push({
+      duration: delay,
+      note: currentAudioSrc,
+      id,
+      isSoupir,
+      isLinked,
+      positionInArr,
+      noteTextDiv 
+    })*/
+    /*
+    let composedArr
+
+    switch (pupitre) {
+      case 'Soprano':
+        // console.log("soprano to delete");
+        composedArr = sopranoNotes
+        break
+      case 'Alto':
+        composedArr = altoNotes
+        break
+      case 'Tenor':
+        composedArr = tenorNotes
+        break
+      case 'Bass':
+        composedArr = bassNotes
+        break
+
+      default:
+        break
+    }*/
   }
 
   return (
@@ -90,9 +202,22 @@ function Block({
           -
         </button>
       </div>
+      <div className="notes-area">
+        <textarea
+          className="notes-array"
+          ref={notesRef}
+          placeholder={
+            'Add Notes for ' +
+            pupitreName +
+            ' as Example: (do1,1.5;re1,0.5;mi2,1;fa2,1)'
+          }
+        ></textarea>
+        <button onClick={handleAdNotes}>Add Notes</button>
+      </div>
 
       <div ref={divRef} className="div-line-container">
         <img src={imgIcon} className="img-icon" alt="key icon" />
+
         {arr.map((i) => {
           let num = i % 2
           // currentNote = notesSrc[i];

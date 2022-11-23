@@ -22,7 +22,7 @@ const Piano = ({
 
        
      
-            const divToTrigger = e.target.offsetParent.children[1].children[index].children[0]
+            const divToTrigger = e.target.offsetParent.children[2].children[index].children[0]
             
           await  divToTrigger.click()
 
