@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useRef, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 function Note({
   currentNote,
@@ -14,41 +14,49 @@ function Note({
   blockNum,
   positionInLine,
 }) {
-  let currentAudioDieze = currentAudio.split("");
-  currentAudioDieze.splice(1, 0, "#");
-  currentAudioDieze = currentAudioDieze.join("");
-  let currentNoteDieze = currentNote + "#";
+  let currentAudioDieze = currentAudio.split('')
+  currentAudioDieze.splice(1, 0, '#')
+  currentAudioDieze = currentAudioDieze.join('')
+  let currentNoteDieze = currentNote + '#'
 
-  let currentAudioBemol = currentAudio.split("");
-  currentAudioBemol.splice(1, 0, "b");
-  currentAudioBemol = currentAudioBemol.join("");
-  var uniCodeBemol = "\u266d";
-  let currentNoteBemol = currentNote + uniCodeBemol;
+  let currentAudioBemol = currentAudio.split('')
+  currentAudioBemol.splice(1, 0, 'b')
+  currentAudioBemol = currentAudioBemol.join('')
+  var uniCodeBemol = '\u266d'
+  let currentNoteBemol = currentNote + uniCodeBemol
 
-  const [visible, setVisible] = useState(false);
-  const [vueDelayButton, setVueDelayButton] = useState(true);
+  const [visible, setVisible] = useState(false)
+  const [vueDelayButton, setVueDelayButton] = useState(true)
+  const [isSoupir, setIsSoupir] = useState(false)
+  const [isBeccarre, setIsBeccarre] = useState(false)
   /*const [delay, setDelay] = useState(tempo);
   const delayRef = useRef(tempo);*/
   const [noteText, setNoteText] = useState(
-    isDieze ? currentNoteDieze : isBemol ? currentNoteBemol : currentNote
-  );
+    isDieze
+      ? currentNoteDieze
+      : isBemol && !isBeccarre
+      ? currentNoteBemol
+      : currentNote
+  )
 
   const [noteAudio, setNoteAudio] = useState(
-    isDieze ? currentAudioDieze : isBemol ? currentAudioBemol : currentAudio
-  );
+    isDieze
+      ? currentAudioDieze
+      : isBemol && !isBeccarre
+      ? currentAudioBemol
+      : currentAudio
+  )
 
-  const [isSoupir, setIsSoupir] = useState(false);
-  const [isLinked, setIsLinked] = useState(false);
-  let step = Math.round((tempo / 2) * 100) / 100;
-  let id = useRef(uuidv4());
-  let noteTextId = useRef();
-  let noteDelay = useRef();
+  let step = Math.round((tempo / 2) * 100) / 100
+  let id = useRef(uuidv4())
+  let noteTextId = useRef()
+  let noteDelay = useRef()
 
-  const [hideText, setHideText] = useState(true);
+  const [hideText, setHideText] = useState(true)
 
   function handleSubmit(e) {
-    let noteTextDiv = noteTextId.current;
-    let duration = parseFloat(noteDelay.current.value);
+    let noteTextDiv = noteTextId.current
+    let duration = parseFloat(noteDelay.current.value)
 
     handleNoteClick(
       noteAudio,
@@ -57,19 +65,19 @@ function Note({
       visible,
       id.current,
       isSoupir,
-      isLinked,
+      isBeccarre,
       positionInLine,
       blockNum,
       noteTextDiv
-    );
+    )
 
-    setVueDelayButton(false);
-    setHideText(false);
+    setVueDelayButton(false)
+    setHideText(false)
   }
 
   function handleCancel(e) {
-    setVisible(false);
-    cancelVisibility(id.current, pupitreName);
+    setVisible(false)
+    cancelVisibility(id.current, pupitreName)
   }
 
   return (
@@ -82,13 +90,13 @@ function Note({
             ref={noteDelay}
             onChange={(e) => {
               // console.log("onChange triggered!");
-              let value = parseFloat(e.target.value);
+              let value = parseFloat(e.target.value)
               //setDelay(value);
 
-              if (!vueDelayButton) setVueDelayButton(true);
-              handleDelay(id.current, value);
+              if (!vueDelayButton) setVueDelayButton(true)
+              handleDelay(id.current, value)
 
-              setHideText(true);
+              setHideText(true)
             }}
             step={step}
           />
@@ -96,7 +104,7 @@ function Note({
             <div className="note-controls">
               <input
                 onClick={(e) => {
-                  setVisible(false);
+                  handleCancel()
                 }}
                 className="btn cancel"
                 value="X"
@@ -108,22 +116,22 @@ function Note({
                 type="button"
                 value="Ok"
               />
-              {!isDieze && !isBemol && (
+              {!isDieze && !isBemol && !isSoupir && (
                 <input
                   onClick={(e) => {
-                    setNoteText(currentNoteDieze);
-                    setNoteAudio(currentAudioDieze);
+                    setNoteText(currentNoteDieze)
+                    setNoteAudio(currentAudioDieze)
                   }}
                   className="btn dieze"
                   value="#"
                   type="button"
                 />
               )}
-              {!isBemol && !isDieze && (
+              {!isBemol && !isDieze && !isSoupir && (
                 <input
                   onClick={(e) => {
-                    setNoteText(currentNoteBemol);
-                    setNoteAudio(currentAudioBemol);
+                    setNoteText(currentNoteBemol)
+                    setNoteAudio(currentAudioBemol)
                   }}
                   className="btn bemol"
                   value="&#9837;"
@@ -131,14 +139,20 @@ function Note({
                 />
               )}
 
-              <div
-                className="infinite"
-                onClick={(e) => {
-                  setIsLinked((prev) => !prev);
-                }}
-              >
-                {"\u221E"}
-              </div>
+              {(isDieze || isBemol) && (
+                <div
+                  className="infinite"
+                  onClick={(e) => {
+                    if (!isBeccarre) {
+                      setNoteAudio(currentAudio)
+                      setNoteText(currentNote)
+                      setIsBeccarre((prev) => !prev)
+                    }
+                  }}
+                >
+                  {'\u266E'}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -147,40 +161,40 @@ function Note({
       <div className="note-choice-bloc">
         {!isSoupir && (
           <div
-            className={visible ? "notes-bloc selected" : "notes-bloc"}
+            className={visible ? 'notes-bloc selected' : 'notes-bloc'}
             onClick={(e) => {
-              e.preventDefault();
-              if (!visible) setVisible(true);
-              else handleCancel();
+              e.preventDefault()
+              if (!visible) setVisible(true)
+              else handleCancel()
             }}
           >
-            <div className={visible ? "note-line" : ""}></div>
+            <div className={visible ? 'note-line' : ''}></div>
           </div>
         )}
         <div
-          className={isSoupir ? "soupir selected" : "soupir"}
+          className={isSoupir ? 'soupir selected' : 'soupir'}
           onClick={(e) => {
-            setIsSoupir((prev) => !prev);
-            if (!visible) setVisible(true);
-            else handleCancel();
+            setIsSoupir((prev) => !prev)
+            if (!visible) setVisible(true)
+            else handleCancel()
           }}
         ></div>
       </div>
 
-      {visible && (
+      {visible && !isSoupir && (
         <input
           value={noteText}
           onChange={(e) => {
-            setNoteText(e.target.value);
-            e.target.style.width = e.target.value.length + 2 + "ch";
+            setNoteText(e.target.value)
+            e.target.style.width = e.target.value.length + 2 + 'ch'
           }}
           ref={noteTextId}
-          className={hideText ? "note-text up" : "note-text"}
+          className={hideText ? 'note-text up' : 'note-text'}
           type="text"
         />
       )}
     </div>
-  );
+  )
 }
 
-export default Note;
+export default Note

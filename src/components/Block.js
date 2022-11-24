@@ -75,41 +75,73 @@ function Block({
       const elTime = element.split(',')[1]
       const regex = /[0-9]/
 
-      const elNote = elNoteWithPos.split(regex)[0]
-      const notePos = parseInt(elNoteWithPos.match(regex)[0])
+      const isSilent = elNoteWithPos[0] === '-'
 
-      const posInNoteArr = notesSrc.indexOf(elNote) + (notePos - 1) * 7
-
-      const divToClick = Array.from(
-        divToTrigger.querySelectorAll('.complete-line')
-      )
-        .reverse()
-        [posInNoteArr].children.item(0)
-      //console.log({ divToClick })
-      await divToClick.click()
-
-      const posOrder = incrementPos()
-
-      //let childrenOfDivClicked = divToClick.children
-
-      let noteContainer = divToClick.children.item(i)
-      let noteToTriggered = noteContainer.children.item(0).children.item(0)
-
-      //console.log({ noteContainer })
-      await noteToTriggered.click()
-
-      const formDelay = noteContainer.querySelector('.form-delay')
-      const noteControls = formDelay.querySelector('.note-controls')
-      const inputDelay = formDelay.querySelector('.input-delay')
-
-      // const e = new Event("onchange",  { 'bubbles': true });
-
+      //console.log({ isSilent })
       let duration = parseFloat(elTime) * tempo
 
-      inputDelay.value = parseFloat(duration).toFixed(2)
+      if (isSilent) {
+        const divToClick = Array.from(
+          divToTrigger.querySelectorAll('.complete-line')
+        )
+          .reverse()[9]
+          .children.item(0)
+        // console.log({ divToClick })
+        await divToClick.click()
 
-      const okBtn = noteControls.querySelector('.ok')
-      await okBtn.click()
+        const posOrder = incrementPos()
+
+        let noteContainer = divToClick.children.item(i)
+        let soupirToTriggered = noteContainer.children.item(0).children.item(1)
+
+        await soupirToTriggered.click()
+
+        const formDelay = noteContainer.querySelector('.form-delay')
+        const noteControls = formDelay.querySelector('.note-controls')
+        const inputDelay = formDelay.querySelector('.input-delay')
+
+        inputDelay.value = parseFloat(duration).toFixed(2)
+
+        const okBtn = noteControls.querySelector('.ok')
+        await okBtn.click()
+
+        // console.log({ noteContainer })
+      } else {
+        const elNote = elNoteWithPos.split(regex)[0]
+        const notePos = parseInt(elNoteWithPos.match(regex)[0])
+
+        const posInNoteArr = notesSrc.indexOf(elNote) + (notePos - 1) * 7
+
+        const divToClick = Array.from(
+          divToTrigger.querySelectorAll('.complete-line')
+        )
+          .reverse()
+          [posInNoteArr].children.item(0)
+        //console.log({ divToClick })
+        await divToClick.click()
+
+        const posOrder = incrementPos()
+
+        //let childrenOfDivClicked = divToClick.children
+
+        let noteContainer = divToClick.children.item(i)
+        let noteToTriggered = noteContainer.children.item(0).children.item(0)
+
+        //console.log({ noteContainer })
+        await noteToTriggered.click()
+
+        const formDelay = noteContainer.querySelector('.form-delay')
+        const noteControls = formDelay.querySelector('.note-controls')
+        const inputDelay = formDelay.querySelector('.input-delay')
+
+        // const e = new Event("onchange",  { 'bubbles': true });
+
+        inputDelay.value = parseFloat(duration).toFixed(2)
+
+        const okBtn = noteControls.querySelector('.ok')
+        await okBtn.click()
+      }
+
       /*
       console.log({
         element,

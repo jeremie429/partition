@@ -90,7 +90,7 @@ const Partition = () => {
       visible,
       id,
       isSoupir,
-      isLinked,
+      isBecarre,
       positionInLine,
       blockNum,
       noteTextDiv
@@ -103,7 +103,12 @@ const Partition = () => {
         case "Soprano":
           noteInArray = sopranoNotes.find((note) => note.id === id);
           if (noteInArray !== undefined) {
-            console.log("note in array");
+
+            noteInArray.note = currentAudioSrc
+            noteInArray.duration = delay
+            noteInArray.isBecarre = isBecarre
+            //console.log("note in array");
+           // console.log({sopranoNotes})
             return;
           }
           sopranoNotes.push({
@@ -111,7 +116,7 @@ const Partition = () => {
             note: currentAudioSrc,
             id,
             isSoupir,
-            isLinked,
+            isBecarre,
             positionInArr,
             noteTextDiv 
           })
@@ -123,13 +128,20 @@ const Partition = () => {
           break;
         case "Alto":
           noteInArray = altoNotes.find((note) => note.id === id);
-          if (noteInArray !== undefined) return;
+          if (noteInArray !== undefined){
+            noteInArray.note = currentAudioSrc
+            noteInArray.duration = delay
+           
+            noteInArray.isBecarre = isBecarre
+            
+            return;
+          } 
           altoNotes.push({
             duration: delay,
             note: currentAudioSrc,
             id,
             isSoupir,
-            isLinked,
+            isBecarre,
             positionInArr,
             noteTextDiv 
           })
@@ -138,13 +150,18 @@ const Partition = () => {
           break;
         case "Tenor":
           noteInArray = tenorNotes.find((note) => note.id === id);
-          if (noteInArray !== undefined) return;
+          if (noteInArray !== undefined){
+            noteInArray.note = currentAudioSrc
+            noteInArray.duration = delay
+            noteInArray.isBecarre = isBecarre
+            return;
+          } 
           tenorNotes.push({
             duration: delay,
             note: currentAudioSrc,
             id,
             isSoupir,
-            isLinked,
+            isBecarre,
             positionInArr,
             noteTextDiv 
           })
@@ -155,13 +172,18 @@ const Partition = () => {
           break;
         case "Bass":
           noteInArray = bassNotes.find((note) => note.id === id);
-          if (noteInArray !== undefined) return;
+          if (noteInArray !== undefined){
+            noteInArray.note = currentAudioSrc
+            noteInArray.duration = delay
+            noteInArray.isBecarre = isBecarre
+            return;
+          } 
           bassNotes.push({
             duration: delay,
             note: currentAudioSrc,
             id,
             isSoupir,
-            isLinked,
+            isBecarre,
             positionInArr,
             noteTextDiv 
           })

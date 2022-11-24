@@ -1,0 +1,5 @@
+//devenez ce que vous recevez soprano
+
+si2,1;fa1,1;si2,1.5;si2,0.5;si2,0.5;si2,0.5;si2,0.5;la2,0.5;sol1,2;sol1,1;sol1,0.5;sol1,0.5;fa1,1.5;fa1,0.5;mi1,1;re1,1;fa1,2;fa1,2;si2,1;fa1,1;si2,1.5;si2,0.5;si2,0.5;si2,0.5
+
+la2,0.5;sol1,2;sol1,1;sol1,1;fa1,1;fa1,0.5;fa1,0.5;si2,1;la2,1;si2,2 
