@@ -93,7 +93,8 @@ const Partition = () => {
       isBecarre,
       positionInLine,
       blockNum,
-      noteTextDiv
+      noteTextDiv,
+      isLinked
     ) {
       // window.location.reload(false);
   
@@ -107,8 +108,9 @@ const Partition = () => {
             noteInArray.note = currentAudioSrc
             noteInArray.duration = delay
             noteInArray.isBecarre = isBecarre
+            noteInArray.isLinked = isLinked
             //console.log("note in array");
-           // console.log({sopranoNotes})
+            //console.log({sopranoNotes})
             return;
           }
           sopranoNotes.push({
@@ -118,7 +120,8 @@ const Partition = () => {
             isSoupir,
             isBecarre,
             positionInArr,
-            noteTextDiv 
+            noteTextDiv,
+            isLinked 
           })
 
           sopranoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -133,6 +136,7 @@ const Partition = () => {
             noteInArray.duration = delay
            
             noteInArray.isBecarre = isBecarre
+            noteInArray.isLinked = isLinked
             
             return;
           } 
@@ -143,7 +147,8 @@ const Partition = () => {
             isSoupir,
             isBecarre,
             positionInArr,
-            noteTextDiv 
+            noteTextDiv,
+            isLinked 
           })
 
           altoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -154,6 +159,7 @@ const Partition = () => {
             noteInArray.note = currentAudioSrc
             noteInArray.duration = delay
             noteInArray.isBecarre = isBecarre
+            noteInArray.isLinked = isLinked
             return;
           } 
           tenorNotes.push({
@@ -163,7 +169,8 @@ const Partition = () => {
             isSoupir,
             isBecarre,
             positionInArr,
-            noteTextDiv 
+            noteTextDiv,
+            isLinked 
           })
 
           tenorNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -176,6 +183,7 @@ const Partition = () => {
             noteInArray.note = currentAudioSrc
             noteInArray.duration = delay
             noteInArray.isBecarre = isBecarre
+            noteInArray.isLinked = isLinked
             return;
           } 
           bassNotes.push({
@@ -185,7 +193,8 @@ const Partition = () => {
             isSoupir,
             isBecarre,
             positionInArr,
-            noteTextDiv 
+            noteTextDiv,
+            isLinked 
           })
 
           bassNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)

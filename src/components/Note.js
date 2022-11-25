@@ -29,6 +29,7 @@ function Note({
   const [vueDelayButton, setVueDelayButton] = useState(true)
   const [isSoupir, setIsSoupir] = useState(false)
   const [isBeccarre, setIsBeccarre] = useState(false)
+  const [isLinked, setIsLinked] = useState(false)
   /*const [delay, setDelay] = useState(tempo);
   const delayRef = useRef(tempo);*/
   const [noteText, setNoteText] = useState(
@@ -68,7 +69,8 @@ function Note({
       isBeccarre,
       positionInLine,
       blockNum,
-      noteTextDiv
+      noteTextDiv,
+      isLinked
     )
 
     setVueDelayButton(false)
@@ -153,6 +155,14 @@ function Note({
                   {'\u266E'}
                 </div>
               )}
+              <div
+                className="infinite"
+                onClick={(e) => {
+                  setIsLinked((prev) => !prev)
+                }}
+              >
+                {'\u221E'}
+              </div>
             </div>
           )}
         </div>
