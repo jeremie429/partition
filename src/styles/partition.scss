@@ -176,6 +176,13 @@
       cursor: pointer;
       border-width: 1px;
       margin: 0;
+      height: 20px;
+      padding: 0 5px;
+    }
+
+    .btn:hover,
+    .infinite:hover{
+      opacity: 0.5;
     }
     
     .cancel{
@@ -254,6 +261,16 @@
       object-fit: cover;
       
      
+    }
+
+    .dieze,
+    .bemol
+    {
+      padding: 0 7px;
+      font-weight: 700;
+    }
+    .dieze{
+      background-color: #19bdb5;
     }
     
     
@@ -356,7 +373,11 @@
       font-size: 20px;
       cursor: pointer;
       position: relative;
-      margin-left: 2px;
+      background-color: burlywood;
+      height: 20px;
+      padding: 0 5px;
+      border: 1px solid rgb(70, 44, 10);
+      
     }
     
     .block-container{

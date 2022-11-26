@@ -14,13 +14,59 @@ function Block({
   cancelVisibility,
   handleNoteClick,
   blockNum,
+  partitionKey,
 }) {
   const divRef = useRef()
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
+  const arrNotes =
+    partitionKey === 'sol'
+      ? [
+          'la1',
+          'si1',
+          'do1',
+          're1',
+          'mi1',
+          'fa1',
+          'sol1',
+          'la2',
+          'si2',
+          'do2',
+          're2',
+          'mi2',
+          'fa2',
+          'sol2',
+          'la3',
+          'si3',
+          'do3',
+          're3',
+          'mi3',
+        ]
+      : [
+          'do1',
+          're1',
+          'mi1',
+          'fa1',
+          'sol1',
+          'la1',
+          'si1',
+          'do2',
+          're2',
+          'mi2',
+          'fa2',
+          'sol2',
+          'la2',
+          'si2',
+          'do3',
+          're3',
+          'mi3',
+          'fa3',
+          'sol3',
+        ]
+
   const notesRef = useRef()
 
-  const pos = useRef(-1)
+  /* const pos = useRef(-1)
   //const wordsRef = useRef("");
 
   function incrementPos(decrement = false) {
@@ -28,10 +74,39 @@ function Block({
     else pos.current += 1
 
     return pos.current
-  }
+  }*/
 
   async function handleAddSilent(e) {
     e.preventDefault()
+
+    const textArea = e.target.offsetParent.children[1].children[0]
+    let currentValueInTextArea = textArea.value
+
+    let time = parseFloat(prompt('please enter duration by step 0.5'))
+
+    let textArrLength = currentValueInTextArea.split(';').length
+
+    if (textArrLength >= 25) {
+      alert(
+        'You have passed max notes to insert in this block. Please go to the next area'
+      )
+      return
+    }
+
+    // let duration = parseFloat(time*tempo).toFixed(2)
+
+    let valueToAdd
+    if (currentValueInTextArea === '') {
+      valueToAdd = '-,' + time
+    } else {
+      valueToAdd = ';-,' + time
+    }
+
+    textArea.value = currentValueInTextArea + valueToAdd
+
+    //console.log(textArea)
+
+    /*
     const pos = incrementPos()
     if (pos > 24) return
 
@@ -58,7 +133,7 @@ function Block({
       const noteControls = formDelay.querySelector('.note-controls')
       const okBtn = noteControls.querySelector('.ok')
       await okBtn.click()
-    }
+    }*/
   }
 
   async function handleAdNotes(e) {
@@ -89,7 +164,7 @@ function Block({
         // console.log({ divToClick })
         await divToClick.click()
 
-        const posOrder = incrementPos()
+        // const posOrder = incrementPos()
 
         let noteContainer = divToClick.children.item(i)
         let soupirToTriggered = noteContainer.children.item(0).children.item(1)
@@ -120,7 +195,7 @@ function Block({
         //console.log({ divToClick })
         await divToClick.click()
 
-        const posOrder = incrementPos()
+        //const posOrder = incrementPos()
 
         //let childrenOfDivClicked = divToClick.children
 
@@ -206,16 +281,17 @@ function Block({
   return (
     <div className="block-container">
       <div className="piano-notes">
-        {arr.map((i, index) => {
+        {arr.map((i, pos) => {
           //currentNote = notesSrc[i];
           //currentAudioSrc = audioSrc[i];
           return (
-            index < 17 && (
+            pos < 17 && (
               <Piano
                 //blockNum={blockNum}
-                currentAudioSrc={audioSrc[index + 1]}
-                currentNote={notesSrc[index + 1]}
+                currentAudioSrc={audioSrc[pos + 1]}
+                currentNote={notesSrc[pos + 1]}
                 key={uuidv4()}
+                noteSyntax={arrNotes[pos + 1]}
                 // handleDelay={handleDelay}
                 //tempo={tempo}
                 // cancelVisibility={cancelVisibility}
@@ -224,7 +300,7 @@ function Block({
                 index={i}
                 //pos={pos}
                 tempo={tempo}
-                incrementPos={incrementPos}
+                // incrementPos={incrementPos}
               />
             )
           )
@@ -267,7 +343,7 @@ function Block({
               cancelVisibility={cancelVisibility}
               handleNoteClick={handleNoteClick}
               pupitreName={pupitreName}
-              incrementPos={incrementPos}
+              //incrementPos={incrementPos}
             />
           )
         })}

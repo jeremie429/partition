@@ -10,6 +10,7 @@ Tone.Transport.bpm.value = 150
 //console.log('Tone Bpm Value', Tone.Transport.bpm)
 
 export async function playOneAudio(audio) {
+  await Tone.start()
   try {
     synth.triggerAttackRelease(audio, '8n')
   } catch (error) {
@@ -32,6 +33,8 @@ export async function playSnd(arrObj) {
   }, arrObj[0].duration * 1000)
 */
   // fmSynth.sync();
+
+  await Tone.start()
 
   let delay = Tone.now()
   /*let currentTime = Tone.now()

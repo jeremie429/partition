@@ -3,10 +3,9 @@ import { playOneAudio } from '../tools/noteFunc';
 
 const Piano = ({        
             currentNote,    
-            index,     
-            incrementPos,
-            tempo,
-            currentAudioSrc
+  
+            currentAudioSrc,
+            noteSyntax
 }) => {
 
   const [time, setTime] = useState(1);
@@ -14,8 +13,31 @@ const Piano = ({
 
    async function handleSubmit(e) {
         e.preventDefault();
+        const textArea = e.target.offsetParent.children[1].children[0]
+        let currentValueInTextArea = textArea.value
+
+        let textArrLength = currentValueInTextArea.split(";").length
+
+        if(textArrLength >= 25){
+          alert("You have passed max notes to insert in this block. Please go to the next area")
+          return
+        }
+
+       // let duration = parseFloat(time*tempo).toFixed(2)
+
+        let valueToAdd 
+         if(currentValueInTextArea === ""){
+          valueToAdd = noteSyntax + "," + time 
+         }else{
+          valueToAdd = ";" + noteSyntax + "," + time 
+         }
+
+        textArea.value = currentValueInTextArea + valueToAdd
 
        
+
+        //.children[2].children[index].children[0]
+       /*
       
         const pos = incrementPos()
         if(pos>24) return
@@ -48,7 +70,7 @@ const Piano = ({
          // console.log(inputDelay.value)
             const okBtn = noteControls.querySelector('.ok')
             await okBtn.click()
-            }
+            }*/
 
             setShowTimeSelect(false)
               

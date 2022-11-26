@@ -450,6 +450,7 @@ const Partition = () => {
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                   handleAdText={handleAdText}
+                  partitionKey = {"sol"}
                 />
               ))}
           </div>
@@ -473,6 +474,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
+                  partitionKey = {keyForAlto}
                   
                 />
               ))}
@@ -497,7 +499,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  
+                  partitionKey = {keyForTenor}
                 />
               ))}
           </div>
@@ -521,7 +523,7 @@ const Partition = () => {
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
-                  
+                  partitionKey = {"fa"}
                 />
               ))}
           </div>
