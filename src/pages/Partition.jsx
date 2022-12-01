@@ -80,10 +80,13 @@ const Partition = () => {
           break;
       }
 
+      console.log({composedArr})
       
     for (let index = 0; index < composedArr.length; index++) {
       if (index > wordsArr.length) break;
+      
       const element = composedArr[index];
+      if(element.noteTextDiv !== undefined)
       element.noteTextDiv.value = wordsArr[index];
       //console.log(element.noteTextDiv.value);
     }
