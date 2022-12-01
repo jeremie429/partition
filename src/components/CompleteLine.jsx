@@ -10,6 +10,9 @@ import Line from './Line';
 
     return (
       <div className="complete-line">
+        <div className="line-note">
+          {currentNote}
+        </div>
         <Line
         blockNum = {blockNum}
           note={currentNote}

@@ -1,5 +1,14 @@
 import React, { useRef } from 'react'
+import { useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import {
+  notesUt1Syntax,
+  notesUt2Syntax,
+  notesUt3Syntax,
+  notesUt4Syntax,
+  notesFaSyntax,
+  notesSolSyntax,
+} from '../tools/noteArr'
 
 import CompleteLine from './CompleteLine'
 import Piano from './Piano'
@@ -19,50 +28,36 @@ function Block({
   const divRef = useRef()
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
-  const arrNotes =
-    partitionKey === 'sol'
-      ? [
-          'la1',
-          'si1',
-          'do1',
-          're1',
-          'mi1',
-          'fa1',
-          'sol1',
-          'la2',
-          'si2',
-          'do2',
-          're2',
-          'mi2',
-          'fa2',
-          'sol2',
-          'la3',
-          'si3',
-          'do3',
-          're3',
-          'mi3',
-        ]
-      : [
-          'do1',
-          're1',
-          'mi1',
-          'fa1',
-          'sol1',
-          'la1',
-          'si1',
-          'do2',
-          're2',
-          'mi2',
-          'fa2',
-          'sol2',
-          'la2',
-          'si2',
-          'do3',
-          're3',
-          'mi3',
-          'fa3',
-          'sol3',
-        ]
+  let arrNotes
+
+  switch (partitionKey) {
+    case 'sol':
+      arrNotes = notesSolSyntax
+      break
+    case 'fa':
+      arrNotes = notesFaSyntax
+      break
+    case 'ut1':
+      arrNotes = notesUt1Syntax
+      break
+    case 'ut2':
+      arrNotes = notesUt2Syntax
+      break
+    case 'ut3':
+      arrNotes = notesUt3Syntax
+      break
+    case 'ut4':
+      arrNotes = notesUt4Syntax
+      break
+    default:
+      break
+  }
+  /*
+  useEffect(() => {
+    
+
+    console.log(arrNotes.current[3])
+  }, [partitionKey])*/
 
   const notesRef = useRef()
 
@@ -103,41 +98,12 @@ function Block({
     }
 
     textArea.value = currentValueInTextArea + valueToAdd
-
-    //console.log(textArea)
-
-    /*
-    const pos = incrementPos()
-    if (pos > 24) return
-
-    const divToTrigger =
-      e.target.offsetParent.children[2].children[9].children[0]
-
-    await divToTrigger.click()
-
-    const noteContainer = divToTrigger.querySelectorAll('.note-container')[pos]
-
-    // console.log({noteContainer})
-
-    const noteChoiceBloc = noteContainer.querySelector('.note-choice-bloc')
-    const noteBloc = noteChoiceBloc.querySelector('.soupir')
-
-    // console.log({noteBloc})
-    if (!noteBloc.classList.contains('selected')) {
-      await noteBloc.click()
-      const formDelay = noteContainer.querySelector('.form-delay')
-
-      const inputDelay = formDelay.querySelector('.input-delay')
-      let time = parseFloat(prompt('please enter duration by step 0.5'))
-      inputDelay.value = parseFloat(time * tempo).toFixed(2)
-      const noteControls = formDelay.querySelector('.note-controls')
-      const okBtn = noteControls.querySelector('.ok')
-      await okBtn.click()
-    }*/
   }
 
   async function handleAdNotes(e) {
     let notesWithTimeArr = notesRef.current.value.split(';')
+
+    // console.log(e.target.offsetParent.children[2])
 
     const divToTrigger = e.target.offsetParent.children[2]
 
@@ -160,13 +126,14 @@ function Block({
           divToTrigger.querySelectorAll('.complete-line')
         )
           .reverse()[9]
-          .children.item(0)
+          .children.item(1)
         // console.log({ divToClick })
         await divToClick.click()
 
         // const posOrder = incrementPos()
 
         let noteContainer = divToClick.children.item(i)
+        // console.log({ noteContainer })
         let soupirToTriggered = noteContainer.children.item(0).children.item(1)
 
         await soupirToTriggered.click()
@@ -191,7 +158,7 @@ function Block({
           divToTrigger.querySelectorAll('.complete-line')
         )
           .reverse()
-          [posInNoteArr].children.item(0)
+          [posInNoteArr].children.item(1)
         //console.log({ divToClick })
         await divToClick.click()
 
@@ -216,66 +183,7 @@ function Block({
         const okBtn = noteControls.querySelector('.ok')
         await okBtn.click()
       }
-
-      /*
-      console.log({
-        element,
-        elNote,
-        elTime,
-        notePos,
-        notesSrc: notesSrc[posInNoteArr],
-        posOrder,
-        noteToTriggered,
-        i,
-        posInNoteArr,
-      })*/
     }
-
-    //let additionalBlock = notesWithTimeArr.length % 25 > 0 ? 1 : 0
-    /*
-    let lengthOfPupitre =
-      Math.floor(notesWithTimeArr.length / 25) + additionalBlock*/
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-    // duration  -> ok
-
-    /*
-
-    sopranoNotes.push({
-      duration: delay,
-      note: currentAudioSrc,
-      id,
-      isSoupir,
-      isLinked,
-      positionInArr,
-      noteTextDiv 
-    })*/
-    /*
-    let composedArr
-
-    switch (pupitre) {
-      case 'Soprano':
-        // console.log("soprano to delete");
-        composedArr = sopranoNotes
-        break
-      case 'Alto':
-        composedArr = altoNotes
-        break
-      case 'Tenor':
-        composedArr = tenorNotes
-        break
-      case 'Bass':
-        composedArr = bassNotes
-        break
-
-      default:
-        break
-    }*/
   }
 
   return (

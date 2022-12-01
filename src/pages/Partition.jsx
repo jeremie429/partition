@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Block from '../components/Block';
-import { audioFaKey, audioSolKey, notesFaKey, notesSolKey } from '../tools/noteArr';
-import {solIcon, faIcon} from "../tools/keysIcon";
+import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesSolKey, notesUt1, notesUt2, notesUt3,notesUt4 } from '../tools/noteArr';
+import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
@@ -14,14 +14,24 @@ const Partition = () => {
     let tenorNotes = [];
     let bassNotes = [];
   
+    const [notesForSoprano, setNotesForSoprano] = useState(notesSolKey)
+    const [audioForSoprano, setAudioForSoprano] = useState(audioSolKey)
     const [notesArrForAlto, setNotesArrForAlto] = useState(notesSolKey);
     const [notesForTenor, setNotesForTenor] = useState(notesFaKey);
     const [audioForAlto, setAudioForAlto] = useState(audioSolKey);
     const [audioForTenor, setAudioForTenor] = useState(audioFaKey);
     const [tempo, setTempo] = useState(90);
+    const [keyForSoprano, setKeyForSoprano] = useState("sol")
     const [keyForAlto, setKeyForAlto] = useState("sol");
     const [keyForTenor, setKeyForTenor] = useState("fa");
+
     let currentPitre;
+
+    const [iconForSoprano, setIconForSoprano] = useState(solIcon)
+
+    const [iconForAlto, seticonForAlto] = useState(solIcon)
+
+    const [iconForTenor, setIconForTenor] = useState(faIcon)
   
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
@@ -337,6 +347,70 @@ const Partition = () => {
     function handleSaveBtn() {
       stopRecording(currentPitre, titleref.current.value);
     }
+
+    function handleSelectKey(e, pupitre){
+
+      let keySelected = e.target.value
+      let notes 
+      let audios
+      let icon
+      switch (keySelected) {
+        case 'sol':
+          notes = notesSolKey
+          audios = audioSolKey
+          icon = solIcon
+          break;
+        case 'fa':
+          notes = notesFaKey
+          audios = audioFaKey
+          icon = faIcon
+          break;
+        case 'ut1':
+          notes = notesUt1
+          audios = audioUt1
+          icon = utIcon
+          break;
+        case 'ut2':
+          notes = notesUt2
+          audios = audioUt2
+          icon = utIcon
+          break;
+        case 'ut3':
+          notes = notesUt3
+          audios = audioUt3
+          icon = utIcon
+          break;
+        case 'ut4':
+          notes = notesUt4
+          audios = audioUt4
+          icon = utIcon
+          break;
+      
+        default:
+          break;
+      }
+
+
+      if(pupitre === "soprano"){
+        setKeyForSoprano(keySelected)
+        setNotesForSoprano(notes)
+        setAudioForSoprano(audios)
+        setIconForSoprano(icon)
+      }else if(pupitre === "alto"){
+        setKeyForAlto(keySelected)
+        setNotesArrForAlto(notes)
+        setAudioForAlto(audios)
+        seticonForAlto(icon)
+      }else if(pupitre === "tenor"){
+        setKeyForTenor(keySelected)
+        setNotesForTenor(notes)
+        setAudioForTenor(audios)
+        setIconForTenor(icon)
+      }
+
+     // console.log({keySelected, pupitre})
+
+    }
   
     return (
       <div className="partition-page">
@@ -370,12 +444,13 @@ const Partition = () => {
           </div>
   
           <div className="controls">
-            <input
-              ref={titleref}
-              className="input-title"
-              placeholder="Enter title of song"
-            />
-            <div>
+            
+
+           
+            
+            
+           <div className="blocs-controls">
+           <div className='bloc-wrap'>
               <label className="white-label" htmlFor="tempo">
                 Tempo
               </label>
@@ -388,45 +463,55 @@ const Partition = () => {
                 onChange={(e) => setTempo(e.target.value)}
               />
             </div>
-            <div>
+            <div className='bloc-wrap'>
+              <label className="white-label" htmlFor="keysoprano">
+                Key for Soprano
+              </label>
+              <select onChange={(e) => handleSelectKey(e, "soprano")} name="keysoprano" id="soprano-key" className='input-sopranokey'>
+   
+    <option value="sol">Sol</option>
+    <option value="ut1">Ut 1 (Do on 1st line)</option>
+    <option value="ut2">Ut 2 (Do on 2nd line)</option>
+    <option value="ut3">Ut 3 (Do on 3rd line)</option>
+    <option value="ut4">Ut 4 (Do on 4th line)</option>
+</select>
+            </div>
+            <div className='bloc-wrap'>
               <label className="white-label" htmlFor="keyalto">
                 Key for Alto
               </label>
-              <input
-                className="input-altokey"
-                placeholder="Write sol or fa"
-                name="keyalto"
-                value={keyForAlto}
-                onChange={(e) => {
-                  let key = e.target.value;
-                  setKeyForAlto(key);
-                  if (key === "fa") {
-                    setAudioForAlto(audioFaKey);
-                    setNotesArrForAlto(notesFaKey);
-                  }
-                }}
-              />
+              <select onChange={(e) => handleSelectKey(e, "alto")} name="keyalto" id="alto-key" className='input-altokey'>
+   
+    <option value="sol">Sol</option>
+    <option value="fa">Fa</option>
+    <option value="ut1">Ut 1 (Do on 1st line)</option>
+    <option value="ut2">Ut 2 (Do on 2nd line)</option>
+    <option value="ut3">Ut 3 (Do on 3rd line)</option>
+    <option value="ut4">Ut 4 (Do on 4th line)</option>
+</select>
             </div>
-            <div>
+            <div className='bloc-wrap'>
               <label className="white-label" htmlFor="keytenor">
                 Key for Tenor
               </label>
-  
-              <input
-                className="input-tenorkey"
-                name="keytenor"
-                placeholder="Write sol or fa"
-                value={keyForTenor}
-                onChange={(e) => {
-                  let key = e.target.value;
-                  setKeyForTenor(key);
-                  if (key === "sol") {
-                    setAudioForTenor(audioSolKey);
-                    setNotesForTenor(notesSolKey);
-                  }
-                }}
-              />
+              <select onChange={(e) => handleSelectKey(e, "tenor")} name="keytenor" id="tenor-key" className='input-tenorkey'>
+   
+              <option value="fa">Fa</option>
+              <option value="sol">Sol</option>
+    
+    <option value="ut1">Ut 1 (Do on 1st line)</option>
+    <option value="ut2">Ut 2 (Do on 2nd line)</option>
+    <option value="ut3">Ut 3 (Do on 3rd line)</option>
+    <option value="ut4">Ut 4 (Do on 4th line)</option>
+</select>
             </div>
+           </div>
+           <input
+              ref={titleref}
+              className="input-title"
+              placeholder="Enter title of song"
+            />
+           
           </div>
   
           <div id="soprano" className="pupitre">
@@ -440,17 +525,17 @@ const Partition = () => {
               .map((el, index) => (
                 <Block
                 blockNum = {index}
-                  audioSrc={audioSolKey}
-                  notesSrc={notesSolKey}
+                  audioSrc={audioForSoprano}
+                  notesSrc={notesForSoprano}
                   pupitreName="Soprano"
                   handleNoteClick={handleNoteClick}
                   handleDelay={handleDelay}
                   key={uuidv4()}
-                  imgIcon={solIcon}
+                  imgIcon={iconForSoprano}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                   handleAdText={handleAdText}
-                  partitionKey = {"sol"}
+                  partitionKey = {keyForSoprano}
                 />
               ))}
           </div>
@@ -470,7 +555,7 @@ const Partition = () => {
                   notesSrc={notesArrForAlto}
                   pupitreName="Alto"
                   handleNoteClick={handleNoteClick}
-                  imgIcon={keyForAlto === "sol" ? solIcon : faIcon}
+                  imgIcon={iconForAlto}
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
@@ -495,7 +580,7 @@ const Partition = () => {
                   notesSrc={notesForTenor}
                   pupitreName="Tenor"
                   handleNoteClick={handleNoteClick}
-                  imgIcon={keyForTenor === "sol" ? solIcon : faIcon}
+                  imgIcon={iconForTenor}
                   handleDelay={handleDelay}
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
