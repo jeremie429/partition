@@ -84,91 +84,10 @@ function Note({
 
   return (
     <div id={id.current} className="note-container">
-      {visible && (
-        <div className="form-delay">
-          <input
-            className="input-delay"
-            type="number"
-            ref={noteDelay}
-            onChange={(e) => {
-              // console.log("onChange triggered!");
-              let value = parseFloat(e.target.value)
-              //setDelay(value);
-
-              if (!vueDelayButton) setVueDelayButton(true)
-              handleDelay(id.current, value)
-
-              setHideText(true)
-            }}
-            step={step}
-          />
-          {vueDelayButton && (
-            <div className="note-controls">
-              <input
-                onClick={(e) => {
-                  handleCancel()
-                }}
-                className="btn cancel"
-                value="X"
-                type="button"
-              />
-              <input
-                className="btn ok"
-                onClick={handleSubmit}
-                type="button"
-                value="Ok"
-              />
-              {!isDieze && !isBemol && !isSoupir && (
-                <input
-                  onClick={(e) => {
-                    setNoteText(currentNoteDieze)
-                    setNoteAudio(currentAudioDieze)
-                  }}
-                  className="btn dieze"
-                  value="#"
-                  type="button"
-                />
-              )}
-              {!isBemol && !isDieze && !isSoupir && (
-                <input
-                  onClick={(e) => {
-                    setNoteText(currentNoteBemol)
-                    setNoteAudio(currentAudioBemol)
-                  }}
-                  className="btn bemol"
-                  value="&#9837;"
-                  type="button"
-                />
-              )}
-
-              {(isDieze || isBemol) && (
-                <div
-                  className="infinite"
-                  onClick={(e) => {
-                    if (!isBeccarre) {
-                      setNoteAudio(currentAudio)
-                      setNoteText(currentNote)
-                      setIsBeccarre((prev) => !prev)
-                    }
-                  }}
-                >
-                  {'\u266E'}
-                </div>
-              )}
-              <div
-                className="infinite"
-                onClick={(e) => {
-                  setIsLinked((prev) => !prev)
-                }}
-              >
-                {'\u221E'}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="note-choice-bloc">
+      <div
+        className="note-choice-bloc"
+        onMouseOver={(e) => setVueDelayButton(true)}
+      >
         {!isSoupir && (
           <div
             className={visible ? 'notes-bloc selected' : 'notes-bloc'}
@@ -202,6 +121,93 @@ function Note({
           className={hideText ? 'note-text up' : 'note-text'}
           type="text"
         />
+      )}
+
+      {visible && (
+        <div className="form-delay">
+          <input
+            className="input-delay"
+            type="number"
+            ref={noteDelay}
+            onChange={(e) => {
+              // console.log("onChange triggered!");
+              let value = parseFloat(e.target.value)
+              //setDelay(value);
+
+              if (!vueDelayButton) setVueDelayButton(true)
+              handleDelay(id.current, value)
+
+              setHideText(true)
+            }}
+            step={step}
+          />
+
+          <div
+            className={
+              vueDelayButton ? 'note-controls' : 'note-controls hidden'
+            }
+          >
+            <input
+              onClick={(e) => {
+                handleCancel()
+              }}
+              className="btn cancel"
+              value="X"
+              type="button"
+            />
+            <input
+              className="btn ok"
+              onClick={handleSubmit}
+              type="button"
+              value="Ok"
+            />
+            {!isDieze && !isBemol && !isSoupir && (
+              <input
+                onClick={(e) => {
+                  setNoteText(currentNoteDieze)
+                  setNoteAudio(currentAudioDieze)
+                }}
+                className="btn dieze"
+                value="#"
+                type="button"
+              />
+            )}
+            {!isBemol && !isDieze && !isSoupir && (
+              <input
+                onClick={(e) => {
+                  setNoteText(currentNoteBemol)
+                  setNoteAudio(currentAudioBemol)
+                }}
+                className="btn bemol"
+                value="&#9837;"
+                type="button"
+              />
+            )}
+
+            {(isDieze || isBemol) && (
+              <div
+                className="infinite"
+                onClick={(e) => {
+                  if (!isBeccarre) {
+                    setNoteAudio(currentAudio)
+                    setNoteText(currentNote)
+                    setIsBeccarre((prev) => !prev)
+                  }
+                }}
+              >
+                {'\u266E'}
+              </div>
+            )}
+            <div
+              className="infinite"
+              onClick={(e) => {
+                setIsLinked((prev) => !prev)
+              }}
+            >
+              {'\u221E'}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

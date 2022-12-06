@@ -41,6 +41,9 @@ const Partition = () => {
     const [numTenorBlock, setNumTenorBlock] = useState(4);
     const [numBassBlock, setNumBassBlock] = useState(4);
 
+    const [diezeAlterations, setDiezeAlterations] = useState([])
+    const [bemolAlterations, setBemolAlterations] = useState([])
+
     const sopranoWordsRef = useRef()
     const altoWordsRef = useRef()
     const tenorWordsRef = useRef()
@@ -296,12 +299,12 @@ const Partition = () => {
         const element = notesArr[i];
         let elDiv =  document.getElementById(element.id);
        // elDiv = elDiv.children[1].children[0];
-       //console.log(elDiv)
+       // console.log(elDiv)
         
         if (!element.isSoupir) {
-          elDiv = elDiv.children[1].children[0];
+          elDiv = elDiv.children[0].children[0];
         } else {
-          elDiv = elDiv.children[1];
+          elDiv = elDiv.children[0];
          
         }
 
@@ -414,6 +417,34 @@ const Partition = () => {
      // console.log({keySelected, pupitre})
 
     }
+
+    function handleKeyAlteration(e, key, bloc){
+      let inArrIndex
+
+     e.target.classList.toggle('key-selected')
+
+      if(bloc=== 'dieze'){
+        inArrIndex = diezeAlterations.indexOf(key)
+       // console.log({inArrIndex})
+        if(inArrIndex === -1){
+          setDiezeAlterations(prevArr => [...prevArr, key])
+          //console.log({diezeAlterations})
+        }else{
+          setDiezeAlterations(prevArr => prevArr.filter(el => el !== key))
+        }
+
+
+      }else{
+
+        inArrIndex = bemolAlterations.indexOf(key)
+        //console.log({inArrIndex})
+        if(inArrIndex === -1){
+          setBemolAlterations(prevArr => [...prevArr, key])
+        }else{
+          setBemolAlterations(prevArr => prevArr.filter(el => el !== key))
+        }
+      }
+    }
   
     return (
       <div className="partition-page">
@@ -431,18 +462,50 @@ const Partition = () => {
             <button onClick={handlePlayBtn} id="bass-btn">
               Play Bass
             </button>
-            <button onClick={(e) => handleAddBtn(e, "soprano")} id="add-soprano">
-              Add Soprano
-            </button>
-            <button onClick={(e) => handleAddBtn(e, "alto")} id="add-alto">
-              Add Alto
-            </button>
-            <button onClick={(e) => handleAddBtn(e, "tenor")} id="add-tenor">
-              Add Tenor
-            </button>
-            <button onClick={(e) => handleAddBtn(e, "bass")} id="add-bass">
-              Add Bass
-            </button>
+            <div className="num-bloc-container">
+
+              <label htmlFor="soprano-num">Soprano Num Block</label>
+            <input type='number' min={1} max={25} value={numSopranoBlock} step={2} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+               setNumSopranoBlock(parseInt(e.target.value))
+               else 
+               return
+              }} name='soprano-num' />
+            </div>
+            <div className="num-bloc-container">
+
+              <label htmlFor="alto-num">alto Num Block</label>
+            <input type='number' min={1} max={25} value={numAltoBlock} step={2} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+               setNumAltoBlock(parseInt(e.target.value))
+               else 
+               return
+              }} name='alto-num' />
+            </div>
+            <div className="num-bloc-container">
+
+              <label htmlFor="tenor-num">tenor Num Block</label>
+            <input type='number' min={1} max={25} value={numTenorBlock} step={2} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+               setNumTenorBlock(parseInt(e.target.value))
+               else 
+               return
+              }} name='tenor-num' />
+            </div>
+            <div className="num-bloc-container">
+
+              <label htmlFor="bass-num">bass Num Block</label>
+            <input type='number' min={1} max={25} value={numBassBlock} step={2} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+               setNumBassBlock(parseInt(e.target.value) )
+               else 
+               return
+              }} name='bass-num' />
+            </div>
+            
+              
+            
+           
             { window.outerWidth > 1000 && <button onClick={handleSaveBtn}>Save Video</button>}
           </div>
   
@@ -517,11 +580,35 @@ const Partition = () => {
            
           </div>
   
+            <div className="diezes-bemols">
+              { bemolAlterations.length === 0 && <div className='sub-title'>Key Diezes</div>}
+              { bemolAlterations.length === 0 && <div className="diezes">
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'fa', 'dieze')}>fa</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'do', 'dieze')}>do</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'sol', 'dieze')}>sol</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'re', 'dieze')}>re</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'la', 'dieze')}>la</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'mi', 'dieze')}>mi</div>
+                <div className="dieze-key" onClick={(e) => handleKeyAlteration(e,'si', 'dieze')}>si</div>
+              </div>}
+              {diezeAlterations.length === 0 && <div className='sub-title'>Key Bemols</div>}
+              { diezeAlterations.length === 0 && <div className="bemols">
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'si', 'bemol')}>si</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'mi', 'bemol')}>mi</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'la', 'bemol')}>la</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'re', 'bemol')}>re</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'sol', 'bemol')}>sol</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'do', 'bemol')}>do</div>
+                <div className="bemol-key" onClick={(e) => handleKeyAlteration(e,'fa', 'bemol')}>fa</div>
+                
+              </div>}
+            </div>
           <div id="soprano" className="pupitre">
             <div className='words'>
             <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
             <button onClick={(e) => handleAdText(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
             </div>
+
             
             {Array(numSopranoBlock)
               .fill()
@@ -539,6 +626,8 @@ const Partition = () => {
                   cancelVisibility={cancelVisibility}
                   handleAdText={handleAdText}
                   partitionKey = {keyForSoprano}
+                  bemolAlterations={bemolAlterations}
+                  diezeAlterations={diezeAlterations}
                 />
               ))}
           </div>
@@ -563,7 +652,8 @@ const Partition = () => {
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                   partitionKey = {keyForAlto}
-                  
+                  bemolAlterations={bemolAlterations}
+                  diezeAlterations={diezeAlterations}
                 />
               ))}
           </div>
@@ -588,6 +678,8 @@ const Partition = () => {
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                   partitionKey = {keyForTenor}
+                  bemolAlterations={bemolAlterations}
+                  diezeAlterations={diezeAlterations}
                 />
               ))}
           </div>
@@ -612,6 +704,8 @@ const Partition = () => {
                   tempo={Math.round((60 / tempo) * 100) / 100}
                   cancelVisibility={cancelVisibility}
                   partitionKey = {"fa"}
+                  bemolAlterations={bemolAlterations}
+                  diezeAlterations={diezeAlterations}
                 />
               ))}
           </div>

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
   notesUt1Syntax,
@@ -24,6 +24,8 @@ function Block({
   handleNoteClick,
   blockNum,
   partitionKey,
+  diezeAlterations,
+  bemolAlterations,
 }) {
   const divRef = useRef()
   const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
@@ -106,6 +108,13 @@ function Block({
     // console.log(e.target.offsetParent.children[2])
 
     const divToTrigger = e.target.offsetParent.children[2]
+    /* Array.from(divToTrigger.querySelectorAll('.complete-line')).forEach(
+      (bloc) => {
+        bloc.children.item(1).innerHTML = ''
+      }
+    )*/
+
+    //await divRef.current.click()
 
     const maxLength =
       notesWithTimeArr.length > 25 ? 25 : notesWithTimeArr.length
@@ -123,11 +132,11 @@ function Block({
 
       if (isSilent) {
         const divToClick = Array.from(
-          divToTrigger.querySelectorAll('.complete-line')
+          await divToTrigger.querySelectorAll('.complete-line')
         )
           .reverse()[9]
           .children.item(1)
-        // console.log({ divToClick })
+        //console.log({ divToClick })
         await divToClick.click()
 
         // const posOrder = incrementPos()
@@ -138,13 +147,13 @@ function Block({
 
         await soupirToTriggered.click()
 
-        const formDelay = noteContainer.querySelector('.form-delay')
-        const noteControls = formDelay.querySelector('.note-controls')
-        const inputDelay = formDelay.querySelector('.input-delay')
+        const formDelay = await noteContainer.querySelector('.form-delay')
+        const noteControls = await formDelay.querySelector('.note-controls')
+        const inputDelay = await formDelay.querySelector('.input-delay')
 
         inputDelay.value = parseFloat(duration).toFixed(2)
 
-        const okBtn = noteControls.querySelector('.ok')
+        const okBtn = await noteControls.querySelector('.ok')
         await okBtn.click()
 
         // console.log({ noteContainer })
@@ -155,32 +164,35 @@ function Block({
         const posInNoteArr = notesSrc.indexOf(elNote) + (notePos - 1) * 7
 
         const divToClick = Array.from(
-          divToTrigger.querySelectorAll('.complete-line')
+          await divToTrigger.querySelectorAll('.complete-line')
         )
           .reverse()
           [posInNoteArr].children.item(1)
-        //console.log({ divToClick })
-        await divToClick.click()
+
+        if (divToClick.children.length === 0) await divToClick.click()
+        // console.log({ divToClick })
 
         //const posOrder = incrementPos()
 
         //let childrenOfDivClicked = divToClick.children
 
         let noteContainer = divToClick.children.item(i)
+        // console.log({ noteContainer })
         let noteToTriggered = noteContainer.children.item(0).children.item(0)
 
-        //console.log({ noteContainer })
         await noteToTriggered.click()
 
-        const formDelay = noteContainer.querySelector('.form-delay')
-        const noteControls = formDelay.querySelector('.note-controls')
-        const inputDelay = formDelay.querySelector('.input-delay')
+        const formDelay = await noteContainer.querySelector('.form-delay')
+
+        // console.log({ formDelay })
+        const noteControls = await formDelay.querySelector('.note-controls')
+        const inputDelay = await formDelay.querySelector('.input-delay')
 
         // const e = new Event("onchange",  { 'bubbles': true });
 
         inputDelay.value = parseFloat(duration).toFixed(2)
 
-        const okBtn = noteControls.querySelector('.ok')
+        const okBtn = await noteControls.querySelector('.ok')
         await okBtn.click()
       }
     }
@@ -251,6 +263,9 @@ function Block({
               cancelVisibility={cancelVisibility}
               handleNoteClick={handleNoteClick}
               pupitreName={pupitreName}
+              bemolAlterations={bemolAlterations}
+              diezeAlterations={diezeAlterations}
+
               //incrementPos={incrementPos}
             />
           )

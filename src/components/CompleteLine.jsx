@@ -4,9 +4,10 @@ import Line from './Line';
  function CompleteLine({ currentNote, currentAudioSrc, classType, handleDelay,
     tempo,
     cancelVisibility,
-    handleNoteClick, pupitreName, blockNum }) {
-    const [isDieze, setIsDieze] = useState(false);
-    const [isBemol, setIsBemol] = useState(false);
+    handleNoteClick, pupitreName, blockNum, diezeAlterations,
+    bemolAlterations,}) {
+    const [isDieze, setIsDieze] = useState(diezeAlterations.indexOf(currentNote) !== -1 ? true : false);
+    const [isBemol, setIsBemol] = useState(bemolAlterations.indexOf(currentNote) !== -1 ? true : false);
 
     return (
       <div className="complete-line">
@@ -25,6 +26,7 @@ import Line from './Line';
           cancelVisibility={cancelVisibility}
           handleNoteClick={handleNoteClick}
           pupitreName={pupitreName}
+          
           
         />
         <div

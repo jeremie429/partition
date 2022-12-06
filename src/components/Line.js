@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Note from "./Note";
+import { useEffect, useState } from 'react'
+import Note from './Note'
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid'
 function Line({
   note,
   audio,
@@ -16,20 +16,20 @@ function Line({
   blockNum,
   incrementPos,
 }) {
-  const [createNote, setCreateNote] = useState();
+  const [createNote, setCreateNote] = useState(false)
 
   useEffect(() => {
-    setCreateNote(false);
+    setCreateNote(false)
 
-    return () => {};
-  }, [setCreateNote]);
+    return () => {}
+  }, [setCreateNote])
 
   function handleLineClick(e) {
-    e.preventDefault();
-    if (createNote === false) {
-      setCreateNote(true);
-      //console.log(createNote);
-    }
+    e.preventDefault()
+    // if (createNote === false) {
+    setCreateNote(true)
+    //console.log(createNote);
+    //}
   }
   return (
     <div className={classType} onClick={handleLineClick}>
@@ -54,10 +54,10 @@ function Line({
                 blockNum={blockNum}
                 incrementPos={incrementPos}
               />
-            );
+            )
           })}
     </div>
-  );
+  )
 }
 
-export default Line;
+export default Line
