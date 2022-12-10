@@ -28,7 +28,7 @@ function Block({
   bemolAlterations,
 }) {
   const divRef = useRef()
-  const arr = [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+  const arr = [18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
   let arrNotes
 
@@ -205,24 +205,22 @@ function Block({
           //currentNote = notesSrc[i];
           //currentAudioSrc = audioSrc[i];
           return (
-            pos < 17 && (
-              <Piano
-                //blockNum={blockNum}
-                currentAudioSrc={audioSrc[pos + 1]}
-                currentNote={notesSrc[pos + 1]}
-                key={uuidv4()}
-                noteSyntax={arrNotes[pos + 1]}
-                // handleDelay={handleDelay}
-                //tempo={tempo}
-                // cancelVisibility={cancelVisibility}
-                // handleNoteClick={handleNoteClick}
-                //pupitreName={pupitreName}
-                index={i}
-                //pos={pos}
-                tempo={tempo}
-                // incrementPos={incrementPos}
-              />
-            )
+            <Piano
+              //blockNum={blockNum}
+              currentAudioSrc={audioSrc[pos]}
+              currentNote={notesSrc[pos]}
+              key={uuidv4()}
+              noteSyntax={arrNotes[pos]}
+              // handleDelay={handleDelay}
+              //tempo={tempo}
+              // cancelVisibility={cancelVisibility}
+              // handleNoteClick={handleNoteClick}
+              //pupitreName={pupitreName}
+              index={i}
+              //pos={pos}
+              tempo={tempo}
+              // incrementPos={incrementPos}
+            />
           )
         })}
 

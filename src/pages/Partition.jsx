@@ -3,7 +3,7 @@ import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesSolKey, notesUt1, notesUt2, notesUt3,notesUt4 } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
-import { playSnd } from "../tools/noteFunc";
+import { playChoir, playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
 
 import "../styles/partition.scss"
@@ -36,10 +36,10 @@ const Partition = () => {
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
   
-    const [numSopranoBlock, setNumSopranoBlock] = useState(4);
-    const [numAltoBlock, setNumAltoBlock] = useState(4);
-    const [numTenorBlock, setNumTenorBlock] = useState(4);
-    const [numBassBlock, setNumBassBlock] = useState(4);
+    const [numSopranoBlock, setNumSopranoBlock] = useState(1);
+    const [numAltoBlock, setNumAltoBlock] = useState(1);
+    const [numTenorBlock, setNumTenorBlock] = useState(1);
+    const [numBassBlock, setNumBassBlock] = useState(1);
 
     const [diezeAlterations, setDiezeAlterations] = useState([])
     const [bemolAlterations, setBemolAlterations] = useState([])
@@ -83,7 +83,7 @@ const Partition = () => {
           break;
       }
 
-      console.log({composedArr})
+      //console.log({composedArr})
       
     for (let index = 0; index < composedArr.length; index++) {
       if (index > wordsArr.length) break;
@@ -137,7 +137,9 @@ const Partition = () => {
             isBecarre,
             positionInArr,
             noteTextDiv,
-            isLinked 
+            isLinked,
+            toBeRemovedNext : false
+ 
           })
 
           sopranoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -164,7 +166,8 @@ const Partition = () => {
             isBecarre,
             positionInArr,
             noteTextDiv,
-            isLinked 
+            isLinked,
+            toBeRemovedNext : false 
           })
 
           altoNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -186,7 +189,8 @@ const Partition = () => {
             isBecarre,
             positionInArr,
             noteTextDiv,
-            isLinked 
+            isLinked,
+            toBeRemovedNext : false 
           })
 
           tenorNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -210,7 +214,8 @@ const Partition = () => {
             isBecarre,
             positionInArr,
             noteTextDiv,
-            isLinked 
+            isLinked,
+            toBeRemovedNext : false 
           })
 
           bassNotes.sort((note1, note2) => note1.positionInArr - note2.positionInArr)
@@ -445,6 +450,18 @@ const Partition = () => {
         }
       }
     }
+
+    async function handlePlayChoir(e){
+      
+        e.preventDefault()
+       //console.log({ sopranoNotes, altoNotes, tenorNotes, bassNotes })
+        /*setTimeout(async () => {
+          await playChoir(sopranoNotes, altoNotes,tenorNotes, bassNotes)
+        }, 4000);*/
+        
+        playChoir(sopranoNotes, altoNotes,tenorNotes, bassNotes)
+      }
+
   
     return (
       <div className="partition-page">
@@ -505,7 +522,7 @@ const Partition = () => {
             
               
             
-           
+           {/* <button onClick={handlePlayChoir}>Play Choir</button> */}
             { window.outerWidth > 1000 && <button onClick={handleSaveBtn}>Save Video</button>}
           </div>
   
