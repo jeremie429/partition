@@ -36,10 +36,10 @@ const Partition = () => {
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
   
-    const [numSopranoBlock, setNumSopranoBlock] = useState(1);
-    const [numAltoBlock, setNumAltoBlock] = useState(1);
-    const [numTenorBlock, setNumTenorBlock] = useState(1);
-    const [numBassBlock, setNumBassBlock] = useState(1);
+    const [numSopranoBlock, setNumSopranoBlock] = useState(5);
+    const [numAltoBlock, setNumAltoBlock] = useState(5);
+    const [numTenorBlock, setNumTenorBlock] = useState(5);
+    const [numBassBlock, setNumBassBlock] = useState(5);
 
     const [diezeAlterations, setDiezeAlterations] = useState([])
     const [bemolAlterations, setBemolAlterations] = useState([])

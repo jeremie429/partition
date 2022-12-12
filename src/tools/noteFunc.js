@@ -1,6 +1,6 @@
 import * as Tone from 'tone'
 
-const synth = new Tone.AMSynth().toDestination()
+const synth = new Tone.FMSynth().toDestination()
 
 //const newSynth = new Tone.Synth().toDestination()
 Tone.Transport.bpm.value = 150
