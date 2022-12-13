@@ -32,6 +32,8 @@ function Block({
 
   let arrNotes
 
+  let pupitre = pupitreName
+
   switch (partitionKey) {
     case 'sol':
       arrNotes = notesSolSyntax
@@ -232,11 +234,7 @@ function Block({
         <textarea
           className="notes-array"
           ref={notesRef}
-          placeholder={
-            'Add Notes for ' +
-            pupitreName +
-            ' as Example: (do1,1.5;re1,0.5;mi2,1;fa2,1)'
-          }
+          placeholder={'Add Notes as Example: (do1,1.5;re1,0.5;mi2,1;fa2,1)'}
         ></textarea>
         <button onClick={handleAdNotes}>Add Notes</button>
       </div>
@@ -269,7 +267,10 @@ function Block({
           )
         })}
       </div>
-      <div className="pupitre-name"> {pupitreName}</div>
+      <div className="pupitre-name">
+        {' '}
+        {pupitreName} {blockNum + 1}
+      </div>
     </div>
   )
 }
