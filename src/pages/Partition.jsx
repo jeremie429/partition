@@ -300,9 +300,29 @@ const Partition = () => {
     }
   
     async function triggerClass(notesArr) {
+      let link = document.createElement("a")
+      let currentBlock
       for (let i = 0; i < notesArr.length; i++) {
         const element = notesArr[i];
         let elDiv =  document.getElementById(element.id);
+        let completeLine = elDiv.offsetParent
+        let divLineContainer = completeLine.offsetParent
+
+       let blocContainer = divLineContainer.offsetParent
+
+       
+        if(currentBlock !== blocContainer){
+          currentBlock = blocContainer
+
+          let attr = blocContainer.getAttribute('id')
+          link.href = "#" + attr
+          link.click()
+          
+        }
+
+
+        
+        
        // elDiv = elDiv.children[1].children[0];
        // console.log(elDiv)
         

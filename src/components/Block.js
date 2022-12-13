@@ -199,7 +199,7 @@ function Block({
   }
 
   return (
-    <div className="block-container">
+    <div className="block-container" id={uuidv4()}>
       <div className="piano-notes">
         {arr.map((i, pos) => {
           //currentNote = notesSrc[i];
