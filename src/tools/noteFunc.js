@@ -1,6 +1,7 @@
 import * as Tone from 'tone'
 
-const synth = new Tone.FMSynth().toDestination()
+const synth = new Tone.Synth().toDestination()
+const amSynth = new Tone.AMSynth().toDestination()
 
 //const newSynth = new Tone.Synth().toDestination()
 Tone.Transport.bpm.value = 150
@@ -10,13 +11,13 @@ Tone.Transport.bpm.value = 150
 export async function playOneAudio(audio) {
   await Tone.start()
   try {
-    synth.triggerAttackRelease(audio, '8n')
+    amSynth.triggerAttackRelease(audio, '8n')
   } catch (error) {
     console.log(error)
   }
 }
 export async function playSnd(arrObj) {
-  console.log({ arrObj })
+  // console.log({ arrObj })
   await Tone.start()
 
   let delay = Tone.now()
@@ -38,6 +39,7 @@ export async function playSnd(arrObj) {
         }
       }
       synth.triggerAttackRelease(element.note, durationToAdd, delay)
+      amSynth.triggerAttackRelease(element.note, durationToAdd, delay)
 
       delay += durationToAdd
     }
