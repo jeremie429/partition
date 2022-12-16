@@ -486,7 +486,7 @@ const Partition = () => {
     return (
       <div className="partition-page">
     
-          <div className="controls top">
+          <div className="controls right">
             <button onClick={handlePlayBtn} id="soprano-btn">
               Play Soprano
             </button>
@@ -545,13 +545,30 @@ const Partition = () => {
            {/* <button onClick={handlePlayChoir}>Play Choir</button> */}
             { window.outerWidth > 1000 && <button onClick={handleSaveBtn}>Save Video</button>}
           </div>
+
+
+          <div className="controls left">
+            <a href='#soprano-section'>
+              Go To Soprano Blocks
+            </a>
+            <a href='#alto-section' >
+            Go To Alto Blocks
+            </a>
+            <a href='#tenor-section'>
+            Go To Tenor Blocks
+            </a>
+            <a href='#bass-section' >
+            Go To Bass Blocks
+            </a>
+         
+        
+
+            
+           
+          </div>
   
           <div className="controls">
-            
 
-           
-            
-            
            <div className="blocs-controls">
            <div className='bloc-wrap'>
               <label className="white-label" htmlFor="tempo">
@@ -640,7 +657,7 @@ const Partition = () => {
                 
               </div>}
             </div>
-          <div id="soprano" className="pupitre">
+          <div id="soprano-section" className="pupitre">
             <div className='words'>
             <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
             <button onClick={(e) => handleAdText(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
@@ -668,7 +685,7 @@ const Partition = () => {
                 />
               ))}
           </div>
-          <div id="alto" className="pupitre">
+          <div id="alto-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={altoWordsRef} placeholder='Add words for Alto' ></textarea>
             <button onClick={(e) => handleAdText(altoWordsRef.current.value, 'Alto')} >Add words</button>
@@ -694,7 +711,7 @@ const Partition = () => {
                 />
               ))}
           </div>
-          <div id="tenor" className="pupitre">
+          <div id="tenor-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={tenorWordsRef} placeholder='Add words for Tenor' ></textarea>
             <button onClick={(e) => handleAdText(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
@@ -720,7 +737,7 @@ const Partition = () => {
                 />
               ))}
           </div>
-          <div id="bass" className="pupitre">
+          <div id="bass-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={bassWordsRef} placeholder='Add words for Bass' ></textarea>
             <button onClick={(e) => handleAdText(bassWordsRef.current.value, 'Bass')} >Add words</button>
