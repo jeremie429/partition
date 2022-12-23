@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Block from '../components/Block';
-import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesSolKey, notesUt1, notesUt2, notesUt3,notesUt4 } from '../tools/noteArr';
+import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playChoir, playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
 
 import "../styles/partition.scss"
+import Piano from '../components/Piano';
 const Partition = () => {
   
     let altoNotes = [];
@@ -25,6 +26,14 @@ const Partition = () => {
     const [keyForAlto, setKeyForAlto] = useState("sol");
     const [keyForTenor, setKeyForTenor] = useState("fa");
 
+    const [sopranoNotesSyntax, setSopranoNotesSyntax] = useState(notesSolSyntax)
+
+    const [altoNotesSyntax, setAltoNotesSyntax] = useState(notesSolSyntax)
+
+    const [tenorNotesSyntax, setTenorNotesSyntax] = useState(notesFaSyntax)
+
+    const [bassNotesSyntax, setBassNotesSyntax] = useState(notesFaSyntax)
+
     let currentPitre;
 
     const [iconForSoprano, setIconForSoprano] = useState(solIcon)
@@ -36,18 +45,26 @@ const Partition = () => {
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
   
-    const [numSopranoBlock, setNumSopranoBlock] = useState(5);
-    const [numAltoBlock, setNumAltoBlock] = useState(5);
-    const [numTenorBlock, setNumTenorBlock] = useState(5);
-    const [numBassBlock, setNumBassBlock] = useState(5);
+    const [numSopranoBlock, setNumSopranoBlock] = useState(1);
+    const [numAltoBlock, setNumAltoBlock] = useState(1);
+    const [numTenorBlock, setNumTenorBlock] = useState(1);
+    const [numBassBlock, setNumBassBlock] = useState(1);
 
     const [diezeAlterations, setDiezeAlterations] = useState([])
     const [bemolAlterations, setBemolAlterations] = useState([])
+
 
     const sopranoWordsRef = useRef()
     const altoWordsRef = useRef()
     const tenorWordsRef = useRef()
     const bassWordsRef = useRef()
+
+    const sopranoNotesRef = useRef()
+    const altoNotesRef = useRef()
+    const tenorNotesRef = useRef()
+    const bassNotesRef = useRef()
+
+    const arr = [18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     
 
     
@@ -302,13 +319,20 @@ const Partition = () => {
     async function triggerClass(notesArr) {
       let link = document.createElement("a")
       let currentBlock
-      for (let i = 0; i < notesArr.length; i++) {
+
+      
+
+      
+     for (let i = 0; i < notesArr.length; i++) {
         const element = notesArr[i];
         let elDiv =  document.getElementById(element.id);
+        
         let completeLine = elDiv.offsetParent
         let divLineContainer = completeLine.offsetParent
 
        let blocContainer = divLineContainer.offsetParent
+
+       //console.log({blocContainer})
 
        
         if(currentBlock !== blocContainer){
@@ -320,27 +344,16 @@ const Partition = () => {
           
         }
 
-
-        
-        
-       // elDiv = elDiv.children[1].children[0];
-       // console.log(elDiv)
-        
-        if (!element.isSoupir) {
-          elDiv = elDiv.children[0].children[0];
-        } else {
-          elDiv = elDiv.children[0];
-         
-        }
-
-       // console.log(elDiv)
   
-        elDiv.classList.toggle("playing");
-        elDiv.children[0].classList.add("playing");
-        await sleep(element.duration * 1000).then(() => {
+        elDiv.classList.add("playing");
+        //elDiv.children[0].classList.add("playing");
+        await sleep(element.duration * 980).then(() => {
+          //elDiv.classList.remove("playing");
+         // elDiv.children[0].classList.toggle("playing");
           elDiv.classList.remove("playing");
-          elDiv.children[0].classList.toggle("playing");
         });
+
+      
       }
     }
     async function handlePlayBtn(e) {
@@ -351,23 +364,27 @@ const Partition = () => {
       switch (e.target.id) {
         case "soprano-btn":
           currentPitre = "S";
-          playSnd(sopranoNotes);
+          
           triggerClass(sopranoNotes);
+          playSnd(sopranoNotes);
           break;
         case "alto-btn":
           currentPitre = "A";
-          playSnd(altoNotes);
           triggerClass(altoNotes);
+          playSnd(altoNotes);
+          
           break;
         case "tenor-btn":
           currentPitre = "T";
-          playSnd(tenorNotes);
           triggerClass(tenorNotes);
+          playSnd(tenorNotes);
+          
           break;
         case "bass-btn":
           currentPitre = "B";
-          playSnd(bassNotes);
           triggerClass(bassNotes);
+          playSnd(bassNotes);
+          
           break;
   
         default:
@@ -385,36 +402,44 @@ const Partition = () => {
       let notes 
       let audios
       let icon
+      let arrNotes
       switch (keySelected) {
         case 'sol':
           notes = notesSolKey
           audios = audioSolKey
           icon = solIcon
+          arrNotes = notesSolSyntax
           break;
         case 'fa':
           notes = notesFaKey
           audios = audioFaKey
           icon = faIcon
+          arrNotes = notesFaSyntax
           break;
         case 'ut1':
           notes = notesUt1
           audios = audioUt1
           icon = utIcon
+          arrNotes = notesUt1Syntax
           break;
         case 'ut2':
           notes = notesUt2
           audios = audioUt2
           icon = utIcon
+          arrNotes = notesUt2Syntax
           break;
         case 'ut3':
           notes = notesUt3
           audios = audioUt3
           icon = utIcon
+          arrNotes = notesUt3Syntax
           break;
         case 'ut4':
           notes = notesUt4
           audios = audioUt4
           icon = utIcon
+
+          arrNotes = notesUt4Syntax
           break;
       
         default:
@@ -427,16 +452,19 @@ const Partition = () => {
         setNotesForSoprano(notes)
         setAudioForSoprano(audios)
         setIconForSoprano(icon)
+        setSopranoNotesSyntax(arrNotes)
       }else if(pupitre === "alto"){
         setKeyForAlto(keySelected)
         setNotesArrForAlto(notes)
         setAudioForAlto(audios)
         seticonForAlto(icon)
+        setAltoNotesSyntax(arrNotes)
       }else if(pupitre === "tenor"){
         setKeyForTenor(keySelected)
         setNotesForTenor(notes)
         setAudioForTenor(audios)
         setIconForTenor(icon)
+        setTenorNotesSyntax(arrNotes)
       }
 
      // console.log({keySelected, pupitre})
@@ -474,12 +502,150 @@ const Partition = () => {
     async function handlePlayChoir(e){
       
         e.preventDefault()
-       //console.log({ sopranoNotes, altoNotes, tenorNotes, bassNotes })
-        /*setTimeout(async () => {
-          await playChoir(sopranoNotes, altoNotes,tenorNotes, bassNotes)
-        }, 4000);*/
+
         
         playChoir(sopranoNotes, altoNotes,tenorNotes, bassNotes)
+      }
+
+  async function handleAdNotes(e, pupitre, arrNotes, setNumBloc, numBloc,ref) {
+
+      
+
+        let notesWithTimeArr = ref.current.value.trim().split(';')
+
+        let mLength = Math.floor(notesWithTimeArr.length /25) + (notesWithTimeArr.length % 25 > 0 ? 1 : 0)
+        
+
+        if(mLength !== numBloc){
+
+          setNumBloc(Math.floor(notesWithTimeArr.length /25) +1)
+         return
+        }
+        
+        const sectionDiv = document.getElementById(`${pupitre}-section`)
+
+       // console.log({sectionDiv})
+
+        const arrBlocsContainer = sectionDiv.querySelectorAll(".block-container")
+
+        let currentBloc = 1
+
+        let slicedArr 
+
+        const diezeCode = "d"
+        const bemolCode = "b"
+        const becarreCode = "c"
+
+        while(currentBloc <= mLength){
+
+          slicedArr = notesWithTimeArr.slice((currentBloc -1)*25, currentBloc*25)
+          let currenBlocContainer = arrBlocsContainer[currentBloc-1]
+        //  console.log({currenBlocContainer})
+          let completeLinesOfBloc = currenBlocContainer.querySelectorAll(".complete-line")
+         
+
+          for (let i = 0; i < slicedArr.length; i++) {
+            const element = slicedArr[i]
+            const elNoteWithPos = element.split(',')[0]
+            const elTime = element.split(',')[1]
+            const regex = /[0-9]/
+      
+            const isSilent = elNoteWithPos[0] === '-'
+      
+           
+            let duration = parseFloat(elTime) * (Math.round((60 / tempo) * 100) / 100)
+      
+            if (isSilent) {
+              const divToClick = Array.from(
+                completeLinesOfBloc
+              )
+                .reverse()[9]
+                .children.item(1)
+           
+              await divToClick.click()
+              let noteContainer = divToClick.children.item(i)
+              
+              let soupirToTriggered = noteContainer.children.item(0).children.item(1)
+      
+              await soupirToTriggered.click()
+      
+              const formDelay =  noteContainer.querySelector('.form-delay')
+              const noteControls =  formDelay.querySelector('.note-controls')
+              const inputDelay =  formDelay.querySelector('.input-delay')
+      
+              inputDelay.value = parseFloat(duration).toFixed(2)
+      
+              const okBtn = noteControls.querySelector('.ok')
+              await okBtn.click()
+      
+              
+            } else {
+              const elNote = elNoteWithPos.split(regex)[0]
+              const notePos = parseInt(elNoteWithPos.match(regex)[0])
+
+              const posInNoteArr = arrNotes.indexOf(elNote) + (notePos - 1) * 7
+      
+              const divToClick = Array.from(
+                completeLinesOfBloc
+              )
+                .reverse()
+                [posInNoteArr].children.item(1)
+      
+              if (divToClick.children.length === 0) await divToClick.click()
+             
+           
+      
+              let noteContainer = divToClick.children.item(i)
+              //console.log({noteContainer})
+            
+              let noteToTriggered = noteContainer.children.item(0).children.item(0)
+      
+              await noteToTriggered.click()
+      
+              const formDelay =  noteContainer.querySelector('.form-delay')
+      
+             
+              const noteControls =  formDelay.querySelector('.note-controls')
+              const inputDelay =  formDelay.querySelector('.input-delay')
+      
+              
+      
+              inputDelay.value = parseFloat(duration).toFixed(2)
+      
+              const okBtn =  noteControls.querySelector('.ok')
+
+              if(element.split(',').indexOf(diezeCode) !== -1)
+              await noteControls.querySelector('.dieze').click()
+              if(element.split(',').indexOf(bemolCode) !== -1)
+              await  noteControls.querySelector('.bemol').click()
+              if(element.split(',').indexOf(becarreCode) !== -1)
+              await noteControls.querySelector('.becarre').click()
+             
+              await okBtn.click()
+            }
+          }
+
+          currentBloc +=1
+        }
+
+       // console.log({sopranoNotes})
+        
+      }
+
+
+      async function handleAddSilent(ref) {
+        let time = parseFloat(prompt('please enter duration by step 0.5'))
+
+        let currentValueInTextArea = ref.current.value
+    
+        let valueToAdd =""
+        if (currentValueInTextArea === '') {
+          valueToAdd = '-,' + time
+        } else {
+          valueToAdd = ';-,' + time
+        }
+    
+        ref.current.value = currentValueInTextArea + valueToAdd
       }
 
   
@@ -499,11 +665,11 @@ const Partition = () => {
             <button onClick={handlePlayBtn} id="bass-btn">
               Play Bass
             </button>
-            <div className="num-bloc-container">
+           {/*  <div className="num-bloc-container">
 
               <label htmlFor="soprano-num">Soprano Num Block</label>
-            <input type='number' min={1} max={25} value={numSopranoBlock} step={2} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+            <input type='number' min={1}  value={numSopranoBlock} step={5} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 )
                setNumSopranoBlock(parseInt(e.target.value))
                else 
                return
@@ -512,8 +678,8 @@ const Partition = () => {
             <div className="num-bloc-container">
 
               <label htmlFor="alto-num">alto Num Block</label>
-            <input type='number' min={1} max={25} value={numAltoBlock} step={2} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+            <input type='number' min={1}  value={numAltoBlock} step={5} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 )
                setNumAltoBlock(parseInt(e.target.value))
                else 
                return
@@ -522,8 +688,8 @@ const Partition = () => {
             <div className="num-bloc-container">
 
               <label htmlFor="tenor-num">tenor Num Block</label>
-            <input type='number' min={1} max={25} value={numTenorBlock} step={2} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+            <input type='number' min={1}  value={numTenorBlock} step={5} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 )
                setNumTenorBlock(parseInt(e.target.value))
                else 
                return
@@ -532,18 +698,18 @@ const Partition = () => {
             <div className="num-bloc-container">
 
               <label htmlFor="bass-num">bass Num Block</label>
-            <input type='number' min={1} max={25} value={numBassBlock} step={2} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 && parseInt(e.target.value) < 26)
+            <input type='number' min={1}  value={numBassBlock} step={5} onChange={(e) => {
+              if(parseInt(e.target.value) > 0 )
                setNumBassBlock(parseInt(e.target.value) )
                else 
                return
               }} name='bass-num' />
-            </div>
+            </div> */}
             
               
             
            {/* <button onClick={handlePlayChoir}>Play Choir</button> */}
-            { window.outerWidth > 1000 && <button onClick={handleSaveBtn}>Save Video</button>}
+            { window.outerWidth > 1000 && <button className='save-btn' onClick={handleSaveBtn}>Save Video</button>}
           </div>
 
 
@@ -657,11 +823,44 @@ const Partition = () => {
                 
               </div>}
             </div>
-          <div id="soprano-section" className="pupitre">
+          
+      <div id="soprano-section" className="pupitre">
             <div className='words'>
             <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
             <button onClick={(e) => handleAdText(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
             </div>
+
+            <div className="piano-notes">
+        {arr.map((i, pos) => {
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={audioForSoprano[pos]}
+              currentNote={notesForSoprano[pos]}
+              
+              noteSyntax={sopranoNotesSyntax[pos]}
+              relTextArea = {sopranoNotesRef}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch" onClick={(e) => handleAddSilent(sopranoNotesRef)}>
+          -
+        </button> 
+      </div>
+      <div className="notes-area">
+        <textarea
+          className="notes-array"
+          ref={sopranoNotesRef}
+          placeholder={'Add Notes for Soprano'}
+        ></textarea>
+        <button onClick={(e) => handleAdNotes(e, "soprano", notesForSoprano, setNumSopranoBlock, numSopranoBlock, sopranoNotesRef)}>Add Notes</button>
+      </div>
+
+      
 
             
             {Array(numSopranoBlock)
@@ -690,6 +889,37 @@ const Partition = () => {
             <textarea  className='words-input' ref={altoWordsRef} placeholder='Add words for Alto' ></textarea>
             <button onClick={(e) => handleAdText(altoWordsRef.current.value, 'Alto')} >Add words</button>
             </div>
+            <div className="piano-notes">
+        {arr.map((i, pos) => {
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={audioForAlto[pos]}
+              currentNote={notesArrForAlto[pos]}
+              
+              noteSyntax={altoNotesSyntax[pos]}
+              relTextArea = {altoNotesRef}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch" onClick={(e) => handleAddSilent(altoNotesRef)}>
+          -
+        </button> 
+      </div>
+            <div className="notes-area">
+        <textarea
+          className="notes-array"
+          ref={altoNotesRef}
+          placeholder={'Add Notes for Alto'}
+        ></textarea>
+        <button onClick={(e) => handleAdNotes(e, "alto", notesArrForAlto, setNumAltoBlock, numAltoBlock, altoNotesRef)}>Add Notes</button>
+      </div>
+
+      
           
             {Array(numAltoBlock)
               .fill()
@@ -716,7 +946,40 @@ const Partition = () => {
             <textarea  className='words-input' ref={tenorWordsRef} placeholder='Add words for Tenor' ></textarea>
             <button onClick={(e) => handleAdText(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
             </div>
+
+            <div className="piano-notes">
+        {arr.map((i, pos) => {
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={audioForTenor[pos]}
+              currentNote={notesForTenor[pos]}
+              
+              noteSyntax={tenorNotesSyntax[pos]}
+              relTextArea = {tenorNotesRef}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch" onClick={(e) => handleAddSilent(tenorNotesRef)}>
+          -
+        </button> 
+      </div>
          
+
+            <div className="notes-area">
+        <textarea
+          className="notes-array"
+          ref={tenorNotesRef}
+          placeholder={'Add Notes for Tenor'}
+        ></textarea>
+        <button onClick={(e) => handleAdNotes(e, "tenor", notesForTenor, setNumTenorBlock, numTenorBlock, tenorNotesRef)}>Add Notes</button>
+      </div>
+
+      
             {Array(numTenorBlock)
               .fill()
               .map((el, index) => (
@@ -742,7 +1005,39 @@ const Partition = () => {
             <textarea  className='words-input' ref={bassWordsRef} placeholder='Add words for Bass' ></textarea>
             <button onClick={(e) => handleAdText(bassWordsRef.current.value, 'Bass')} >Add words</button>
             </div>
+
+            <div className="piano-notes">
+        {arr.map((i, pos) => {
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={audioFaKey[pos]}
+              currentNote={notesFaKey[pos]}
+              
+              noteSyntax={bassNotesSyntax[pos]}
+              relTextArea = {bassNotesRef}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch" onClick={(e) => handleAddSilent(bassNotesRef)}>
+          -
+        </button> 
+      </div>
      
+            <div className="notes-area">
+        <textarea
+          className="notes-array"
+          ref={bassNotesRef}
+          placeholder={'Add Notes for Bass'}
+        ></textarea>
+        <button onClick={(e) => handleAdNotes(e, "bass", notesFaKey, setNumBassBlock, numBassBlock, bassNotesRef)}>Add Notes</button>
+      </div>
+
+      
             {Array(numBassBlock)
               .fill()
               .map((el, index) => (

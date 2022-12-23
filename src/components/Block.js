@@ -202,7 +202,7 @@ function Block({
 
   return (
     <div className="block-container" id={uuidv4()}>
-      <div className="piano-notes">
+      {/* <div className="piano-notes">
         {arr.map((i, pos) => {
           //currentNote = notesSrc[i];
           //currentAudioSrc = audioSrc[i];
@@ -237,7 +237,7 @@ function Block({
           placeholder={'Add Notes as Example: (do1,1.5;re1,0.5;mi2,1;fa2,1)'}
         ></textarea>
         <button onClick={handleAdNotes}>Add Notes</button>
-      </div>
+      </div> */}
 
       <div ref={divRef} className="div-line-container">
         <img src={imgIcon} className="img-icon" alt="key icon" />

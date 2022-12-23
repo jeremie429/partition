@@ -4,6 +4,7 @@ import { playOneAudio } from '../tools/noteFunc';
 const Piano = ({        
             currentNote,    
   
+            relTextArea,
             currentAudioSrc,
             noteSyntax
 }) => {
@@ -18,15 +19,15 @@ const Piano = ({
        // console.log(e.target.offsetParent)
 
         
-        const textArea = e.target.offsetParent.children[1].children[0]
-        let currentValueInTextArea = textArea.value
+        //const textArea = e.target.offsetParent.children[1].children[0]
+        let currentValueInTextArea = relTextArea.current.value
 
-        let textArrLength = currentValueInTextArea.split(";").length
+       // let textArrLength = currentValueInTextArea.split(";").length
 
-        if(textArrLength >= 25){
+       /* if(textArrLength >= 25){
           alert("You have passed max notes to insert in this block. Please go to the next area")
           return
-        }
+        }*/
 
        // let duration = parseFloat(time*tempo).toFixed(2)
 
@@ -42,12 +43,12 @@ const Piano = ({
         }
         
 
-        if((currentValueInTextArea + valueToAdd).split(';').length >25){
+     /*   if((currentValueInTextArea + valueToAdd).split(';').length >25){
 
           alert("You have passed max notes to insert in this block. Please go to the next area")
           return
-        }
-        textArea.value = currentValueInTextArea + valueToAdd
+        }*/
+        relTextArea.current.value = currentValueInTextArea + valueToAdd
 
 
             setShowTimeSelect(false)

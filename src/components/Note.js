@@ -26,6 +26,7 @@ function Note({
   let currentNoteBemol = currentNote + uniCodeBemol
 
   const [visible, setVisible] = useState(false)
+  const [blocVisible, setBlocVisible] = useState(false)
   const [vueDelayButton, setVueDelayButton] = useState(true)
   const [isSoupir, setIsSoupir] = useState(false)
   const [isBeccarre, setIsBeccarre] = useState(false)
@@ -84,28 +85,27 @@ function Note({
 
   return (
     <div id={id.current} className="note-container">
-      <div
-        className="note-choice-bloc"
-        onMouseOver={(e) => setVueDelayButton(true)}
-      >
-        {!isSoupir && (
-          <div
-            className={visible ? 'notes-bloc selected' : 'notes-bloc'}
-            onClick={(e) => {
-              e.preventDefault()
-              if (!visible) setVisible(true)
-              else handleCancel()
-            }}
-          >
-            <div className={visible ? 'note-line' : ''}></div>
-          </div>
-        )}
+      <div className="note-choice-bloc">
+        <div
+          className={blocVisible ? 'notes-bloc selected' : 'notes-bloc'}
+          onClick={(e) => {
+            e.preventDefault()
+            if (!visible) setVisible(true)
+            setBlocVisible(true)
+            setIsSoupir(false)
+            //else handleCancel()
+          }}
+        >
+          <div className={blocVisible ? 'note-line' : ''}></div>
+        </div>
+
         <div
           className={isSoupir ? 'soupir selected' : 'soupir'}
           onClick={(e) => {
-            setIsSoupir((prev) => !prev)
+            setIsSoupir(true)
+            setBlocVisible(false)
             if (!visible) setVisible(true)
-            else handleCancel()
+            //else handleCancel()
           }}
         ></div>
       </div>
@@ -186,7 +186,7 @@ function Note({
 
             {(isDieze || isBemol) && (
               <div
-                className="infinite"
+                className="becarre"
                 onClick={(e) => {
                   if (!isBeccarre) {
                     setNoteAudio(currentAudio)
