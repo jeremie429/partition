@@ -16,23 +16,8 @@ const Piano = ({
    async function handleSubmit(e) {
         e.preventDefault();
 
-       // console.log(e.target.offsetParent)
-
-        
-        //const textArea = e.target.offsetParent.children[1].children[0]
         let currentValueInTextArea = relTextArea.current.value
-
-       // let textArrLength = currentValueInTextArea.split(";").length
-
-       /* if(textArrLength >= 25){
-          alert("You have passed max notes to insert in this block. Please go to the next area")
-          return
-        }*/
-
-       // let duration = parseFloat(time*tempo).toFixed(2)
-
         let valueToAdd = ""
-       // console.log({valueToAdd})
 
         for (let i = 0; i < noteMultiplication; i++) {
           if(currentValueInTextArea === "" && valueToAdd === ""){
@@ -42,12 +27,6 @@ const Piano = ({
            }        
         }
         
-
-     /*   if((currentValueInTextArea + valueToAdd).split(';').length >25){
-
-          alert("You have passed max notes to insert in this block. Please go to the next area")
-          return
-        }*/
         relTextArea.current.value = currentValueInTextArea + valueToAdd
 
 
@@ -64,7 +43,7 @@ const Piano = ({
         <span>X</span>
         <input min={1}  className='input-multiplication' type="number" step={1} value={noteMultiplication} onChange={e => setNoteMultiplication(e.target.value)} />
       </div>
-      <input type="number" step={0.5} value={time} onChange={e => setTime(e.target.value)} />
+      <input type="number"min={0} step={0.5} value={time} onChange={e => setTime(e.target.value)} />
       
       
       <button onClick={handleSubmit}>Ok</button>

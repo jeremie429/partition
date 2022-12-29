@@ -1,4 +1,5 @@
 export const audioSolKey = [
+  'G3',
   'A3',
   'B3',
   'C4',
@@ -45,6 +46,7 @@ export const audioSolKey = [
   'B9',
 ]
 export const audioFaKey = [
+  'B2',
   'C3',
   'D3',
   'E3',
@@ -97,6 +99,7 @@ export const audioFaKey = [
 ]
 
 export const notesSolKey = [
+  'sol',
   'la',
   'si',
   'do',
@@ -120,20 +123,21 @@ export const notesSolKey = [
 ]
 
 export const notesSolSyntax = [
+  'sol1',
   'la1',
   'si1',
   'do1',
   're1',
   'mi1',
   'fa1',
-  'sol1',
+  'sol2',
   'la2',
   'si2',
   'do2',
   're2',
   'mi2',
   'fa2',
-  'sol2',
+  'sol3',
   'la3',
   'si3',
   'do3',
@@ -141,6 +145,7 @@ export const notesSolSyntax = [
   'mi3',
 ]
 export const notesFaKey = [
+  'si',
   'do',
   're',
   'mi',
@@ -163,20 +168,21 @@ export const notesFaKey = [
 ]
 
 export const notesFaSyntax = [
+  'si1',
   'do1',
   're1',
   'mi1',
   'fa1',
   'sol1',
   'la1',
-  'si1',
+  'si2',
   'do2',
   're2',
   'mi2',
   'fa2',
   'sol2',
   'la2',
-  'si2',
+  'si3',
   'do3',
   're3',
   'mi3',
@@ -186,6 +192,7 @@ export const notesFaSyntax = [
 
 // +2 notes au début par rapport à la clé de sol
 export const notesUt1 = [
+  'mi',
   'fa',
   'sol',
   'la',
@@ -208,20 +215,21 @@ export const notesUt1 = [
   're',
 ]
 export const notesUt1Syntax = [
+  'mi1',
   'fa1',
   'sol1',
   'la1',
   'si1',
   'do1',
   're1',
-  'mi1',
+  'mi2',
   'fa2',
   'sol2',
   'la2',
   'si2',
   'do2',
   're2',
-  'mi2',
+  'mi3',
   'fa3',
   'sol3',
   'la3',
@@ -230,8 +238,9 @@ export const notesUt1Syntax = [
   're3',
 ]
 export const audioUt1 = [
-  'F2',
-  'G2',
+  'E3',
+  'F3',
+  'G3',
   'A3',
   'B3',
   'C4',
@@ -280,6 +289,7 @@ export const audioUt1 = [
 
 // + 4 notes au début par rapport à a clé de sol
 export const notesUt2 = [
+  'do',
   're',
   'mi',
   'fa',
@@ -307,33 +317,35 @@ export const notesUt2 = [
 ]
 
 export const notesUt2Syntax = [
+  'do1',
   're1',
   'mi1',
   'fa1',
   'sol1',
   'la1',
   'si1',
-  'do1',
+  'do2',
   're2',
   'mi2',
   'fa2',
   'sol2',
   'la2',
   'si2',
-  'do2',
+  'do3',
   're3',
   'mi3',
   'fa3',
   'sol3',
   'la3',
   'si3',
-  'do3',
+  'do4',
 ]
 export const audioUt2 = [
-  'D2',
-  'E2',
-  'F2',
-  'G2',
+  'C3',
+  'D3',
+  'E3',
+  'F3',
+  'G3',
   'A3',
   'B3',
   'C4',
@@ -381,6 +393,7 @@ export const audioUt2 = [
 ]
 // -1 notes au début par rapport à la clé de sol
 export const notesUt3 = [
+  'la',
   'si',
   'do',
   're',
@@ -404,20 +417,21 @@ export const notesUt3 = [
 ]
 
 export const notesUt3Syntax = [
+  'la1',
   'si1',
   'do1',
   're1',
   'mi1',
   'fa1',
   'sol1',
-  'la1',
+  'la2',
   'si2',
   'do2',
   're2',
   'mi2',
   'fa2',
   'sol2',
-  'la2',
+  'la3',
   'si3',
   'do3',
   're3',
@@ -426,6 +440,7 @@ export const notesUt3Syntax = [
   'sol3',
 ]
 export const audioUt3 = [
+  'A3',
   'B3',
   'C4',
   'D4',
@@ -472,6 +487,7 @@ export const audioUt3 = [
 ]
 // +1 note au début par rapport à la clé de sol
 export const notesUt4 = [
+  'fa',
   'sol',
   'la',
   'si',
@@ -495,29 +511,31 @@ export const notesUt4 = [
   'fa',
 ]
 export const notesUt4Syntax = [
+  'fa1',
   'sol1',
   'la1',
   'si1',
   'do1',
   're1',
   'mi1',
-  'fa1',
+  'fa2',
   'sol2',
   'la2',
   'si2',
   'do2',
   're2',
   'mi2',
-  'fa2',
+  'fa3',
   'sol3',
   'la3',
   'si3',
   'do3',
   're3',
   'mi3',
-  'fa3',
+  'fa4',
 ]
 export const audioUt4 = [
+  'F3',
   'G3',
   'A3',
   'B3',

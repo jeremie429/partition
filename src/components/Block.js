@@ -28,7 +28,9 @@ function Block({
   bemolAlterations,
 }) {
   const divRef = useRef()
-  const arr = [18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+  const arr = [
+    19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0,
+  ]
 
   let arrNotes
 
@@ -246,7 +248,7 @@ function Block({
           let num = i % 2
           // currentNote = notesSrc[i];
           // currentAudioSrc = audioSrc[i];
-          let classType = num === 0 && i < 13 && i > 3 ? 'line' : 'band'
+          let classType = num === 1 && i < 15 && i > 4 ? 'line' : 'band'
           return (
             <CompleteLine
               blockNum={blockNum}

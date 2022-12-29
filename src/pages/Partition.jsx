@@ -64,7 +64,7 @@ const Partition = () => {
     const tenorNotesRef = useRef()
     const bassNotesRef = useRef()
 
-    const arr = [18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    const arr = [19,18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     
 
     
@@ -347,7 +347,7 @@ const Partition = () => {
   
         elDiv.classList.add("playing");
         //elDiv.children[0].classList.add("playing");
-        await sleep(element.duration * 980).then(() => {
+        await sleep(element.duration * 975).then(() => {
           //elDiv.classList.remove("playing");
          // elDiv.children[0].classList.toggle("playing");
           elDiv.classList.remove("playing");
