@@ -3,11 +3,13 @@ import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
-import { playChoir, playSnd } from "../tools/noteFunc";
+import { playChoir, playPianoNotes, playSnd } from "../tools/noteFunc";
 import { startRecording, stopRecording } from "../tools/recorderFunc";
 
 import "../styles/partition.scss"
 import Piano from '../components/Piano';
+
+import * as Tone from 'tone'
 const Partition = () => {
   
     let altoNotes = [];
@@ -63,6 +65,7 @@ const Partition = () => {
     const altoNotesRef = useRef()
     const tenorNotesRef = useRef()
     const bassNotesRef = useRef()
+    const pianoNotesRef = useRef()
 
     const arr = [19,18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     
@@ -72,7 +75,9 @@ const Partition = () => {
     let titleref = useRef();
 
     useEffect(() => {
-      document.title = "Partion Reader"
+      document.title = "Partion Reader.."
+    
+    // console.log("Has been refreshed...")
     }, [])
 
     function handleAdText(words,pupitre){
@@ -312,17 +317,21 @@ const Partition = () => {
           break;
       }
     }
+
     function sleep(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
-  
-    async function triggerClass(notesArr) {
-      let link = document.createElement("a")
+    let lastTime = 0
+    let duration
+    let currentDiv
+  async function triggerClass(notesArr) {
+     // let link = document.createElement("a")
       let currentBlock
+      let timeToReduce = 0
 
-      
-
-      
+      let multiPlyTime = notesArr.length > 100 ? 960 : 975
+ 
+      //let multiPlyTime = 975
      for (let i = 0; i < notesArr.length; i++) {
         const element = notesArr[i];
         let elDiv =  document.getElementById(element.id);
@@ -334,20 +343,33 @@ const Partition = () => {
 
        //console.log({blocContainer})
 
-       
-        if(currentBlock !== blocContainer){
-          currentBlock = blocContainer
+       timeToReduce = 0
+        if(currentBlock !== blocContainer && i > 0){
+          blocContainer.scrollIntoView({
+            behavior:"smooth",
+            block: 'center'
+            
+          })
+          /*currentBlock = blocContainer
 
           let attr = blocContainer.getAttribute('id')
           link.href = "#" + attr
-          link.click()
+          link.click()*/
+
+          //timeToReduce = 20
           
         }
 
+        
+
+       // currentDiv = elDiv
   
         elDiv.classList.add("playing");
+         duration = element.duration*(multiPlyTime - timeToReduce)
+      //  await animate(0,currentDiv,duration)
         //elDiv.children[0].classList.add("playing");
-        await sleep(element.duration * 975).then(() => {
+      
+        await sleep(duration).then(() => {
           //elDiv.classList.remove("playing");
          // elDiv.children[0].classList.toggle("playing");
           elDiv.classList.remove("playing");
@@ -356,6 +378,28 @@ const Partition = () => {
       
       }
     }
+
+   async function animate(timeStamp) {
+      const deltaTime = timeStamp - lastTime;
+
+      console.log({timeStamp, lastTime, duration: duration*60})
+  
+     
+      //elDiv.children[0].classList.add("playing");
+      lastTime = deltaTime
+      if(lastTime > (duration *60) && lastTime > 0){
+        currentDiv.classList.remove("playing");
+        console.log({lastTime})
+        //lastTime = 0
+        //cancelAnimationFrame(animate)
+        return true
+      }
+      
+  
+      requestAnimationFrame(animate);
+    }
+
+
     async function handlePlayBtn(e) {
       e.preventDefault();
      if(window.outerWidth>1000)
@@ -647,6 +691,36 @@ const Partition = () => {
     
         ref.current.value = currentValueInTextArea + valueToAdd
       }
+      async function handlePlayPiano(e){
+
+        e.preventDefault()
+
+        let syntaxArr = pianoNotesRef.current.value.trim().split('|')
+       // console.log({syntaxArr})
+
+        let notesArrObj = []
+
+        for (let i = 0; i < syntaxArr.length; i++) {
+          const element = syntaxArr[i];
+
+          let notesWithDurations = element.split(';')
+          let notes = []
+          let durations = []
+
+          notesWithDurations.forEach(noteWithDuration => {
+            let note = noteWithDuration.split(',')[0]
+            let duration = parseFloat(noteWithDuration.split(',')[1])
+
+            notes.push(note)
+            durations.push(duration)
+          })
+          notesArrObj.push({notes, durations})
+        }
+
+      //  console.log(notesArrObj)
+
+        playPianoNotes(notesArrObj)
+      }
 
   
     return (
@@ -664,6 +738,10 @@ const Partition = () => {
             </button>
             <button onClick={handlePlayBtn} id="bass-btn">
               Play Bass
+            </button>
+          
+            <button onClick={handlePlayPiano} >
+              Play Piano
             </button>
            {/*  <div className="num-bloc-container">
 
@@ -1058,6 +1136,16 @@ const Partition = () => {
                 />
               ))}
           </div>
+
+          <div className="notes-area" id='piano-area'>
+        <textarea
+          className="notes-array"
+          
+          ref={pianoNotesRef}
+          placeholder={'Add Notes for Piano'}
+        ></textarea>
+        
+      </div>
        
       </div>
     );

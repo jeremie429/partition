@@ -962,7 +962,7 @@
     
     .right{
       position: fixed !important;
-      top: calc(100vh/3);
+      top: calc(100vh/4);
       flex-direction: column;
       right: 0;
       width: 60px;
@@ -1345,5 +1345,11 @@
       font-size: large;
       transform: translateY(-10px);
     }
+  }
+
+  #piano-area{
+    width: 80%;
+    flex: start;
+
   }
  

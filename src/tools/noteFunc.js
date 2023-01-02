@@ -2,6 +2,7 @@ import * as Tone from 'tone'
 
 const synth = new Tone.Synth().toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
+const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
 
 //const newSynth = new Tone.Synth().toDestination()
 Tone.Transport.bpm.value = 150
@@ -20,7 +21,9 @@ export async function playSnd(arrObj) {
   // console.log({ arrObj })
   await Tone.start()
 
-  let delay = Tone.now()
+  if (arrObj.length === 0) return
+
+  let delay = arrObj.length > 100 ? Tone.now() + 0.5 : Tone.now()
 
   for (let i = 0; i < arrObj.length; i++) {
     const element = arrObj[i]
@@ -51,9 +54,14 @@ export async function playChoir(sopranoArr, altoArr, tenorArr, bassArr) {
 
   // console.log({ sopranoArr, altoArr, tenorArr, bassArr })
 
+  playSnd(sopranoArr)
+  playSnd(altoArr)
+  playSnd(tenorArr)
+  playSnd(bassArr)
+
   //const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
 
-  const sopranoSynth = new Tone.AMSynth().toDestination()
+  /* const sopranoSynth = new Tone.AMSynth().toDestination()
   const altoSynth = new Tone.AMSynth().toDestination()
   const tenorSynth = new Tone.AMSynth().toDestination()
   const bassSynth = new Tone.AMSynth().toDestination()
@@ -109,114 +117,25 @@ export async function playChoir(sopranoArr, altoArr, tenorArr, bassArr) {
 
       bassTime += bassObj.duration
     }
+  }*/
+}
+
+export async function playPianoNotes(notesArrObj) {
+  await Tone.start()
+
+  if (notesArrObj.length === 0) return
+
+  let delay = Tone.now()
+
+  for (let i = 0; i < notesArrObj.length; i++) {
+    const element = notesArrObj[i]
+
+    let notes = element.notes
+    let durations = element.durations
+    let durationToAdd = Math.min(durations) || durations[0]
+
+    polysynth.triggerAttackRelease(notes, durations, delay)
+
+    delay += durationToAdd
   }
-
-  //let notes = []
-  /*
-  for (let i = 0; i < greatestLength; i++) {
-    sopranoObj =
-      i < sopranoArr.length && !sopranoObj?.toBeRemovedNext
-        ? sopranoArr[i]
-        : undefined
-    altoObj =
-      i < altoArr.length && !altoObj?.toBeRemovedNext ? altoArr[i] : undefined
-    bassObj =
-      i < bassArr.length && !bassObj?.toBeRemovedNext ? bassArr[i] : undefined
-    tenorObj =
-      i < tenorArr.length && !tenorObj?.toBeRemovedNext
-        ? tenorArr[i]
-        : undefined
-
-    console.log({ index: i, sopranoObj, altoObj, bassObj, tenorObj })
-
-    let notes = []
-    let durations = []
-    let durationsToSort
-
-    if (sopranoObj !== undefined && sopranoObj.duration > 0) {
-      durations.push(sopranoObj.duration)
-
-      notes.push(sopranoObj.note)
-    }
-
-    if (altoObj !== undefined && altoObj.duration > 0) {
-      durations.push(altoObj.duration)
-      notes.push(altoObj.note)
-    }
-
-    if (tenorObj !== undefined && tenorObj.duration > 0 ) {
-      durations.push(tenorObj.duration)
-      notes.push(tenorObj.note)
-    }
-
-    if (bassObj !== undefined && bassObj.duration > 0) {
-      durations.push(bassObj.duration)
-      notes.push(bassObj.note)
-    }
-
-    durationsToSort = [...durations]
-
-    let minDuration = durationsToSort.sort((a, b) => a - b).shift()
-
-    console.log({ minDuration, durations, durationsToSort, notes })
-
-    polysynth.triggerAttackRelease(notes, durations, time)
-
-    if (sopranoObj !== undefined) {
-      durations[0] = durations[0] - minDuration
-      durations[0] > 0
-        ? (sopranoObj.toBeRemovedNext = true)
-        : (sopranoObj.toBeRemovedNext = false)
-    }
-
-    if (altoObj !== undefined) {
-      durations[1] = durations[1] - minDuration
-      durations[1] > 0
-        ? (altoObj.toBeRemovedNext = true)
-        : (altoObj.toBeRemovedNext = false)
-    }
-
-    if (bassObj !== undefined) {
-      durations[3] = durations[3] - minDuration
-      durations[3] > 0
-        ? (bassObj.toBeRemovedNext = true)
-        : (bassObj.toBeRemovedNext = false)
-    }
-
-    if (tenorObj !== undefined) {
-      durations[2] = durations[2] - minDuration
-      durations[2] > 0
-        ? (tenorObj.toBeRemovedNext = true)
-        : (tenorObj.toBeRemovedNext = false)
-    }
-
-    time += minDuration
-  }*/
-
-  /* const part = new Tone.Part(function (time, note) {
-    polysynth.triggerAttackRelease(note.note, note.duration, time)
-  }, mainChords).start(0)*/
-  /*
-  for (let i = 0; i < arrObj.length; i++) {
-    const element = arrObj[i]
-
-    let durationToAdd = element.duration
-
-    if (element.isSoupir) {
-      delay += durationToAdd
-    } else {
-      if (element.isLinked) {
-        let nextToPlay = arrObj[i + 1]
-
-        if (nextToPlay.note === element.note) {
-          durationToAdd += nextToPlay.duration
-          i += 1
-        }
-
-      }
-      synth.triggerAttackRelease(element.note, durationToAdd, delay)
-
-      delay += durationToAdd
-    }
-  }*/
 }
