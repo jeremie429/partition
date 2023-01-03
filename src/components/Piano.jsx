@@ -3,7 +3,8 @@ import { playOneAudio } from '../tools/noteFunc';
 
 const Piano = ({        
             currentNote,    
-  
+            isPiano,
+            tempo,
             relTextArea,
             currentAudioSrc,
             noteSyntax
@@ -21,9 +22,24 @@ const Piano = ({
 
         for (let i = 0; i < noteMultiplication; i++) {
           if(currentValueInTextArea === "" && valueToAdd === ""){
-            valueToAdd = noteSyntax + "," + time 
+            if(isPiano){
+                valueToAdd = currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
+            }else{
+
+              
+              valueToAdd = noteSyntax + "," + time
+            }
+            
            }else{
-            valueToAdd += ";" + noteSyntax + "," + time 
+            if(isPiano){
+              if(currentValueInTextArea[currentValueInTextArea.length -1] === "|")
+              valueToAdd = currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
+              else valueToAdd += ";"  + currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
+          }else{
+
+            valueToAdd += ";" + noteSyntax + "," + time
+          }
+            
            }        
         }
         

@@ -1138,6 +1138,94 @@ const Partition = () => {
           </div>
 
           <div className="notes-area" id='piano-area'>
+            <div className="sol-keys">
+              <h3>Treble clef staff</h3>
+
+              <div className="piano-notes">
+        {arr.map((i, pos) => {
+
+          let currentAudioSrc = audioForSoprano[pos]
+          let currentNote = notesForSoprano[pos]
+
+          if(diezeAlterations.indexOf(currentNote) !== -1){
+
+            let currentAudio = currentAudioSrc.split('')
+            currentAudio.splice(1, 0, '#')
+
+            currentAudioSrc = currentAudio.join('')
+            currentNote += "#"
+          }else if(bemolAlterations.indexOf(currentNote) !== -1){
+            let currentAudio = currentAudioSrc.split('')
+            currentAudio.splice(1, 0, 'b')
+            currentAudioSrc = currentAudio.join('')
+            var uniCodeBemol = '\u266d'
+            currentNote += uniCodeBemol
+          }
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
+              tempo={Math.round((60 / tempo) * 100) / 100}
+              noteSyntax={sopranoNotesSyntax[pos]}
+              relTextArea = {pianoNotesRef}
+              isPiano = {true}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch pipe" onClick={(e) => {pianoNotesRef.current.value += "|"}}>
+          |
+        </button> 
+      </div>
+            </div>
+            <div className="fa-keys">
+        
+              <h3>Bass clef staff</h3>
+              <div className="piano-notes">
+        {arr.map((i, pos) => {
+
+            let currentAudioSrc = audioFaKey[pos]
+            let currentNote = notesFaKey[pos]
+
+            if(diezeAlterations.indexOf(currentNote) !== -1){
+
+              let currentAudio = currentAudioSrc.split('')
+              currentAudio.splice(1, 0, '#')
+
+              currentAudioSrc = currentAudio.join('')
+              currentNote += "#"
+            }else if(bemolAlterations.indexOf(currentNote) !== -1){
+              let currentAudio = currentAudioSrc.split('')
+              currentAudio.splice(1, 0, 'b')
+              currentAudioSrc = currentAudio.join('')
+              var uniCodeBemol = '\u266d'
+              currentNote += uniCodeBemol
+            }
+          
+          return (
+            <Piano
+            key={uuidv4()}
+            
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
+              tempo={Math.round((60 / tempo) * 100) / 100}
+              noteSyntax={bassNotesSyntax[pos]}
+              relTextArea = {pianoNotesRef}
+              isPiano = {true}
+             
+            />
+          )
+        })}
+
+         <button className="piano-touch pipe" onClick={(e) => {pianoNotesRef.current.value += "|"}}>
+          |
+        </button> 
+      </div>
+            </div>
         <textarea
           className="notes-array"
           

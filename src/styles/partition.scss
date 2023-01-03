@@ -1350,6 +1350,25 @@
   #piano-area{
     width: 80%;
     flex: start;
+    flex-direction: column;
+   
+   .pipe{
+    background-color: #cf550e;
+   
+    text-align: center;
+   
+   }
+    h3{
+      font-size: x-small;
+      color: white;
+      font-weight: 700;
+      font-style: italic;
+    }
+
+    textarea{
+      width: 100%;
+      min-height: 200px;
+    }
 
   }
  

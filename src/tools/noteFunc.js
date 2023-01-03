@@ -4,8 +4,10 @@ const synth = new Tone.Synth().toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
 
+//polysynth.set({ detune: -1200 })
+
 //const newSynth = new Tone.Synth().toDestination()
-Tone.Transport.bpm.value = 150
+Tone.Transport.bpm.value = 200
 
 //console.log('Tone Bpm Value', Tone.Transport.bpm)
 
