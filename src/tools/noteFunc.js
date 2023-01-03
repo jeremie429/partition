@@ -3,11 +3,19 @@ import * as Tone from 'tone'
 const synth = new Tone.Synth().toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
-
-//polysynth.set({ detune: -1200 })
+// decay: 0.5, sustain: 0.1
+polysynth.set({
+  harmonicity: 10,
+  envelope: {
+    attack: 0.001,
+    decay: 0.5,
+    sustain: 0.2,
+    // release: 1,
+  },
+})
 
 //const newSynth = new Tone.Synth().toDestination()
-Tone.Transport.bpm.value = 200
+Tone.Transport.bpm.value = 150
 
 //console.log('Tone Bpm Value', Tone.Transport.bpm)
 
@@ -124,6 +132,8 @@ export async function playChoir(sopranoArr, altoArr, tenorArr, bassArr) {
 
 export async function playPianoNotes(notesArrObj) {
   await Tone.start()
+
+  //polysynth.maxPolyphony = 4
 
   if (notesArrObj.length === 0) return
 
