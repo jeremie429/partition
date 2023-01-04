@@ -1,10 +1,12 @@
 import * as Tone from 'tone'
+import { startRecording, stopRecording } from './recorderFunc'
 
+//Tone.AMSynth
 const synth = new Tone.Synth().toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
-const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
+const polysynth = new Tone.PolySynth().toDestination()
 // decay: 0.5, sustain: 0.1
-polysynth.set({
+/*polysynth.set({
   harmonicity: 10,
   envelope: {
     attack: 0.001,
@@ -12,10 +14,10 @@ polysynth.set({
     sustain: 0.2,
     // release: 1,
   },
-})
-
+})*/
+//polysynth.volume.value = -20
 //const newSynth = new Tone.Synth().toDestination()
-Tone.Transport.bpm.value = 150
+//Tone.Transport.bpm.value = 150
 
 //console.log('Tone Bpm Value', Tone.Transport.bpm)
 
@@ -135,8 +137,11 @@ export async function playPianoNotes(notesArrObj) {
 
   //polysynth.maxPolyphony = 4
 
+  if (window.outerWidth > 1000) await startRecording()
+
   if (notesArrObj.length === 0) return
 
+  let totalDuration = 0
   let delay = Tone.now()
 
   for (let i = 0; i < notesArrObj.length; i++) {
@@ -146,8 +151,19 @@ export async function playPianoNotes(notesArrObj) {
     let durations = element.durations
     let durationToAdd = Math.min(durations) || durations[0]
 
+    let maxDuration = Math.max(durations) || durations[0]
+
+    totalDuration += maxDuration
+
     polysynth.triggerAttackRelease(notes, durations, delay)
 
     delay += durationToAdd
+  }
+
+  if (window.outerWidth > 1000) {
+    setTimeout(() => {
+      let title = prompt('Please enter title')
+      stopRecording('Piano', title)
+    }, totalDuration * 1020)
   }
 }
