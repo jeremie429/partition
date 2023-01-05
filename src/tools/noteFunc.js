@@ -155,7 +155,8 @@ export async function playPianoNotes(notesArrObj) {
 
     totalDuration += maxDuration
 
-    polysynth.triggerAttackRelease(notes, durations, delay)
+    if (notes[0] !== '-')
+      polysynth.triggerAttackRelease(notes, durations, delay)
 
     delay += durationToAdd
   }
