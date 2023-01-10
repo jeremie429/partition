@@ -53,8 +53,10 @@ export async function playSnd(arrObj) {
           i += 1
         }
       }
-      synth.triggerAttackRelease(element.note, durationToAdd, delay)
-      amSynth.triggerAttackRelease(element.note, durationToAdd, delay)
+      let duration = [durationToAdd]
+      let note = [element.note]
+      polysynth.triggerAttackRelease(note, duration, delay)
+      //amSynth.triggerAttackRelease(element.note, durationToAdd, delay)
 
       delay += durationToAdd
     }
