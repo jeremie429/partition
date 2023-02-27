@@ -3,13 +3,13 @@ import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
-import { playChoir, playPianoNotes, playSnd } from "../tools/noteFunc";
-import { startRecording, stopRecording } from "../tools/recorderFunc";
+import { playPianoNotes, playSnd } from "../tools/noteFunc";
+
 
 import "../styles/partition.scss"
 import Piano from '../components/Piano';
 
-import * as Tone from 'tone'
+
 const Partition = () => {
   
     let altoNotes = [];
@@ -34,7 +34,7 @@ const Partition = () => {
 
     const [tenorNotesSyntax, setTenorNotesSyntax] = useState(notesFaSyntax)
 
-    const [bassNotesSyntax, setBassNotesSyntax] = useState(notesFaSyntax)
+    const bassNotesSyntax= notesFaSyntax
 
     let currentPitre;
 
@@ -52,8 +52,12 @@ const Partition = () => {
     const [numTenorBlock, setNumTenorBlock] = useState(1);
     const [numBassBlock, setNumBassBlock] = useState(1);
 
+    const [playTempo, setPlayTempo] = useState(false)
+
     const [diezeAlterations, setDiezeAlterations] = useState([])
     const [bemolAlterations, setBemolAlterations] = useState([])
+
+    const [timePerTempo, setTimePerTempo] = useState(4)
 
 
     const sopranoWordsRef = useRef()
@@ -297,33 +301,14 @@ const Partition = () => {
       }
     }
   
-    function handleAddBtn(e, pupitre) {
-      //console.log(e);
-      switch (e.target.id) {
-        case "add-soprano":
-          setNumSopranoBlock((current) => current + 1);
-          break;
-        case "add-alto":
-          setNumAltoBlock((current) => current + 1);
-          break;
-        case "add-tenor":
-          setNumTenorBlock((current) => (current += 1));
-          break;
-        case "add-bass":
-          setNumBassBlock((current) => current + 1);
-          break;
   
-        default:
-          break;
-      }
-    }
 
     function sleep(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
-    let lastTime = 0
+   // let lastTime = 0
     let duration
-    let currentDiv
+   // let currentDiv
   async function triggerClass(notesArr) {
      // let link = document.createElement("a")
       let currentBlock
@@ -379,55 +364,43 @@ const Partition = () => {
       }
     }
 
-   async function animate(timeStamp) {
-      const deltaTime = timeStamp - lastTime;
-
-      console.log({timeStamp, lastTime, duration: duration*60})
   
-     
-      //elDiv.children[0].classList.add("playing");
-      lastTime = deltaTime
-      if(lastTime > (duration *60) && lastTime > 0){
-        currentDiv.classList.remove("playing");
-        console.log({lastTime})
-        //lastTime = 0
-        //cancelAnimationFrame(animate)
-        return true
-      }
-      
-  
-      requestAnimationFrame(animate);
-    }
 
 
     async function handlePlayBtn(e) {
       e.preventDefault();
-     if(window.outerWidth>1000)
-       await startRecording();
+    // if(window.outerWidth>1000)
+     //  await startRecording();
 
       switch (e.target.id) {
         case "soprano-btn":
           currentPitre = "S";
+
+          let noteDuration = (Math.round((60 / tempo) * 100) / 100)
           
+          
+          await playSnd(sopranoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(sopranoNotes);
-          playSnd(sopranoNotes);
           break;
         case "alto-btn":
           currentPitre = "A";
+         
+          await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(altoNotes);
-          playSnd(altoNotes);
           
           break;
         case "tenor-btn":
           currentPitre = "T";
+         
+          await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(tenorNotes);
-          playSnd(tenorNotes);
           
           break;
         case "bass-btn":
           currentPitre = "B";
+          
+          await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(bassNotes);
-          playSnd(bassNotes);
           
           break;
   
@@ -436,9 +409,7 @@ const Partition = () => {
       }
     }
   
-    function handleSaveBtn() {
-      stopRecording(currentPitre, titleref.current.value);
-    }
+  
 
     function handleSelectKey(e, pupitre){
 
@@ -543,13 +514,7 @@ const Partition = () => {
       }
     }
 
-    async function handlePlayChoir(e){
-      
-        e.preventDefault()
-
-        
-        playChoir(sopranoNotes, altoNotes,tenorNotes, bassNotes)
-      }
+ 
 
   async function handleAdNotes(e, pupitre, arrNotes, setNumBloc, numBloc,ref) {
 
@@ -676,6 +641,29 @@ const Partition = () => {
         
       }
 
+      function getAudioAndNoteForPiano(arrAudios, arrNotes, pos){
+
+        let currentAudioSrc = arrAudios[pos]
+          let currentNote = arrNotes[pos]
+
+          if(diezeAlterations.indexOf(currentNote) !== -1){
+
+            let currentAudio = currentAudioSrc.split('')
+            currentAudio.splice(1, 0, '#')
+
+            currentAudioSrc = currentAudio.join('')
+            currentNote += "#"
+          }else if(bemolAlterations.indexOf(currentNote) !== -1){
+            let currentAudio = currentAudioSrc.split('')
+            currentAudio.splice(1, 0, 'b')
+            currentAudioSrc = currentAudio.join('')
+            var uniCodeBemol = '\u266d'
+            currentNote += uniCodeBemol
+          }
+
+          return [currentAudioSrc, currentNote]
+      }
+
 
       async function handleAddSilent(ref) {
         let time = parseFloat(prompt('please enter duration by step 0.5'))
@@ -743,51 +731,7 @@ const Partition = () => {
             <button onClick={handlePlayPiano} >
               Play Piano
             </button>
-           {/*  <div className="num-bloc-container">
-
-              <label htmlFor="soprano-num">Soprano Num Block</label>
-            <input type='number' min={1}  value={numSopranoBlock} step={5} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 )
-               setNumSopranoBlock(parseInt(e.target.value))
-               else 
-               return
-              }} name='soprano-num' />
-            </div>
-            <div className="num-bloc-container">
-
-              <label htmlFor="alto-num">alto Num Block</label>
-            <input type='number' min={1}  value={numAltoBlock} step={5} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 )
-               setNumAltoBlock(parseInt(e.target.value))
-               else 
-               return
-              }} name='alto-num' />
-            </div>
-            <div className="num-bloc-container">
-
-              <label htmlFor="tenor-num">tenor Num Block</label>
-            <input type='number' min={1}  value={numTenorBlock} step={5} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 )
-               setNumTenorBlock(parseInt(e.target.value))
-               else 
-               return
-              }} name='tenor-num' />
-            </div>
-            <div className="num-bloc-container">
-
-              <label htmlFor="bass-num">bass Num Block</label>
-            <input type='number' min={1}  value={numBassBlock} step={5} onChange={(e) => {
-              if(parseInt(e.target.value) > 0 )
-               setNumBassBlock(parseInt(e.target.value) )
-               else 
-               return
-              }} name='bass-num' />
-            </div> */}
             
-              
-            
-           {/* <button onClick={handlePlayChoir}>Play Choir</button> */}
-            { window.outerWidth > 1000 && <button className='save-btn' onClick={handleSaveBtn}>Save Video</button>}
           </div>
 
 
@@ -827,6 +771,24 @@ const Partition = () => {
                 onChange={(e) => setTempo(e.target.value)}
               />
             </div>
+
+            <div className='bloc-wrap'>
+              <label className="white-label" htmlFor="tempotime">
+                Time per tempo
+              </label>
+              <input
+                className="input-tempo"
+                placeholder="Enter Time per tempo"
+                name="tempotime"
+                type="number"
+                value={timePerTempo}
+                onChange={(e) => setTimePerTempo(e.target.value)}
+              />
+              <input type="checkbox" name="play-tempo" id="playTempo" value={playTempo} onChange={() => setPlayTempo((prev) => !prev)} />
+            </div>
+
+           
+         
             <div className='bloc-wrap'>
               <label className="white-label" htmlFor="keysoprano">
                 Key for Soprano
@@ -910,13 +872,16 @@ const Partition = () => {
 
             <div className="piano-notes">
         {arr.map((i, pos) => {
+
+let currentAudioSrc = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[0]
+let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[1]
           
           return (
             <Piano
             key={uuidv4()}
             
-              currentAudioSrc={audioForSoprano[pos]}
-              currentNote={notesForSoprano[pos]}
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
               
               noteSyntax={sopranoNotesSyntax[pos]}
               relTextArea = {sopranoNotesRef}
@@ -969,13 +934,16 @@ const Partition = () => {
             </div>
             <div className="piano-notes">
         {arr.map((i, pos) => {
+
+let currentAudioSrc = getAudioAndNoteForPiano(audioForAlto, notesArrForAlto,pos)[0]
+let currentNote = getAudioAndNoteForPiano(audioForAlto, notesArrForAlto,pos)[1]
           
           return (
             <Piano
             key={uuidv4()}
             
-              currentAudioSrc={audioForAlto[pos]}
-              currentNote={notesArrForAlto[pos]}
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
               
               noteSyntax={altoNotesSyntax[pos]}
               relTextArea = {altoNotesRef}
@@ -1027,13 +995,16 @@ const Partition = () => {
 
             <div className="piano-notes">
         {arr.map((i, pos) => {
+
+let currentAudioSrc = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[0]
+let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
           
           return (
             <Piano
             key={uuidv4()}
             
-              currentAudioSrc={audioForTenor[pos]}
-              currentNote={notesForTenor[pos]}
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
               
               noteSyntax={tenorNotesSyntax[pos]}
               relTextArea = {tenorNotesRef}
@@ -1086,13 +1057,17 @@ const Partition = () => {
 
             <div className="piano-notes">
         {arr.map((i, pos) => {
+
+          let currentAudioSrc = getAudioAndNoteForPiano(audioFaKey, notesFaKey,pos)[0]
+          let currentNote = getAudioAndNoteForPiano(audioFaKey, notesFaKey,pos)[1]
+
           
           return (
             <Piano
             key={uuidv4()}
             
-              currentAudioSrc={audioFaKey[pos]}
-              currentNote={notesFaKey[pos]}
+              currentAudioSrc={currentAudioSrc}
+              currentNote={currentNote}
               
               noteSyntax={bassNotesSyntax[pos]}
               relTextArea = {bassNotesRef}
@@ -1144,23 +1119,8 @@ const Partition = () => {
               <div className="piano-notes">
         {arr.map((i, pos) => {
 
-          let currentAudioSrc = audioForSoprano[pos]
-          let currentNote = notesForSoprano[pos]
-
-          if(diezeAlterations.indexOf(currentNote) !== -1){
-
-            let currentAudio = currentAudioSrc.split('')
-            currentAudio.splice(1, 0, '#')
-
-            currentAudioSrc = currentAudio.join('')
-            currentNote += "#"
-          }else if(bemolAlterations.indexOf(currentNote) !== -1){
-            let currentAudio = currentAudioSrc.split('')
-            currentAudio.splice(1, 0, 'b')
-            currentAudioSrc = currentAudio.join('')
-            var uniCodeBemol = '\u266d'
-            currentNote += uniCodeBemol
-          }
+            let currentAudioSrc = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[0]
+            let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[1]
           
           return (
             <Piano
