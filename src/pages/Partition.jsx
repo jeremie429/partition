@@ -4,6 +4,7 @@ import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFa
 import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playPianoNotes, playSnd } from "../tools/noteFunc";
+import * as Tone from 'tone'
 
 
 import "../styles/partition.scss"
@@ -155,6 +156,8 @@ const Partition = () => {
             //console.log({sopranoNotes})
             return;
           }
+
+        //console.log({id})
           sopranoNotes.push({
             duration: delay,
             note: currentAudioSrc,
@@ -371,35 +374,72 @@ const Partition = () => {
       e.preventDefault();
     // if(window.outerWidth>1000)
      //  await startRecording();
+     let othersSounds = []
+          let tenorArr = []
+          let altoArr = []
+          let bassArr = []
+          let sopranoArr = []
 
       switch (e.target.id) {
         case "soprano-btn":
           currentPitre = "S";
 
           let noteDuration = (Math.round((60 / tempo) * 100) / 100)
-          
-          
-          await playSnd(sopranoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
+           tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
+           altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
+           bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
+           sopranoArr = getNotesDirectly(sopranoNotesRef, sopranoNotesSyntax,audioForSoprano)
+          othersSounds.push(tenorArr)
+          othersSounds.push(altoArr)
+          othersSounds.push(bassArr)
+          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds);
           triggerClass(sopranoNotes);
           break;
         case "alto-btn":
           currentPitre = "A";
+           tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
+           sopranoArr = getNotesDirectly(sopranoNotesRef, sopranoNotesSyntax,audioForSoprano)
+           bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
+           altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
+          othersSounds.push(tenorArr)
+          othersSounds.push(sopranoArr)
+          othersSounds.push(bassArr)
+          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds);
          
-          await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
-          triggerClass(altoNotes);
+         // await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
+          triggerClass({altoNotes});
           
           break;
         case "tenor-btn":
           currentPitre = "T";
+
+          altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
+           sopranoArr = getNotesDirectly(sopranoNotesRef, sopranoNotesSyntax,audioForSoprano)
+           bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
+            tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
+          othersSounds.push(altoArr)
+          othersSounds.push(sopranoArr)
+          othersSounds.push(bassArr)
+          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds);
+
          
-          await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
+          //await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(tenorNotes);
           
           break;
         case "bass-btn":
           currentPitre = "B";
+
+          altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
+           sopranoArr = getNotesDirectly(sopranoNotesRef, sopranoNotesSyntax,audioForSoprano)
+           tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
+           bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
+          othersSounds.push(altoArr)
+          othersSounds.push(sopranoArr)
+          othersSounds.push(tenorArr)
+          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds);
           
-          await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
+         // await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           triggerClass(bassNotes);
           
           break;
@@ -512,6 +552,74 @@ const Partition = () => {
           setBemolAlterations(prevArr => prevArr.filter(el => el !== key))
         }
       }
+    }
+
+     function getNotesDirectly(syntaxRef, keySyntaxArr, audioArr){
+
+      if(syntaxRef.current.value === "") return []
+      let notesWithTimeArr = syntaxRef.current.value.trim().split(';')
+
+        let time = 0
+
+
+        let chord = []
+
+        for (let i = 0; i < notesWithTimeArr.length; i++) {
+            const element = notesWithTimeArr[i]
+            let noteSyntax = element.split(',')[0]
+            
+            const elTime = element.split(',')[1]
+            let keyAlteration = element.split(',')[2] != -1 && element.split(',')[2]
+            const regex = /[0-9]/
+
+            let obj = {}
+             let duration = parseFloat(elTime) * (Math.round((60 / tempo) * 100) / 100)
+
+            const isSilent = noteSyntax=== '-'
+
+            if(isSilent){
+              obj.time = Tone.Time(time).toBarsBeatsSixteenths()
+              obj.note = null
+              obj.duration = Tone.Time(duration).toNotation()  
+            }else{
+              noteSyntax = noteSyntax.split('')
+            noteSyntax.pop()
+            noteSyntax = noteSyntax.join('')
+
+              let index = keySyntaxArr.indexOf(element.split(',')[0])
+              let currentAudio = audioArr[index]
+            //  console.log({currentAudio})
+              if((keyAlteration !== undefined && keyAlteration === "d") || diezeAlterations.indexOf(noteSyntax) !== -1){
+
+             currentAudio = currentAudio.split('')
+            currentAudio.splice(1, 0, '#')
+            currentAudio = currentAudio.join('')
+              }else if((keyAlteration !== undefined && keyAlteration === "b") || bemolAlterations.indexOf(noteSyntax) !== -1){
+             currentAudio = currentAudio.split('')
+            currentAudio.splice(1, 0, 'b')
+            currentAudio = currentAudio.join('')
+              }
+
+              
+
+              obj.time = Tone.Time(time).toBarsBeatsSixteenths()
+              obj.note = currentAudio
+              obj.duration = Tone.Time(duration).toNotation()  
+
+
+            }
+            
+      
+           chord.push(obj)
+           time += duration
+      
+           
+          }
+
+          //console.log({chord})
+
+          return chord
+
     }
 
  

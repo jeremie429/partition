@@ -2,11 +2,21 @@ import * as Tone from 'tone'
 import { startRecording, stopRecording } from './recorderFunc'
 
 //Tone.AMSynth
-const synth = new Tone.Synth().toDestination()
+/*const synth = new Tone.Synth({
+  oscillator: {
+    volume: 4,
+    count: 3,
+    spread: 40,
+    type: 'triangle',
+  },
+}).toDestination()*/
 const synth2 = new Tone.Synth().toDestination()
-const amSynth = new Tone.AMSynth().toDestination()
+const amSynth = new Tone.AMSynth({ volume: -10 }).toDestination()
+const amSynth2 = new Tone.AMSynth().toDestination()
+
 const polysynth = new Tone.PolySynth().toDestination()
-const pluckysynth = new Tone.PluckSynth().toDestination()
+//const pluckysynth = new Tone.PluckSynth().toDestination()
+
 // decay: 0.5, sustain: 0.1
 /*polysynth.set({
   harmonicity: 10,
@@ -31,112 +41,152 @@ export async function playOneAudio(audio) {
     console.log(error)
   }
 }
-export async function playSnd(
-  arrObj,
-  noteDuration,
-  timePerTempo = 4,
-  firstLetterPup,
-  cTitle,
-  playTempo
-) {
-  // console.log({ arrObj })
-
-  // Tone.Transport.bpm.value = tempo
-
-  //await Tone.start()
-
-  let tempDuration = timePerTempo * noteDuration
-
-  //console.log({ tempDuration, noteDuration })
-
+export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
+  //console.log({ arrObj })
   if (arrObj.length === 0) return
 
   if (window.outerWidth > 1000) await startRecording()
 
-  /*let sequence = new Tone.Sequence(
-    (time, note) => {
-      synth.triggerAttackRelease(note)
+  let mainChords = []
 
-      console.log({ time })
-    },
-    ['C4'],
-    '4n'
-  )
-
-  sequence.start()*/
+  await Tone.start()
 
   let totalDuration = 0
 
-  let delay = arrObj.length > 100 ? Tone.now() + 0.5 : Tone.now()
-
-  /* const seq = new Tone.Sequence(
-    (time, note) => {
-      synth.triggerAttackRelease(note, 0.1, time)
-
-      console.log({ time })
-      // subdivisions are given as subarrays
-      //, ['E4', 'D4', 'E4'], 'G4', ['A4', 'G4']
-    },
-    ['C4', ['E4', 'D4', 'E4'], 'G4', ['A4', 'G4']]
-  ).start(delay)*/
-
-  let startTime = Math.round(delay)
-
-  let bit = null
-
-  //console.log({ startTime })
-  if (playTempo) {
-    const vol = new Tone.Volume(-6).toDestination()
-    synth2.connect(vol)
-
-    bit = new Tone.Loop((time) => {
-      //console.log(time)
-      synth2.triggerAttackRelease('C1', 0.05)
-    }, tempDuration).start()
-
-    Tone.Transport.start()
-  }
-
   for (let i = 0; i < arrObj.length; i++) {
     const element = arrObj[i]
+    let dur = Tone.Time(element.duration).toMilliseconds()
+    totalDuration += dur
+  }
 
-    let durationToAdd = element.duration
+  //console.log({ totalDuration })
 
-    totalDuration += durationToAdd
+  // let delay = 0 // arrObj.length > 100 ? Tone.now() + 0.5 : Tone.now()
+  let note = null
+  // let time = 0
+
+  /*for (let i = 0; i < arrObj.length; i++) {
+    const element = arrObj[i]
+
+    time = element.duration
+
+    //let durationToAdd = element.duration
+
+    totalDuration += time
 
     if (element.isSoupir) {
-      delay += durationToAdd
+      mainChords.push({
+        time: Tone.Time(delay).toBarsBeatsSixteenths(),
+        note: null,
+        duration: Tone.Time(time).toNotation(),
+        id: element.id,
+      })
+      delay += time
     } else {
-      if (element.isLinked) {
-        let nextToPlay = arrObj[i + 1]
+      note = element.note
 
-        if (nextToPlay.note === element.note) {
-          durationToAdd += nextToPlay.duration
-          i += 1
-        }
+      mainChords.push({
+        time: Tone.Time(delay).toBarsBeatsSixteenths(),
+        note,
+        duration: Tone.Time(time).toNotation(),
+        id: element.id,
+      })
+
+      delay += time
+    }
+  }*/
+
+  let prevDiv
+  let currentBlock
+
+  const mainMelodyPart = new Tone.Part(function (time, note) {
+    //console.log(note, time)
+    synth2.triggerAttackRelease(note.note, note.duration, time)
+    if (
+      otherSounds[0].length === 0 &&
+      otherSounds[1].length === 0 &&
+      otherSounds[2].length === 0
+    ) {
+      //console.log('here...')
+      amSynth2.triggerAttackRelease(note.note, note.duration, time)
+    }
+
+    /* Tone.Draw.schedule(function () {
+      prevDiv !== undefined && prevDiv.classList.remove('playing')
+
+      prevDiv = document.getElementById(note.id)
+      prevDiv.classList.toggle('playing')
+
+      let completeLine = prevDiv.offsetParent
+      let divLineContainer = completeLine.offsetParent
+
+      let blocContainer = divLineContainer.offsetParent
+
+      if (currentBlock !== blocContainer) {
+        blocContainer.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+        currentBlock = blocContainer
       }
-      let duration = durationToAdd
-      let note = element.note
-      synth.triggerAttackRelease(note, duration, delay)
-      amSynth.triggerAttackRelease(note, duration, delay)
+    }, time)*/
+  }, arrObj).start(0)
 
-      delay += durationToAdd
+  let firstArr = otherSounds[0]
+  let secondArr = otherSounds[1]
+  let thirdArr = otherSounds[2]
+  let part1
+  let part2
+  let part3
+
+  //console.log({ part1 })
+
+  if (firstArr.length > 0) {
+    part1 = new Tone.Part((time, note) => {
+      if (note.note !== null)
+        amSynth.triggerAttackRelease(note.note, note.duration, time)
+    }, firstArr).start(0)
+  }
+
+  if (secondArr.length > 0) {
+    part2 = new Tone.Part((time, note) => {
+      if (note.note !== null)
+        amSynth.triggerAttackRelease(note.note, note.duration, time)
+    }, secondArr).start(0)
+  }
+
+  if (thirdArr.length > 0) {
+    // console.log({ arr })
+    part3 = new Tone.Part((time, note) => {
+      if (note.note !== null)
+        amSynth.triggerAttackRelease(note.note, note.duration, time)
+    }, thirdArr).start(0)
+  }
+
+  for (let arr of otherSounds) {
+    if (arr.length > 0) {
+      // console.log({ arr })
+      new Tone.Part((time, note) => {
+        amSynth.triggerAttackRelease(note.note, note.duration, time)
+      }, arr).start(0)
     }
   }
 
+  Tone.Transport.start()
+
   if (window.outerWidth > 1000) {
     setTimeout(() => {
-      // console.log({ cTitle })
+      if (part1 !== undefined) part1.stop()
+      if (part2 !== undefined) part2.stop()
+      if (part3 !== undefined) part3.stop()
 
+      mainMelodyPart.stop()
       Tone.Transport.stop()
 
-      if (bit !== null) bit.dispose()
-
-      //seq.stop()
       let title = prompt('Please enter title', cTitle)
 
-      stopRecording(firstLetterPup, title)
-    }, totalDuration * 1100)
+      stopRecording(pupitre, title)
+    }, totalDuration + arrObj.length * 100)
   }
 }
 
