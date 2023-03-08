@@ -407,7 +407,7 @@ const Partition = () => {
           await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds);
          
          // await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
-          triggerClass({altoNotes});
+          triggerClass(altoNotes);
           
           break;
         case "tenor-btn":
