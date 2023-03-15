@@ -25,6 +25,13 @@ function Line({
   useEffect(() => {
     setCreateNote(false)
 
+    window.addEventListener('resize', (e) => {
+      let el = document.getElementById(id)
+      setElWidth(el.clientWidth)
+
+      setSpaceUnit(el.clientWidth / 24)
+      console.log(spaceUnit)
+    })
     return () => {}
   }, [setCreateNote])
 

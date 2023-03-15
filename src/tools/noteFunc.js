@@ -10,11 +10,13 @@ import { startRecording, stopRecording } from './recorderFunc'
     type: 'triangle',
   },
 }).toDestination()*/
-const synth2 = new Tone.Synth().toDestination()
-const amSynth = new Tone.AMSynth({ volume: -10 }).toDestination()
-const amSynth2 = new Tone.AMSynth().toDestination()
 
-const polysynth = new Tone.PolySynth().toDestination()
+//Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
+const synth2 = new Tone.Synth({ volume: -3 }).toDestination()
+const amSynth = new Tone.AMSynth({ volume: -16 }).toDestination()
+const amSynth2 = new Tone.AMSynth({ volume: -6 }).toDestination()
+
+const polysynth = new Tone.PolySynth({ volume: -12 }).toDestination()
 //const pluckysynth = new Tone.PluckSynth().toDestination()
 
 // decay: 0.5, sustain: 0.1
@@ -41,7 +43,7 @@ export async function playOneAudio(audio) {
     console.log(error)
   }
 }
-export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
+export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
   //console.log({ arrObj })
   if (arrObj.length === 0) return
 
@@ -96,40 +98,55 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
     }
   }*/
 
-  let prevDiv
+  let index = 0
   let currentBlock
+  let prevDiv
+
+  console.log({ arrDiv })
+
+  for (let i = 0; i < otherSounds.length; i++) {
+    const arr = otherSounds[i]
+
+    if (arr.length > 0) {
+      arr.forEach((obj) => {
+        obj.second = true
+        arrObj.push(obj)
+      })
+    }
+  }
+
+  console.log(arrObj)
 
   const mainMelodyPart = new Tone.Part(function (time, note) {
-    //console.log(note, time)
-    synth2.triggerAttackRelease(note.note, note.duration, time)
-    if (
-      otherSounds[0].length === 0 &&
-      otherSounds[1].length === 0 &&
-      otherSounds[2].length === 0
-    ) {
-      //console.log('here...')
-      amSynth2.triggerAttackRelease(note.note, note.duration, time)
-    }
-
-    /* Tone.Draw.schedule(function () {
-      prevDiv !== undefined && prevDiv.classList.remove('playing')
-
-      prevDiv = document.getElementById(note.id)
-      prevDiv.classList.toggle('playing')
-
-      let completeLine = prevDiv.offsetParent
-      let divLineContainer = completeLine.offsetParent
-
-      let blocContainer = divLineContainer.offsetParent
-
-      if (currentBlock !== blocContainer) {
-        blocContainer.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-        currentBlock = blocContainer
+    //console.log(time)
+    if (!note.second) {
+      synth2.triggerAttackRelease(note.note, note.duration, time)
+      if (
+        otherSounds[0].length === 0 &&
+        otherSounds[1].length === 0 &&
+        otherSounds[2].length === 0
+      ) {
+        //console.log('here...')
+        amSynth2.triggerAttackRelease(note.note, note.duration, time)
       }
-    }, time)*/
+
+      Tone.Draw.schedule(function () {
+        // let prevDiv = arrDiv[index]
+        prevDiv !== undefined && prevDiv.classList.remove('playing')
+
+        prevDiv = arrDiv[index]
+        // console.log({ prevDiv })
+        prevDiv.classList.toggle('playing')
+        if (index === arrDiv.length - 1) {
+          setTimeout(() => {
+            arrDiv[arrDiv.length - 1].classList.toggle('playing')
+          }, Tone.Time(note.duration).toMilliseconds())
+        }
+        index++
+      }, time)
+    } else {
+      polysynth.triggerAttackRelease(note.note, note.duration, time)
+    }
   }, arrObj).start(0)
 
   let firstArr = otherSounds[0]
@@ -140,7 +157,7 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
   let part3
 
   //console.log({ part1 })
-
+  /*
   if (firstArr.length > 0) {
     part1 = new Tone.Part((time, note) => {
       if (note.note !== null)
@@ -161,16 +178,16 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
       if (note.note !== null)
         amSynth.triggerAttackRelease(note.note, note.duration, time)
     }, thirdArr).start(0)
-  }
+  }*/
 
-  for (let arr of otherSounds) {
+  /*for (let arr of otherSounds) {
     if (arr.length > 0) {
       // console.log({ arr })
       new Tone.Part((time, note) => {
         amSynth.triggerAttackRelease(note.note, note.duration, time)
       }, arr).start(0)
     }
-  }
+  }*/
 
   Tone.Transport.start()
 
@@ -186,7 +203,7 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds) {
       let title = prompt('Please enter title', cTitle)
 
       stopRecording(pupitre, title)
-    }, totalDuration + arrObj.length * 100)
+    }, totalDuration + arrObj.length * 50)
   }
 }
 

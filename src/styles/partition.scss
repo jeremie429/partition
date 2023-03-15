@@ -1328,24 +1328,7 @@
   }
 
 
-  .playing{
-    .selected,
-    .note-line{
-      transform: scale(1.2);
-    background-color: rgb(233, 47, 0) !important;
-   /*  -webkit-box-shadow: 1px 5px 13px 5px rgb(233, 47, 0); 
-      box-shadow: 1px 5px 13px 5px rgb(233, 47, 0);
-       */
-    }
 
-    .note-text{
-
-      color: rgb(233, 47, 0);
-      font-weight: 700;
-      font-size: large;
-      transform: translateY(-10px);
-    }
-  }
 
   #piano-area{
     width: 80%;
@@ -1373,4 +1356,84 @@
     }
 
   }
+
+    .music-bloc {
+      
+      background-color: #91073c;
+      position: sticky;
+     // width: 100vw;
+      padding: 20px;
+      height: 400px;
+     
+      
+  
+      .lines {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+       // width: 80vw;
+        overflow-x: scroll;
+       
+  
+        .line2 {
+          height: 1px;
+         width: 1500px;
+          position: relative;
+        }
+  
+        .stroke {
+          background-color: black;
+        }
+  
+        .upline {
+          transform: translateY(12px);
+        }
+  
+        .down {
+          transform: translateY(-12px);
+        }
+
+      }
+.linethrow {
+  display: inline-block;
+  position: inherit;
+  bottom: calc(100%/3.6);
+  left: 0;
+  width: 17px;
+  height: 2px;
+  background-color: black;
+  
  
+}
+
+    .playing {
+      color: rgb(233, 47, 0) !important;
+  
+      span {
+        color: rgb(233, 47, 0) !important;
+        ;
+      }
+      h3{
+color: rgb(233, 47, 0) !important;
+font-size: 17px;
+      }
+    }
+
+    .hText{
+      position: absolute;
+      bottom: -10px;
+      font-size: 10px;
+      z-index: 10;
+      
+    }
+
+            .music-note {
+              font-size: 48px;
+            }
+  
+  
+    }
+
+      

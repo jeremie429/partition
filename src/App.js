@@ -3,12 +3,15 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import About from './pages/About'
 import Home from './pages/Home'
-import Partition from './pages/Partition'
+//import Partition from './pages/Partition'
 import WarGame from './pages/WarGame'
 import './App.scss'
 import Contact from './pages/Contact'
 import Layout from './components/Layout'
 import Project from './pages/Project'
+
+import Partition2 from './pages/Partition/index'
+import Partition from './pages/Partition'
 function App() {
   return (
     <Router>

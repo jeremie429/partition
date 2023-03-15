@@ -14,7 +14,7 @@ import CompleteLine from './CompleteLine'
 import CompleteLine2 from './CompleteLine2'
 import Piano from './Piano'
 
-function Block({
+function Block2({
   audioSrc,
   notesSrc,
   pupitreName,
@@ -246,30 +246,19 @@ function Block({
       <div ref={divRef} className="div-line-container">
         <img src={imgIcon} className="img-icon" alt="key icon" />
 
-        {arr.map((i) => {
-          let num = i % 2
-          // currentNote = notesSrc[i];
-          // currentAudioSrc = audioSrc[i];
-          let classType = num === 1 && i < 15 && i > 4 ? 'line' : 'band'
-          return (
-            <CompleteLine
-              blockNum={blockNum}
-              currentAudioSrc={audioSrc[i]}
-              currentNote={notesSrc[i]}
-              classType={classType}
-              key={uuidv4()}
-              handleDelay={handleDelay}
-              tempo={tempo}
-              cancelVisibility={cancelVisibility}
-              handleNoteClick={handleNoteClick}
-              pupitreName={pupitreName}
-              bemolAlterations={bemolAlterations}
-              diezeAlterations={diezeAlterations}
+        <CompleteLine2
+          blockNum={blockNum}
+          key={uuidv4()}
+          handleDelay={handleDelay}
+          tempo={tempo}
+          cancelVisibility={cancelVisibility}
+          handleNoteClick={handleNoteClick}
+          pupitreName={pupitreName}
+          bemolAlterations={bemolAlterations}
+          diezeAlterations={diezeAlterations}
 
-              //incrementPos={incrementPos}
-            />
-          )
-        })}
+          //incrementPos={incrementPos}
+        />
       </div>
       <div className="pupitre-name">
         {' '}
@@ -279,4 +268,4 @@ function Block({
   )
 }
 
-export default Block
+export default Block2

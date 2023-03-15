@@ -6,9 +6,13 @@ import { v4 as uuidv4 } from "uuid";
 import { playPianoNotes, playSnd } from "../tools/noteFunc";
 import * as Tone from 'tone'
 
+import notes from './Partition/musicNotes';
+
 
 import "../styles/partition.scss"
 import Piano from '../components/Piano';
+import Block2 from '../components/Block2';
+import CompleteLine2 from '../components/CompleteLine2';
 
 
 const Partition = () => {
@@ -73,6 +77,11 @@ const Partition = () => {
     const pianoNotesRef = useRef()
 
     const arr = [19,18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+
+    let sopranoDivToTrigger = []
+    let altoDivToTrigger = []
+    let tenorDivToTrigger = []
+    let bassDivToTrigger = []
     
 
     
@@ -81,6 +90,7 @@ const Partition = () => {
 
     useEffect(() => {
       document.title = "Partion Reader.."
+     
     
     // console.log("Has been refreshed...")
     }, [])
@@ -122,6 +132,9 @@ const Partition = () => {
     }
 
     }
+
+
+
 
  
     
@@ -392,8 +405,8 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(altoArr)
           othersSounds.push(bassArr)
-          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds);
-          triggerClass(sopranoNotes);
+          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds, sopranoDivToTrigger);
+          //triggerClass(sopranoNotes);
           break;
         case "alto-btn":
           currentPitre = "A";
@@ -404,10 +417,10 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds);
+          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds, altoDivToTrigger);
          
          // await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
-          triggerClass(altoNotes);
+         // triggerClass(altoNotes);
           
           break;
         case "tenor-btn":
@@ -420,11 +433,11 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds);
+          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds, tenorDivToTrigger);
 
          
           //await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
-          triggerClass(tenorNotes);
+          //triggerClass(tenorNotes);
           
           break;
         case "bass-btn":
@@ -437,10 +450,10 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(tenorArr)
-          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds);
+          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds, bassDivToTrigger);
           
          // await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
-          triggerClass(bassNotes);
+          //triggerClass(bassNotes);
           
           break;
   
@@ -749,6 +762,186 @@ const Partition = () => {
         
       }
 
+function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
+
+
+          if(arrNotesSyntax.current.value === "") return
+
+          if(arrDiv.length > 0)
+          arrDiv = []
+      let notesWithTimeArr = arrNotesSyntax.current.value.trim().split(';')
+
+    let divBloc = document.getElementById(pupitre)
+    let lines = divBloc.querySelectorAll('.line2')
+    lines.forEach(line => {
+      line.innerHTML = ""
+    })
+   for (let i = 0; i < notesWithTimeArr.length; i++) {
+    const element = notesWithTimeArr[i];
+
+    let noteSyntax = element.split(',')[0]
+            
+    const elTime = element.split(',')[1].trim()
+
+    let note = ''
+
+    switch (elTime) {
+      case "0.25":
+        if(noteSyntax !== '-')
+        note = notes.sixteenth
+        else
+        note = notes.sixteenNoteRest
+        break;
+      case "0.5":
+        if(noteSyntax !== '-')
+        note = notes.eighth
+        else
+        note = notes.eighthNoteRest
+        break;
+      case "0.75":
+        if(noteSyntax !== '-')
+        note = notes.eighth + '.'
+        else
+        note = notes.eighthNoteRest + '.'
+        break;
+      case "1":
+        case "1.25":
+        if(noteSyntax !== '-')
+        note = notes.quarter
+        else
+        note = notes.quarterNoteRest
+     
+        break;
+      case "1.5":
+        case '1.75':
+         if(noteSyntax !== '-')
+        note = notes.quarter + "."
+        else
+        note = notes.quarterNoteRest + "."
+        break;
+      case "2":
+        case "2.25":
+          case "2.5":
+            case "2.75":
+        if(noteSyntax !== '-')
+        note = notes.half 
+        else
+        note = notes.halfNoteRest
+        break;
+      case "3":
+        case "3.25":
+          case "3.5":
+            case "3.75":
+        if(noteSyntax !== '-')
+        note = notes.half + "."
+        else
+        note = notes.halfNoteRest + "."
+        break;
+      case "4":
+        case "4.25":
+          case "4.5":
+            case "4.75":
+              case "5":
+        case "5.25":
+          case "5.5":
+            case "5.75":
+        if(noteSyntax !== '-')
+        note = notes.whole 
+        else
+        note = notes.wholeNoteRest
+        break;
+      case "6":
+        if(noteSyntax !== '-')
+        note = notes.whole + "."
+        else
+        note = notes.wholeNoteRest + "."
+        break;
+    
+      default:
+        break;
+    }
+
+    let span = document.createElement('span')
+    span.style.position = 'absolute'
+    span.style.left = (i * 40) + 'px'
+    span.style.bottom = -20 +'px'  
+    span.style.fontFamily = 'Noto Music'
+    span.style.fontSize = 40 + "px"
+    span.style.outline= 'none'
+    span.style.margin = 0
+    span.style.padding = 0
+    span.style.border = 'none'
+    span.setAttribute('id', (pupitre + i) )
+    span.classList.add('music-note')
+    span.innerText = note
+
+    if(noteSyntax !== '-'){
+    let elId = noteSyntax + pupitre
+    let currentLine = document.getElementById(elId)
+    if(currentLine.classList.contains('tiret')){
+      let tiret = document.createElement('span')
+      tiret.classList.add('linethrow')
+      span.appendChild(tiret)
+    }
+    currentLine.appendChild(span)   
+    }else {
+      let silentLine = lines[10]
+      if(note === notes.halfNoteRest){
+        span.style.bottom = 10 + 'px'
+      }
+      
+      else
+      span.style.bottom = 0 
+      silentLine.appendChild(span)
+    }
+
+    arrDiv.push(span)
+
+
+    if(i === notesWithTimeArr.length -1){
+      lines.forEach(line => {
+      line.style.width = (i * 40) +40 + 'px'
+      //console.log(line)
+    })
+    }
+   }
+
+}
+
+function addTextToSymbols(arrSymbols, textArr){
+
+  if(arrSymbols.length === 0) return
+
+  //console.log({textArr})
+
+  let wordsArr = textArr.split("-");
+
+  for (let i = 0; i < arrSymbols.length; i++) {
+    let span = arrSymbols[i];
+
+    span = document.getElementById(span.getAttribute('id'))
+
+    
+
+    let hTag = span.querySelector('h3')
+
+    
+
+    if(hTag !== null)
+    span.removeChild(hTag)
+
+    hTag = document.createElement('h3')
+
+    
+    hTag.classList.add('hText')
+    hTag.innerText = wordsArr[i]
+
+    span.appendChild(hTag)
+   // console.log(span)
+    
+  }
+}
+
       function getAudioAndNoteForPiano(arrAudios, arrNotes, pos){
 
         let currentAudioSrc = arrAudios[pos]
@@ -975,7 +1168,7 @@ const Partition = () => {
       <div id="soprano-section" className="pupitre">
             <div className='words'>
             <textarea  className='words-input' ref={sopranoWordsRef} placeholder='Add words for Soprano' ></textarea>
-            <button onClick={(e) => handleAdText(sopranoWordsRef.current.value, 'Soprano')} >Add words</button>
+            <button onClick={(e) => addTextToSymbols(sopranoDivToTrigger, sopranoWordsRef.current.value)} >Add words</button>
             </div>
 
             <div className="piano-notes">
@@ -1008,37 +1201,20 @@ let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[
           ref={sopranoNotesRef}
           placeholder={'Add Notes for Soprano'}
         ></textarea>
-        <button onClick={(e) => handleAdNotes(e, "soprano", notesForSoprano, setNumSopranoBlock, numSopranoBlock, sopranoNotesRef)}>Add Notes</button>
+        <button onClick={(e) => addNotesSymbol(sopranoNotesRef, 'soprano', sopranoDivToTrigger)}>Add Notes</button>
       </div>
 
-      
+              <div id="soprano">
+                  <CompleteLine2 keys={keyForSoprano} pupitre={"soprano"} />
+              </div>
 
             
-            {Array(numSopranoBlock)
-              .fill()
-              .map((el, index) => (
-                <Block
-                blockNum = {index}
-                  audioSrc={audioForSoprano}
-                  notesSrc={notesForSoprano}
-                  pupitreName="Soprano"
-                  handleNoteClick={handleNoteClick}
-                  handleDelay={handleDelay}
-                  key={uuidv4()}
-                  imgIcon={iconForSoprano}
-                  tempo={Math.round((60 / tempo) * 100) / 100}
-                  cancelVisibility={cancelVisibility}
-                  handleAdText={handleAdText}
-                  partitionKey = {keyForSoprano}
-                  bemolAlterations={bemolAlterations}
-                  diezeAlterations={diezeAlterations}
-                />
-              ))}
+              
           </div>
           <div id="alto-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={altoWordsRef} placeholder='Add words for Alto' ></textarea>
-            <button onClick={(e) => handleAdText(altoWordsRef.current.value, 'Alto')} >Add words</button>
+            <button onClick={(e) => addTextToSymbols(altoDivToTrigger, altoWordsRef.current.value)} >Add words</button>
             </div>
             <div className="piano-notes">
         {arr.map((i, pos) => {
@@ -1070,35 +1246,19 @@ let currentNote = getAudioAndNoteForPiano(audioForAlto, notesArrForAlto,pos)[1]
           ref={altoNotesRef}
           placeholder={'Add Notes for Alto'}
         ></textarea>
-        <button onClick={(e) => handleAdNotes(e, "alto", notesArrForAlto, setNumAltoBlock, numAltoBlock, altoNotesRef)}>Add Notes</button>
+        <button onClick={(e) => addNotesSymbol(altoNotesRef, 'alto', altoDivToTrigger)}>Add Notes</button>
       </div>
 
       
           
-            {Array(numAltoBlock)
-              .fill()
-              .map((el, index) => (
-                <Block
-                blockNum = {index}
-                  key={uuidv4()}
-                  audioSrc={audioForAlto}
-                  notesSrc={notesArrForAlto}
-                  pupitreName="Alto"
-                  handleNoteClick={handleNoteClick}
-                  imgIcon={iconForAlto}
-                  handleDelay={handleDelay}
-                  tempo={Math.round((60 / tempo) * 100) / 100}
-                  cancelVisibility={cancelVisibility}
-                  partitionKey = {keyForAlto}
-                  bemolAlterations={bemolAlterations}
-                  diezeAlterations={diezeAlterations}
-                />
-              ))}
+            <div id="alto">
+                  <CompleteLine2 keys={keyForAlto} pupitre={"alto"} />
+              </div>
           </div>
           <div id="tenor-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={tenorWordsRef} placeholder='Add words for Tenor' ></textarea>
-            <button onClick={(e) => handleAdText(tenorWordsRef.current.value, 'Tenor')} >Add words</button>
+            <button onClick={(e) => addTextToSymbols(tenorDivToTrigger, tenorWordsRef.current.value)} >Add words</button>
             </div>
 
             <div className="piano-notes">
@@ -1133,34 +1293,18 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
           ref={tenorNotesRef}
           placeholder={'Add Notes for Tenor'}
         ></textarea>
-        <button onClick={(e) => handleAdNotes(e, "tenor", notesForTenor, setNumTenorBlock, numTenorBlock, tenorNotesRef)}>Add Notes</button>
+         <button onClick={(e) => addNotesSymbol(tenorNotesRef, 'tenor', tenorDivToTrigger)}>Add Notes</button>
       </div>
 
       
-            {Array(numTenorBlock)
-              .fill()
-              .map((el, index) => (
-                <Block
-                blockNum = {index}
-                  key={uuidv4()}
-                  audioSrc={audioForTenor}
-                  notesSrc={notesForTenor}
-                  pupitreName="Tenor"
-                  handleNoteClick={handleNoteClick}
-                  imgIcon={iconForTenor}
-                  handleDelay={handleDelay}
-                  tempo={Math.round((60 / tempo) * 100) / 100}
-                  cancelVisibility={cancelVisibility}
-                  partitionKey = {keyForTenor}
-                  bemolAlterations={bemolAlterations}
-                  diezeAlterations={diezeAlterations}
-                />
-              ))}
+            <div id="tenor">
+                  <CompleteLine2 keys={keyForTenor} pupitre={"tenor"} />
+              </div>
           </div>
           <div id="bass-section" className="pupitre">
           <div className='words'>
             <textarea  className='words-input' ref={bassWordsRef} placeholder='Add words for Bass' ></textarea>
-            <button onClick={(e) => handleAdText(bassWordsRef.current.value, 'Bass')} >Add words</button>
+            <button onClick={(e) => addTextToSymbols(bassDivToTrigger, bassWordsRef.current.value)} >Add words</button>
             </div>
 
             <div className="piano-notes">
@@ -1195,29 +1339,13 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
           ref={bassNotesRef}
           placeholder={'Add Notes for Bass'}
         ></textarea>
-        <button onClick={(e) => handleAdNotes(e, "bass", notesFaKey, setNumBassBlock, numBassBlock, bassNotesRef)}>Add Notes</button>
+         <button onClick={(e) => addNotesSymbol(bassNotesRef, 'bass', bassDivToTrigger)}>Add Notes</button>
       </div>
 
       
-            {Array(numBassBlock)
-              .fill()
-              .map((el, index) => (
-                <Block
-                blockNum = {index}
-                  key={uuidv4()}
-                  audioSrc={audioFaKey}
-                  notesSrc={notesFaKey}
-                  pupitreName="Bass"
-                  handleNoteClick={handleNoteClick}
-                  imgIcon={faIcon}
-                  handleDelay={handleDelay}
-                  tempo={Math.round((60 / tempo) * 100) / 100}
-                  cancelVisibility={cancelVisibility}
-                  partitionKey = {"fa"}
-                  bemolAlterations={bemolAlterations}
-                  diezeAlterations={diezeAlterations}
-                />
-              ))}
+            <div id="bass">
+                  <CompleteLine2 keys={"fa"} pupitre={"bass"} />
+              </div>
           </div>
 
           <div className="notes-area" id='piano-area'>
