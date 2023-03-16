@@ -18,7 +18,7 @@ const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
 
 const polysynth = new Tone.PolySynth(AMSynth, {
-  volume: -12,
+  volume: -9,
 }).toDestination()
 //const pluckysynth = new Tone.PluckSynth().toDestination()
 
