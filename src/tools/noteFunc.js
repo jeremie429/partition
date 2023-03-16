@@ -1,4 +1,5 @@
 import * as Tone from 'tone'
+import { AMSynth } from 'tone'
 import { startRecording, stopRecording } from './recorderFunc'
 
 //Tone.AMSynth
@@ -13,10 +14,12 @@ import { startRecording, stopRecording } from './recorderFunc'
 
 //Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
 const synth2 = new Tone.Synth({ volume: -3 }).toDestination()
-const amSynth = new Tone.AMSynth({ volume: -16 }).toDestination()
-const amSynth2 = new Tone.AMSynth({ volume: -6 }).toDestination()
+const amSynth = new Tone.AMSynth().toDestination()
+const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
 
-const polysynth = new Tone.PolySynth({ volume: -12 }).toDestination()
+const polysynth = new Tone.PolySynth(AMSynth, {
+  volume: -12,
+}).toDestination()
 //const pluckysynth = new Tone.PluckSynth().toDestination()
 
 // decay: 0.5, sustain: 0.1

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
-import {solIcon, faIcon, utIcon} from "../tools/keysIcon";
+import {solIcon, faIcon, utIcon,poweredIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playPianoNotes, playSnd } from "../tools/noteFunc";
 import * as Tone from 'tone'
@@ -1014,6 +1014,16 @@ function addTextToSymbols(arrSymbols, textArr){
   
     return (
       <div className="partition-page">
+        <img src={poweredIcon} alt="powered-logo" id='powered-logo' />
+        <div className="presentation">
+          
+          <div className="title-name">
+            <input type="text" name="title" id="title-input" />
+          </div>
+          <div className="description">
+            <input type="text" name="description" id="description-input" />
+          </div>
+        </div>
     
           <div className="controls right">
             <button onClick={handlePlayBtn} id="soprano-btn">
@@ -1205,6 +1215,8 @@ let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[
       </div>
 
               <div id="soprano">
+                <h1>Soprano</h1>
+                 <img src={iconForSoprano} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForSoprano} pupitre={"soprano"} />
               </div>
 
@@ -1252,6 +1264,8 @@ let currentNote = getAudioAndNoteForPiano(audioForAlto, notesArrForAlto,pos)[1]
       
           
             <div id="alto">
+              <h1>Alto</h1>
+               <img src={iconForAlto} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForAlto} pupitre={"alto"} />
               </div>
           </div>
@@ -1298,6 +1312,8 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
       
             <div id="tenor">
+              <h1>Tenor</h1>
+               <img src={iconForTenor} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForTenor} pupitre={"tenor"} />
               </div>
           </div>
@@ -1344,6 +1360,8 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
       
             <div id="bass">
+              <h1>Bass</h1>
+              <img src={faIcon} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={"fa"} pupitre={"bass"} />
               </div>
           </div>

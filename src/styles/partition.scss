@@ -874,16 +874,7 @@
       height: 150px;
     }
     
-    .img-icon{
-      position: absolute;
-      left: -10px;
-      width: 60px;
-      top: 40px;
-      object-fit: fill;
-      height: 70px;
-      
-     
-    }
+    
 
     .dieze,
     .bemol
@@ -1417,14 +1408,14 @@
       }
       h3{
 color: rgb(233, 47, 0) !important;
-font-size: 17px;
+font-size: 25px;
       }
     }
 
     .hText{
       position: absolute;
       bottom: -10px;
-      font-size: 10px;
+      font-size: 14px;
       z-index: 10;
       
     }
@@ -1435,5 +1426,103 @@ font-size: 17px;
   
   
     }
+
+    #soprano,
+    #alto,
+    #tenor,
+    #bass{
+      position: relative;
+      background-color: #19bdb5;
+
+      h1{
+        position: absolute;
+        bottom: 10px;
+        color: white;
+        font-weight: 800;
+        font-family: 'Noto Music';
+        font-size: 40px;
+        z-index: 500;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #f13d3d;
+          text-shadow: 0 1px 0 #f5f1f1, 0 2px 0 #ffffff, 0 3px 0 #fffdfd, 0 4px 0 #f5eeee, 0 5px 0 #f7eded, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 5px 5px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
+      }
+    }
+
+        .img-icon {
+          
+    position: absolute;
+      left: -10px;
+      width: 40px;
+      top: 40px;
+      object-fit: fill;
+      height: 50px;
+      z-index: 500;
+    
+        }
+
+.presentation{
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 120x;
+  //background: rgba(255, 0, 0, 0.418);
+  padding-top: 5px;
+  
+  border-radius: 10px;
+  z-index: 1000;
+
+ 
+
+  .title-name{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      input{
+        width: 80%;
+        outline: none;
+        border: none;
+        height: 50px;
+        font-size: 30px;
+        font-family: 'Noto Music';
+        text-align: center;
+        font-weight: 900;
+        color: #f13d3d;
+        background: none;
+          text-shadow: 0 1px 0 #f5f1f1, 0 2px 0 #ffffff, 0 3px 0 #fffdfd, 0 4px 0 #f5eeee, 0 5px 0 #f7eded, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 5px 5px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
+      }
+  }
+
+  .description{
+  input {
+      width: 80%;
+      outline: none;
+      border: none;
+      height: 20px;
+      font-size: 15px;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      text-align: center;
+      font-weight: 400;
+      color: #f7f7f7;
+      background: none;
+      
+    }
+
+
+  }
+}
+
+ #powered-logo {
+   position: fixed;
+   right: 10px;
+   width: 60px;
+   height: 60px;
+   top: 10px;
+   object-fit: contain;
+   z-index: 1000;
+ }
 
       
