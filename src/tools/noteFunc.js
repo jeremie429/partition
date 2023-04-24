@@ -13,7 +13,9 @@ import { startRecording, stopRecording } from './recorderFunc'
 }).toDestination()*/
 
 //Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
-const synth2 = new Tone.Synth({ volume: -3 }).toDestination()
+const synth2 = new Tone.Synth({
+  volume: -3,
+}).toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
 
@@ -52,162 +54,92 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
 
   if (window.outerWidth > 1000) await startRecording()
 
-  let mainChords = []
+  setTimeout(async () => {
+    let mainChords = []
 
-  await Tone.start()
+    await Tone.start()
 
-  let totalDuration = 0
+    let totalDuration = 0
 
-  for (let i = 0; i < arrObj.length; i++) {
-    const element = arrObj[i]
-    let dur = Tone.Time(element.duration).toMilliseconds()
-    totalDuration += dur
-  }
+    for (let i = 0; i < arrObj.length; i++) {
+      const element = arrObj[i]
+      let dur = Tone.Time(element.duration).toMilliseconds()
 
-  //console.log({ totalDuration })
-
-  // let delay = 0 // arrObj.length > 100 ? Tone.now() + 0.5 : Tone.now()
-  let note = null
-  // let time = 0
-
-  /*for (let i = 0; i < arrObj.length; i++) {
-    const element = arrObj[i]
-
-    time = element.duration
-
-    //let durationToAdd = element.duration
-
-    totalDuration += time
-
-    if (element.isSoupir) {
-      mainChords.push({
-        time: Tone.Time(delay).toBarsBeatsSixteenths(),
-        note: null,
-        duration: Tone.Time(time).toNotation(),
-        id: element.id,
-      })
-      delay += time
-    } else {
-      note = element.note
-
-      mainChords.push({
-        time: Tone.Time(delay).toBarsBeatsSixteenths(),
-        note,
-        duration: Tone.Time(time).toNotation(),
-        id: element.id,
-      })
-
-      delay += time
+      totalDuration += dur
     }
-  }*/
 
-  let index = 0
-  let currentBlock
-  let prevDiv
+    totalDuration = Math.round(totalDuration)
 
-  console.log({ arrDiv })
+    let index = 0
+    let prevDiv
 
-  for (let i = 0; i < otherSounds.length; i++) {
-    const arr = otherSounds[i]
+    for (let i = 0; i < otherSounds.length; i++) {
+      const arr = otherSounds[i]
 
-    if (arr.length > 0) {
-      arr.forEach((obj) => {
-        obj.second = true
-        arrObj.push(obj)
-      })
-    }
-  }
-
-  console.log(arrObj)
-
-  const mainMelodyPart = new Tone.Part(function (time, note) {
-    //console.log(time)
-    if (!note.second) {
-      synth2.triggerAttackRelease(note.note, note.duration, time)
-      if (
-        otherSounds[0].length === 0 &&
-        otherSounds[1].length === 0 &&
-        otherSounds[2].length === 0
-      ) {
-        //console.log('here...')
-        amSynth2.triggerAttackRelease(note.note, note.duration, time)
+      if (arr.length > 0) {
+        arr.forEach((obj) => {
+          obj.second = true
+          arrObj.push(obj)
+        })
       }
+    }
 
-      Tone.Draw.schedule(function () {
-        // let prevDiv = arrDiv[index]
-        prevDiv !== undefined && prevDiv.classList.remove('playing')
-
-        prevDiv = arrDiv[index]
-        // console.log({ prevDiv })
-        prevDiv.classList.toggle('playing')
-        if (index === arrDiv.length - 1) {
-          setTimeout(() => {
-            arrDiv[arrDiv.length - 1].classList.toggle('playing')
-          }, Tone.Time(note.duration).toMilliseconds())
+    const mainMelodyPart = new Tone.Part(function (time, note) {
+      //console.log(time)
+      if (!note.second) {
+        synth2.triggerAttackRelease(note.note, note.duration, time)
+        if (
+          otherSounds[0].length === 0 &&
+          otherSounds[1].length === 0 &&
+          otherSounds[2].length === 0
+        ) {
+          //console.log('here...')
+          amSynth2.triggerAttackRelease(note.note, note.duration, time)
         }
-        index++
-      }, time)
-    } else {
-      polysynth.triggerAttackRelease(note.note, note.duration, time)
+
+        Tone.Draw.schedule(function () {
+          // let prevDiv = arrDiv[index]
+          prevDiv !== undefined && prevDiv.classList.remove('playing')
+
+          prevDiv = arrDiv[index]
+          // console.log({ prevDiv })
+          prevDiv.classList.toggle('playing')
+          if (index === arrDiv.length - 1) {
+            setTimeout(() => {
+              arrDiv[arrDiv.length - 1].classList.toggle('playing')
+            }, Tone.Time(note.duration).toMilliseconds())
+          }
+          index++
+        }, time)
+      } else {
+        polysynth.triggerAttackRelease(note.note, note.duration, time)
+      }
+    }, arrObj).start(0)
+
+    let firstArr = otherSounds[0]
+    let secondArr = otherSounds[1]
+    let thirdArr = otherSounds[2]
+    let part1
+    let part2
+    let part3
+
+    Tone.Transport.start()
+
+    if (window.outerWidth > 1000) {
+      setTimeout(() => {
+        if (part1 !== undefined) part1.stop()
+        if (part2 !== undefined) part2.stop()
+        if (part3 !== undefined) part3.stop()
+
+        mainMelodyPart.stop()
+        Tone.Transport.stop()
+
+        let title = prompt('Please enter title', cTitle)
+
+        stopRecording(pupitre, title)
+      }, totalDuration + 5000)
     }
-  }, arrObj).start(0)
-
-  let firstArr = otherSounds[0]
-  let secondArr = otherSounds[1]
-  let thirdArr = otherSounds[2]
-  let part1
-  let part2
-  let part3
-
-  //console.log({ part1 })
-  /*
-  if (firstArr.length > 0) {
-    part1 = new Tone.Part((time, note) => {
-      if (note.note !== null)
-        amSynth.triggerAttackRelease(note.note, note.duration, time)
-    }, firstArr).start(0)
-  }
-
-  if (secondArr.length > 0) {
-    part2 = new Tone.Part((time, note) => {
-      if (note.note !== null)
-        amSynth.triggerAttackRelease(note.note, note.duration, time)
-    }, secondArr).start(0)
-  }
-
-  if (thirdArr.length > 0) {
-    // console.log({ arr })
-    part3 = new Tone.Part((time, note) => {
-      if (note.note !== null)
-        amSynth.triggerAttackRelease(note.note, note.duration, time)
-    }, thirdArr).start(0)
-  }*/
-
-  /*for (let arr of otherSounds) {
-    if (arr.length > 0) {
-      // console.log({ arr })
-      new Tone.Part((time, note) => {
-        amSynth.triggerAttackRelease(note.note, note.duration, time)
-      }, arr).start(0)
-    }
-  }*/
-
-  Tone.Transport.start()
-
-  if (window.outerWidth > 1000) {
-    setTimeout(() => {
-      if (part1 !== undefined) part1.stop()
-      if (part2 !== undefined) part2.stop()
-      if (part3 !== undefined) part3.stop()
-
-      mainMelodyPart.stop()
-      Tone.Transport.stop()
-
-      let title = prompt('Please enter title', cTitle)
-
-      stopRecording(pupitre, title)
-    }, totalDuration + arrObj.length * 50)
-  }
+  }, 3000)
 }
 
 export async function playChoir(sopranoArr, altoArr, tenorArr, bassArr) {

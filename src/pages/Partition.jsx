@@ -579,10 +579,11 @@ const Partition = () => {
 
         for (let i = 0; i < notesWithTimeArr.length; i++) {
             const element = notesWithTimeArr[i]
-            let noteSyntax = element.split(',')[0]
+            let noteSyntax = element.split(',')[0].trim()
             
-            const elTime = element.split(',')[1]
-            let keyAlteration = element.split(',')[2] != -1 && element.split(',')[2]
+            const elTime = element.split(',')[1].trim()
+            let keyAlteration = element.split(',')[2] !== undefined && element.split(',')[2].trim()
+           // keyAlteration !== false && console.log({keyAlteration})
             const regex = /[0-9]/
 
             let obj = {}
@@ -602,12 +603,12 @@ const Partition = () => {
               let index = keySyntaxArr.indexOf(element.split(',')[0])
               let currentAudio = audioArr[index]
             //  console.log({currentAudio})
-              if((keyAlteration !== undefined && keyAlteration === "d") || diezeAlterations.indexOf(noteSyntax) !== -1){
+              if((keyAlteration !== false && keyAlteration === "d") || diezeAlterations.indexOf(noteSyntax) !== -1){
 
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, '#')
             currentAudio = currentAudio.join('')
-              }else if((keyAlteration !== undefined && keyAlteration === "b") || bemolAlterations.indexOf(noteSyntax) !== -1){
+              }else if((keyAlteration !== false && keyAlteration === "b") || bemolAlterations.indexOf(noteSyntax) !== -1){
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, 'b')
             currentAudio = currentAudio.join('')

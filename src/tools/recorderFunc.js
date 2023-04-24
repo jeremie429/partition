@@ -16,49 +16,6 @@ export async function startRecording() {
       //audio: true,
     })
 
-    /*
-      .then(async (e) => {
-        await navigator.mediaDevices
-          .getUserMedia({
-            audio: true,
-            video: false,
-          })
-          .then(async (e2) => {
-            mixedStream = new MediaStream([...e.getTracks(), ...e2.getTracks()])
-
-            recorder = new MediaRecorder(mixedStream)
-            recorder.start()
-            recorder.addEventListener('dataavailable', async (event) => {
-              //console.log("we are here...", event.data);
-
-              console.log(event)
-              chunks.push(event.data)
-            })
-
-            recorder.addEventListener('stop', saveRecord)
-
-            audio = e2
-          })
-          .catch((err) => {
-            console.error({ err })
-          })
-
-        return e
-      })*/
-
-    /* audio = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44100,
-      },
-    })
-
-      mixedStream = new MediaStream([
-        ...stream.getTracks(),
-        ...audio.getTracks(),
-      ])*/
-
     recorder = new MediaRecorder(stream)
     recorder.start(200)
     recorder.addEventListener('dataavailable', async (event) => {
@@ -72,14 +29,14 @@ export async function startRecording() {
     console.error({ error })
   }
 
-  try {
+  /* try {
     await navigator.mediaDevices
       .getDisplayMedia({ video: true })
       .then((stream) => {
         recorder = new MediaRecorder(stream)
         recorder.start()
         recorder.addEventListener('dataavailable', (event) => {
-          //console.log("we are here...", event.data);
+          console.log('we are here...', event.data)
           chunks.push(event.data)
         })
 
@@ -87,7 +44,7 @@ export async function startRecording() {
       })
   } catch (error) {
     console.error({ error })
-  }
+  }*/
 }
 
 export function stopRecording(pupitre, title) {
