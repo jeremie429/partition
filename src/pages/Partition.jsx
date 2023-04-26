@@ -798,10 +798,10 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
              // let index = keySyntaxArr.indexOf(element.split(',')[0])
              // let currentAudio = audioArr[index]
             //  console.log({currentAudio})
-              if((keyAlteration !== false && keyAlteration === "d") || diezeAlterations.indexOf(noteSpell) !== -1){
+              if((keyAlteration !== false && keyAlteration === "d") || (diezeAlterations.indexOf(noteSpell) !== -1 && keyAlteration !== "c")){
 
             alteration = notes.dieze
-              }else if((keyAlteration !== false && keyAlteration === "b") || bemolAlterations.indexOf(noteSpell) !== -1){
+              }else if((keyAlteration !== false && keyAlteration === "b") || (diezeAlterations.indexOf(noteSpell) !== -1 && keyAlteration !== "c")){
              alteration = notes.bemol
               }
 
