@@ -82,6 +82,8 @@ const Partition = () => {
     let altoDivToTrigger = []
     let tenorDivToTrigger = []
     let bassDivToTrigger = []
+
+    var uniCodeBemol = '\u266d'
     
 
     
@@ -784,7 +786,26 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
             
     const elTime = element.split(',')[1].trim()
 
+    let keyAlteration = element.split(',')[2] !== undefined && element.split(',')[2].trim()
+
     let note = ''
+
+    let alteration = ''
+    let noteSpell = noteSyntax.split('')
+            noteSpell.pop()
+            noteSpell = noteSpell.join('')
+
+             // let index = keySyntaxArr.indexOf(element.split(',')[0])
+             // let currentAudio = audioArr[index]
+            //  console.log({currentAudio})
+              if((keyAlteration !== false && keyAlteration === "d") || diezeAlterations.indexOf(noteSpell) !== -1){
+
+            alteration = notes.dieze
+              }else if((keyAlteration !== false && keyAlteration === "b") || bemolAlterations.indexOf(noteSpell) !== -1){
+             alteration = notes.bemol
+              }
+
+    
 
     switch (elTime) {
       case "0.25":
@@ -874,7 +895,15 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
     span.style.border = 'none'
     span.setAttribute('id', (pupitre + i) )
     span.classList.add('music-note')
+    
     span.innerText = note
+
+    if(alteration !== ""){
+      let spanAlt = document.createElement('span')
+      spanAlt.classList.add('spanAlt')
+      spanAlt.innerText = alteration
+      span.appendChild(spanAlt)
+    }
 
     if(noteSyntax !== '-'){
     let elId = noteSyntax + pupitre
@@ -884,6 +913,8 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
       tiret.classList.add('linethrow')
       span.appendChild(tiret)
     }
+
+    
     currentLine.appendChild(span)   
     }else {
       let silentLine = lines[10]

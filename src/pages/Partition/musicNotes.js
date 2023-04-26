@@ -13,6 +13,8 @@ let notes = {
   sixteenNoteRest: '𝄿',
   lines: '𝄚',
   line: '𝄖',
+  dieze: '♯',
+  bemol: '♭',
 }
 
 export default notes

@@ -1422,6 +1422,14 @@ font-size: 25px;
 
             .music-note {
               font-size: 48px;
+
+              .spanAlt{
+                position: absolute;
+                left: -5px;
+                font-size: 14px;
+                bottom: 13px;
+                
+              }
             }
   
   
@@ -1501,12 +1509,12 @@ font-size: 25px;
       width: 80%;
       outline: none;
       border: none;
-      height: 20px;
-      font-size: 15px;
+      height: 12px;
+      font-size: 10px;
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       text-align: center;
-      font-weight: 400;
-      color: #f7f7f7;
+      //font-weight: 400;
+      color: rgb(8, 39, 214);
       background: none;
       
     }
