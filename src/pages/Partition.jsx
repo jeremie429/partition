@@ -880,7 +880,12 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
         break;
     
       default:
+        if(noteSyntax !== '-')
+        note = notes.breve
+        else
+        note = notes.wholeNoteRest 
         break;
+       
     }
 
     let span = document.createElement('span')

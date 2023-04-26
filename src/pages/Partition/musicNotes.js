@@ -15,6 +15,7 @@ let notes = {
   line: '𝄖',
   dieze: '♯',
   bemol: '♭',
+  breve: '𝅜',
 }
 
 export default notes
