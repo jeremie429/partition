@@ -49,7 +49,7 @@ export async function playOneAudio(audio) {
   }
 }
 export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
-  //console.log({ arrObj })
+  // console.log({ arrObj })
   if (arrObj.length === 0) return
 
   if (window.outerWidth > 1000) await startRecording()
@@ -63,8 +63,10 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
 
     for (let i = 0; i < arrObj.length; i++) {
       const element = arrObj[i]
+      //console.log(element.durNotConverted)
       let dur = Tone.Time(element.duration).toMilliseconds()
 
+      // console.log({ dur })
       totalDuration += dur
     }
 
@@ -87,6 +89,7 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
     const mainMelodyPart = new Tone.Part(function (time, note) {
       //console.log(time)
       if (!note.second) {
+        //console.log(note.duration)
         synth2.triggerAttackRelease(note.note, note.duration, time)
         if (
           otherSounds[0].length === 0 &&

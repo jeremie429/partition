@@ -594,9 +594,12 @@ const Partition = () => {
             const isSilent = noteSyntax=== '-'
 
             if(isSilent){
-              obj.time = Tone.Time(time).toBarsBeatsSixteenths()
+              //obj.time = Tone.Time(time).toBarsBeatsSixteenths()
+              //obj.time = time
               obj.note = null
-              obj.duration = Tone.Time(duration).toNotation()  
+             // obj.duration = Tone.Time(duration).toNotation()  
+              //obj.duration = duration
+
             }else{
               noteSyntax = noteSyntax.split('')
             noteSyntax.pop()
@@ -618,14 +621,18 @@ const Partition = () => {
 
               
 
-              obj.time = Tone.Time(time).toBarsBeatsSixteenths()
+            //  obj.time = Tone.Time(time).toBarsBeatsSixteenths()
               obj.note = currentAudio
-              obj.duration = Tone.Time(duration).toNotation()  
+             // obj.duration = Tone.Time(duration).toNotation()  
 
 
             }
-            
-      
+
+            obj.time = time
+
+            obj.duration = duration
+
+            //obj.durNotConverted = duration    
            chord.push(obj)
            time += duration
       
