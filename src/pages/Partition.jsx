@@ -912,6 +912,8 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
     
     span.innerText = note
 
+    let currentLine
+
     if(alteration !== ""){
       let spanAlt = document.createElement('span')
       spanAlt.classList.add('spanAlt')
@@ -921,7 +923,7 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
 
     if(noteSyntax !== '-'){
     let elId = noteSyntax + pupitre
-    let currentLine = document.getElementById(elId)
+     currentLine = document.getElementById(elId)
     if(currentLine.classList.contains('tiret')){
       let tiret = document.createElement('span')
       tiret.classList.add('linethrow')
@@ -931,17 +933,20 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
     
     currentLine.appendChild(span)   
     }else {
-      let silentLine = lines[10]
+      currentLine = lines[10]
       if(note === notes.halfNoteRest){
         span.style.bottom = 10 + 'px'
       }
       
       else
       span.style.bottom = 0 
-      silentLine.appendChild(span)
+      currentLine.appendChild(span)
     }
 
     arrDiv.push(span)
+
+    //console.log({spanLeft : span.offsetLeft})
+   // console.log({parentWidth : currentLine.parentElement.clientWidth})
 
 
     if(i === notesWithTimeArr.length -1){

@@ -52,6 +52,14 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
   // console.log({ arrObj })
   if (arrObj.length === 0) return
 
+  let lineBloc = arrDiv[0].parentNode.parentElement
+  let maxWidth = arrDiv[0].parentNode.parentElement.clientWidth
+  let nextWidth = maxWidth
+
+  let lines = arrDiv[0].parentElement
+
+  lineBloc.scrollLeft = 0
+
   if (window.outerWidth > 1000) await startRecording()
 
   setTimeout(async () => {
@@ -105,7 +113,21 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
           prevDiv !== undefined && prevDiv.classList.remove('playing')
 
           prevDiv = arrDiv[index]
-          // console.log({ prevDiv })
+
+          // console.log(prevDiv.offsetLeft)
+
+          if (
+            prevDiv.offsetLeft > nextWidth - 200 &&
+            nextWidth + 180 < lines.clientWidth
+          ) {
+            lineBloc.scrollLeft = prevDiv.offsetLeft - 100
+            nextWidth += maxWidth - 200
+
+            //console.log({ nextWidth })
+          }
+
+          //let parentDiv = prevDiv.parentElement
+          // console.log(parentDiv)
           prevDiv.classList.toggle('playing')
           if (index === arrDiv.length - 1) {
             setTimeout(() => {
