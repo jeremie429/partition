@@ -117,8 +117,7 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
           // console.log(prevDiv.offsetLeft)
 
           if (
-            prevDiv.offsetLeft > nextWidth - 200 &&
-            nextWidth + 180 < lines.clientWidth
+            prevDiv.offsetLeft > nextWidth - 200 
           ) {
             lineBloc.scrollLeft = prevDiv.offsetLeft - 100
             nextWidth += maxWidth - 200
