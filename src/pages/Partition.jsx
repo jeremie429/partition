@@ -608,22 +608,19 @@ const Partition = () => {
               let index = keySyntaxArr.indexOf(element.split(',')[0])
               let currentAudio = audioArr[index]
             //  console.log({currentAudio})
-              if((keyAlteration !== false && keyAlteration === "d") || diezeAlterations.indexOf(noteSyntax) !== -1){
+              if((keyAlteration !== false && keyAlteration === "d") || (diezeAlterations.indexOf(noteSyntax) !== -1 && keyAlteration !== "c")){
 
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, '#')
             currentAudio = currentAudio.join('')
-              }else if((keyAlteration !== false && keyAlteration === "b") || bemolAlterations.indexOf(noteSyntax) !== -1){
+            console.log({currentAudio})
+              }else if((keyAlteration !== false && keyAlteration === "b") || (bemolAlterations.indexOf(noteSyntax) !== -1 && keyAlteration !== "c")){
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, 'b')
             currentAudio = currentAudio.join('')
-              }
+              } 
 
-              
-
-            //  obj.time = Tone.Time(time).toBarsBeatsSixteenths()
               obj.note = currentAudio
-             // obj.duration = Tone.Time(duration).toNotation()  
 
 
             }
