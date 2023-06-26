@@ -583,13 +583,18 @@ const Partition = () => {
             const element = notesWithTimeArr[i]
             let noteSyntax = element.split(',')[0].trim()
             
-            const elTime = element.split(',')[1].trim()
+            let elTime = parseFloat(element.split(',')[1].trim())
             let keyAlteration = element.split(',')[2] !== undefined && element.split(',')[2].trim()
            // keyAlteration !== false && console.log({keyAlteration})
             const regex = /[0-9]/
 
             let obj = {}
-             let duration = parseFloat(elTime) * (Math.round((60 / tempo) * 100) / 100)
+           // console.log(element.split(',').indexOf('tr'))
+              if(element.split(',').indexOf('tr') !== -1)
+                elTime = (elTime*2)/3
+             let duration =elTime * (Math.round((60 / tempo) * 100) / 100)
+
+             //console.log({duration})
 
             const isSilent = noteSyntax=== '-'
 
