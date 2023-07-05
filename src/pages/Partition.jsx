@@ -84,6 +84,11 @@ const Partition = () => {
     let bassDivToTrigger = []
 
     var uniCodeBemol = '\u266d'
+
+    const [namePupitre1, setNamePupitre1] = useState("Soprano")
+    const [namePupitre2, setNamePupitre2] = useState("Alto")
+    const [namePupitre3, setNamePupitre3] = useState("Tenor")
+    const [namePupitre4, setNamePupitre4] = useState("Bass")
     
 
     
@@ -1268,7 +1273,7 @@ let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[
       </div>
 
               <div id="soprano">
-                <h1>Soprano</h1>
+                <input type='text' value={namePupitre1} onChange={(e) =>  setNamePupitre1(e.target.value) } /> 
                  <img src={iconForSoprano} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForSoprano} pupitre={"soprano"} />
               </div>
@@ -1317,7 +1322,7 @@ let currentNote = getAudioAndNoteForPiano(audioForAlto, notesArrForAlto,pos)[1]
       
           
             <div id="alto">
-              <h1>Alto</h1>
+              <input type='text' value={namePupitre2} onChange={(e) =>  setNamePupitre2(e.target.value) } /> 
                <img src={iconForAlto} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForAlto} pupitre={"alto"} />
               </div>
@@ -1365,7 +1370,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
       
             <div id="tenor">
-              <h1>Tenor</h1>
+              <input type='text' value={namePupitre3} onChange={(e) =>  setNamePupitre3(e.target.value) } /> 
                <img src={iconForTenor} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={keyForTenor} pupitre={"tenor"} />
               </div>
@@ -1413,7 +1418,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
       
             <div id="bass">
-              <h1>Bass</h1>
+              <input type='text' value={namePupitre4} onChange={(e) =>  setNamePupitre4(e.target.value) } /> 
               <img src={faIcon} className="img-icon" alt="key icon" />
                   <CompleteLine2 keys={"fa"} pupitre={"bass"} />
               </div>
