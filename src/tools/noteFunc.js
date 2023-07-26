@@ -13,15 +13,27 @@ import { startRecording, stopRecording } from './recorderFunc'
 }).toDestination()*/
 
 //Tone.setContext(new Tone.Context({ latencyHint: 'playback' }))
+
+/*
+  'amtriangle1'
+
+*/
 const synth2 = new Tone.Synth({
-  volume: -3,
+  oscillator: {
+    type: 'amtriangle',
+  },
 }).toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
-
-const polysynth = new Tone.PolySynth(AMSynth, {
-  volume: -9,
+const polysynthPiano = new Tone.PolySynth({
+  volume: -12,
 }).toDestination()
+
+const polysynth = new Tone.PolySynth(Tone.FMSynth, {
+  volume: -16,
+}).toDestination()
+//polysynth.set({ detune: -1200 })
+
 //const pluckysynth = new Tone.PluckSynth().toDestination()
 
 // decay: 0.5, sustain: 0.1
@@ -39,6 +51,9 @@ const polysynth = new Tone.PolySynth(AMSynth, {
 //Tone.Transport.bpm.value = 150
 
 //console.log('Tone Bpm Value', Tone.Transport.bpm)
+const MAX_BUFFERS = 7
+
+let _playingBuffers = []
 
 export async function playOneAudio(audio) {
   await Tone.start()
@@ -48,7 +63,14 @@ export async function playOneAudio(audio) {
     console.log(error)
   }
 }
-export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
+export async function playSnd(
+  arrObj,
+  pupitre,
+  cTitle,
+  otherSounds,
+  arrDiv,
+  floatingPadRef
+) {
   // console.log({ arrObj })
   if (arrObj.length === 0) return
 
@@ -116,9 +138,7 @@ export async function playSnd(arrObj, pupitre, cTitle, otherSounds, arrDiv) {
 
           // console.log(prevDiv.offsetLeft)
 
-          if (
-            prevDiv.offsetLeft > nextWidth - 200 
-          ) {
+          if (prevDiv.offsetLeft > nextWidth - 200) {
             lineBloc.scrollLeft = prevDiv.offsetLeft - 100
             nextWidth += maxWidth - 200
 
@@ -237,39 +257,42 @@ export async function playChoir(sopranoArr, altoArr, tenorArr, bassArr) {
   }*/
 }
 
-export async function playPianoNotes(notesArrObj) {
-  await Tone.start()
+export async function playPianoNotes(notesArrObj, floatingPadRef) {
+  Tone.Transport.start()
 
   //polysynth.maxPolyphony = 4
 
-  if (window.outerWidth > 1000) await startRecording()
+  await startRecording()
 
-  if (notesArrObj.length === 0) return
+  setTimeout(() => {
+    if (notesArrObj.length === 0) return
 
-  let totalDuration = 0
-  let delay = Tone.now()
+    let totalDuration = 0
+    let delay = Tone.now()
 
-  for (let i = 0; i < notesArrObj.length; i++) {
-    const element = notesArrObj[i]
+    for (let i = 0; i < notesArrObj.length; i++) {
+      const element = notesArrObj[i]
 
-    let notes = element.notes
-    let durations = element.durations
-    let durationToAdd = Math.min(durations) || durations[0]
+      let notes = element.notes
+      let durations = element.durations
+      let durationToAdd = Math.min(durations) || durations[0]
 
-    let maxDuration = Math.max(durations) || durations[0]
+      let maxDuration = Math.max(durations) || durations[0]
 
-    totalDuration += maxDuration
+      totalDuration += maxDuration
 
-    if (notes[0] !== '-')
-      polysynth.triggerAttackRelease(notes, durations, delay)
+      if (notes[0] !== '-')
+        polysynthPiano.triggerAttackRelease(notes, durations, delay)
 
-    delay += durationToAdd
-  }
+      delay += durationToAdd
+    }
 
-  if (window.outerWidth > 1000) {
-    setTimeout(() => {
-      let title = prompt('Please enter title')
-      stopRecording('Piano', title)
-    }, totalDuration * 1020)
-  }
+    if (window.outerWidth > 1000) {
+      setTimeout(async () => {
+        Tone.Transport.stop()
+        let title = prompt('Please enter title')
+        await stopRecording('Piano', title)
+      }, totalDuration * 1020)
+    }
+  }, 3000)
 }

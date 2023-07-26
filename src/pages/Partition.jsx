@@ -3,7 +3,7 @@ import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon,poweredIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
-import { playPianoNotes, playSnd } from "../tools/noteFunc";
+import { playOneAudio, playPianoNotes, playSnd } from "../tools/noteFunc";
 import * as Tone from 'tone'
 
 import notes from './Partition/musicNotes';
@@ -13,6 +13,7 @@ import "../styles/partition.scss"
 import Piano from '../components/Piano';
 import Block2 from '../components/Block2';
 import CompleteLine2 from '../components/CompleteLine2';
+import { Checkbox } from '@mui/material';
 
 
 const Partition = () => {
@@ -75,6 +76,8 @@ const Partition = () => {
     const tenorNotesRef = useRef()
     const bassNotesRef = useRef()
     const pianoNotesRef = useRef()
+    const floatingTime = useRef()
+    const floatingPadRef = useRef()
 
     const arr = [19,18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
@@ -89,6 +92,9 @@ const Partition = () => {
     const [namePupitre2, setNamePupitre2] = useState("Alto")
     const [namePupitre3, setNamePupitre3] = useState("Tenor")
     const [namePupitre4, setNamePupitre4] = useState("Bass")
+
+    const [pupitreRef, setPupitreRef] = useState(pianoNotesRef)
+    const [pupitreSelected, setPupitreSelected] = useState("piano")
     
 
     
@@ -394,6 +400,8 @@ const Partition = () => {
       e.preventDefault();
     // if(window.outerWidth>1000)
      //  await startRecording();
+   
+  
      let othersSounds = []
           let tenorArr = []
           let altoArr = []
@@ -412,7 +420,7 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(altoArr)
           othersSounds.push(bassArr)
-          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds, sopranoDivToTrigger);
+          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds, sopranoDivToTrigger, floatingPadRef);
           //triggerClass(sopranoNotes);
           break;
         case "alto-btn":
@@ -424,7 +432,7 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds, altoDivToTrigger);
+          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds, altoDivToTrigger, floatingPadRef);
          
          // await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
          // triggerClass(altoNotes);
@@ -440,7 +448,7 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds, tenorDivToTrigger);
+          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds, tenorDivToTrigger, floatingPadRef);
 
          
           //await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
@@ -457,7 +465,7 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(tenorArr)
-          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds, bassDivToTrigger);
+          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds, bassDivToTrigger, floatingPadRef);
           
          // await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           //triggerClass(bassNotes);
@@ -467,6 +475,7 @@ const Partition = () => {
         default:
           break;
       }
+       
     }
   
   
@@ -1042,6 +1051,8 @@ function addTextToSymbols(arrSymbols, textArr){
 
         e.preventDefault()
 
+         
+
         let syntaxArr = pianoNotesRef.current.value.trim().split('|')
        // console.log({syntaxArr})
 
@@ -1055,8 +1066,10 @@ function addTextToSymbols(arrSymbols, textArr){
           let durations = []
 
           notesWithDurations.forEach(noteWithDuration => {
-            let note = noteWithDuration.split(',')[0]
-            let duration = parseFloat(noteWithDuration.split(',')[1])
+            let note = noteWithDuration.trim().split(',')[0]
+            let duration = parseFloat(noteWithDuration.trim().split(',')[1])
+
+            if(note === '-') note = null
 
             notes.push(note)
             durations.push(duration)
@@ -1066,9 +1079,178 @@ function addTextToSymbols(arrSymbols, textArr){
 
       //  console.log(notesArrObj)
 
-        playPianoNotes(notesArrObj)
+        playPianoNotes(notesArrObj, floatingPadRef)
       }
 
+      let pianoNotes = []
+      let sopranoFloatArr = []
+      let altoFloatArr = []
+      let tenorFloatArr = []
+      let bassFloatArr = []
+
+      function handleFloatPadChange(audio, id, note, pos){
+          
+       
+        let checkBox = document.getElementById(id)
+        let elementToAdd = audio 
+
+        playOneAudio(audio)
+
+        let arr = []
+
+          switch (pupitreSelected) {
+          case 'piano':
+            arr = pianoNotes
+            break;
+           case 'soprano':
+             arr = sopranoFloatArr
+             elementToAdd = sopranoNotesSyntax[pos]
+            break;
+
+             case 'alto':
+             arr = altoFloatArr
+             elementToAdd = altoNotesSyntax[pos]
+            break;
+
+             case 'tenor':
+             arr = tenorFloatArr
+             elementToAdd = tenorNotesSyntax[pos]
+            break;
+
+             case 'bass':
+             arr = bassFloatArr
+             elementToAdd = bassNotesSyntax[pos]
+            break;
+        default:
+          break;
+         
+        }
+
+        if(checkBox.checked === true)
+        arr.push(elementToAdd)
+        else {
+          arr.splice(pianoNotes.indexOf(elementToAdd), 1)
+        }
+        
+
+        //console.log(pianoNotes)
+        
+
+      }
+
+      function handleFloatingAddNotes(pupitreSelect){
+
+          let currentValueInTextArea 
+
+         
+
+        let arr = []
+        let ref
+
+         switch (pupitreSelected) {
+          case 'piano':
+            arr = pianoNotes
+            ref = pianoNotesRef
+            currentValueInTextArea =pianoNotesRef.current.value
+            break;
+           case 'soprano':
+             arr = sopranoFloatArr
+             ref = sopranoNotesRef
+             currentValueInTextArea =sopranoNotesRef.current.value
+            break;
+
+             case 'alto':
+             arr = altoFloatArr
+             ref = altoNotesRef
+             currentValueInTextArea =altoNotesRef.current.value
+            break;
+
+             case 'tenor':
+             arr = tenorFloatArr
+             ref = tenorNotesRef
+             currentValueInTextArea =tenorNotesRef.current.value
+            break;
+
+             case 'bass':
+             arr = bassFloatArr
+             ref = bassNotesRef
+             currentValueInTextArea =bassNotesRef.current.value
+            break;
+        default:
+          break;
+         
+        }
+
+         //console.log({currentValueInTextArea})
+          //console.log({pupitreSelected})
+          let duration = pupitreSelected === 'piano' ? parseFloat(parseFloat(floatingTime.current.value)*Math.round((60 / tempo) * 100) / 100).toFixed(2) : floatingTime.current.value
+
+         // console.log(duration)
+
+          let seperSign = pupitreSelected === 'piano' ? "|" : ";"
+
+        let valueToAdd =currentValueInTextArea === "" ? "" : seperSign
+
+       // console.log(arr)
+        
+
+        for (let i = 0; i < arr.length; i++) {            
+                valueToAdd += arr[i] + "," + duration
+                if(i< arr.length-1)
+                valueToAdd += ";"
+                         
+        }
+     
+        ref.current.value = currentValueInTextArea + valueToAdd
+
+        //let container1 = document.getElementsByClassName("sol-section")
+
+       let checkboxes =  document.querySelectorAll('input[type="checkbox"]:checked')
+
+       //console.log(checkboxes)
+
+       checkboxes.forEach(checkbox => checkbox.checked = false)
+
+        arr.splice(0, arr.length)
+      }
+
+
+      function handleFloatingPupitreSelection(pupitreSelect){
+
+        setPupitreSelected(pupitreSelect)
+      }
+
+      let offsetX;
+let offsetY;
+
+function onDragStart (ev) {
+  const rect = ev.target.getBoundingClientRect();
+
+  offsetX = ev.clientX - rect.x;
+  offsetY = ev.clientY - rect.y;
+};
+
+function drop_handler (ev) {
+  ev.preventDefault();
+
+ ev.target.style.left = (offsetX- ev.clientX )+ "px"
+ ev.target.style.top = (offsetY - ev.clientY ) + "px"
+
+    
+ 
+};
+
+  function dragover_handler (ev) {
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect = "move";
+};
+
+function handleFloatVisibility(){
+        if(floatingPadRef.current.style.visibility === "visible")
+            floatingPadRef.current.style.visibility = "hidden"
+        else 
+        floatingPadRef.current.style.visibility = "visible"
+  }
   
     return (
       <div className="partition-page">
@@ -1423,7 +1605,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
                   <CompleteLine2 keys={"fa"} pupitre={"bass"} />
               </div>
           </div>
-
+<input className='check-float-visibility' type="checkbox" onChange={handleFloatVisibility} />
           <div className="notes-area" id='piano-area'>
             <div className="sol-keys">
               <h3>Treble clef staff</h3>
@@ -1499,16 +1681,78 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
       </div>
             </div>
         <textarea
-          className="notes-array"
+          className="notes-array piano-text"
           
           ref={pianoNotesRef}
           placeholder={'Add Notes for Piano'}
         ></textarea>
         
       </div>
+
+      
+
+      
+    <div className="floting_pad" draggable={"true"} ref={floatingPadRef}   >
+      <div className="submit-section">
+        <select value={pupitreSelected} name="pupitre" id="" onChange={(e) => handleFloatingPupitreSelection(e.target.value)}>
+          <option value="piano">Piano</option>
+          <option value="soprano">Soprano</option>
+          <option value="alto">Alto</option>
+          <option value="tenor">Tenor</option>
+          <option value="bass">Bass</option>
+
+        </select>
+      <input type="number" min={0} step={0.25} ref={floatingTime} />
+      <button onClick={() => handleFloatingAddNotes(pupitreSelected)}>Add Notes</button>
+
+      </div>
+
+      <div className="sol-section">
+         {arr.map((i, pos) => {
+
+            let currentAudioSrc = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[0]
+            let currentNote = getAudioAndNoteForPiano(audioForSoprano, notesForSoprano,pos)[1]
+            let id = uuidv4()
+          
+          return (
+
+            <div className="check" key={currentAudioSrc + pos}>
+              <label htmlFor={currentNote}>{currentNote}</label>
+              <input id={id} type="checkbox" name={currentAudioSrc} onChange={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)} />
+              <button onClick={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)}>+</button>
+            </div>
+            
+          )
+        })}
+      </div>
+
+       <div className="fa-section">
+         {arr.map((i, pos) => {
+
+            let currentAudioSrc = getAudioAndNoteForPiano(audioFaKey, notesFaKey,pos)[0]
+            let currentNote = getAudioAndNoteForPiano(audioFaKey, notesFaKey,pos)[1]
+            let id = uuidv4();
+          
+          return (
+
+            <div className="check" key={currentAudioSrc + pos}>
+              <label htmlFor={currentNote}>{currentNote}</label>
+              <input id={id} type="checkbox" name={currentAudioSrc} onChange={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)} />
+              <button onClick={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)}>+</button>
+            </div>
+            
+          )
+        })}
+      </div>
+      
+        
+    </div>
+
+    
        
       </div>
     );
+
   }
 
 

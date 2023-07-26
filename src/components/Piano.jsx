@@ -32,7 +32,7 @@ const Piano = ({
             
            }else{
             if(isPiano){
-              if(currentValueInTextArea[currentValueInTextArea.length -1] === "|")
+              if(currentValueInTextArea[currentValueInTextArea.length -1].trim() === "|")
               valueToAdd = currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
               else valueToAdd += ";"  + currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
           }else{

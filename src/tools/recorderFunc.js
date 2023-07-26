@@ -47,11 +47,11 @@ export async function startRecording() {
   }*/
 }
 
-export function stopRecording(pupitre, title) {
+export async function stopRecording(pupitre, title) {
   titleName = title
   pupitreName = pupitre
   try {
-    recorder.stop()
+    await recorder.stop()
   } catch (error) {
     console.error({ error })
   }
