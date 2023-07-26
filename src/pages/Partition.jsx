@@ -1181,6 +1181,8 @@ function addTextToSymbols(arrSymbols, textArr){
          
         }
 
+        if(arr.length == 0) return
+
          //console.log({currentValueInTextArea})
           //console.log({pupitreSelected})
           let duration = pupitreSelected === 'piano' ? parseFloat(parseFloat(floatingTime.current.value)*Math.round((60 / tempo) * 100) / 100).toFixed(2) : floatingTime.current.value
@@ -1692,7 +1694,9 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
       
 
       
-    <div className="floting_pad" draggable={"true"} ref={floatingPadRef}   >
+    <div className="floting_pad"  ref={floatingPadRef}   >
+      <input className='check-float-visibility' type="checkbox" onChange={handleFloatVisibility} />
+      
       <div className="submit-section">
         <select value={pupitreSelected} name="pupitre" id="" onChange={(e) => handleFloatingPupitreSelection(e.target.value)}>
           <option value="piano">Piano</option>
@@ -1743,6 +1747,17 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
             
           )
         })}
+      </div>
+
+      <div className="timepad">
+        <button onClick={() => floatingTime.current.value = 0.5}>0.5</button>
+        <button onClick={() => floatingTime.current.value = 1}>1</button>
+        <button onClick={() => floatingTime.current.value = 1.5}>1.5</button>
+        <button onClick={() => floatingTime.current.value = 2}>2</button>
+        <button onClick={() => floatingTime.current.value = 2.5}>2.5</button>
+        <button onClick={() => floatingTime.current.value = 3}>3</button>
+        <button onClick={() => floatingTime.current.value = 3.5}>3.5</button>
+        <button onClick={() => floatingTime.current.value = 4}>4</button>
       </div>
       
         

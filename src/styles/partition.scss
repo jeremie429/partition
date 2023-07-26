@@ -1595,4 +1595,22 @@ margin-left: -20px;
 
  }
 
+ .timepad{
+  position: absolute;
+  left: 175px;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ac0479;
+
+
+  button{
+    width: 20px;
+    margin: 1px;
+    font-size: x-small;
+  }
+ }
+
       
