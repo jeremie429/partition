@@ -1472,6 +1472,7 @@ font-size: 25px;
         z-index: 500;
         left: 50%;
         transform: translateX(-50%);
+        max-width: 200px;
         color: #f13d3d;
           text-shadow: 0 1px 0 #f5f1f1, 0 2px 0 #ffffff, 0 3px 0 #fffdfd, 0 4px 0 #f5eeee, 0 5px 0 #f7eded, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 5px 5px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
       }
@@ -1600,19 +1601,20 @@ margin-left: -20px;
  }
 
  .timepad{
-  position: absolute;
   left: 175px;
   top: 40px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #ac0479;
 
 
   button{
-    width: 20px;
-    margin: 1px;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 5px;
     font-size: x-small;
   }
  }

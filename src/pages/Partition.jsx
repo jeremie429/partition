@@ -1088,9 +1088,9 @@ function addTextToSymbols(arrSymbols, textArr){
       let tenorFloatArr = []
       let bassFloatArr = []
 
-      function handleFloatPadChange(audio, id, note, pos){
-          
-       
+      function handleFloatPadChange(e, audio, id, note, pos){
+         
+     
         let checkBox = document.getElementById(id)
         let elementToAdd = audio 
 
@@ -1138,7 +1138,9 @@ function addTextToSymbols(arrSymbols, textArr){
 
       }
 
-      function handleFloatingAddNotes(pupitreSelect){
+      function handleFloatingAddNotes(e, pupitreSelect){
+
+        e.preventDefault()
 
           let currentValueInTextArea 
 
@@ -1694,10 +1696,11 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
       
 
       
-    <div className="floting_pad"  ref={floatingPadRef}   >
+    <form className="floting_pad"  ref={floatingPadRef}  onSubmit={(e) => handleFloatingAddNotes(e, pupitreSelected)} >
       <input className='check-float-visibility' type="checkbox" onChange={handleFloatVisibility} />
+     
       
-      <div className="submit-section">
+      <div className="submit-section" >
         <select value={pupitreSelected} name="pupitre" id="" onChange={(e) => handleFloatingPupitreSelection(e.target.value)}>
           <option value="piano">Piano</option>
           <option value="soprano">Soprano</option>
@@ -1707,8 +1710,20 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
         </select>
       <input type="number" min={0} step={0.25} ref={floatingTime} />
-      <button onClick={() => handleFloatingAddNotes(pupitreSelected)}>Add Notes</button>
+      
 
+      </div>
+       <input type="submit" value="Add Notes" hidden/>
+       <div className="timepad">
+        <button  onClick={(e) => floatingTime.current.value = 0.5}>0.5</button>
+        <button   onClick={(e) => floatingTime.current.value = 1}>1</button>
+        <button  onClick={(e) => floatingTime.current.value = 1.5}>1.5</button>
+        <button   onClick={(e) => floatingTime.current.value = 2}>2</button>
+        <button   onClick={(e) => floatingTime.current.value = 2.5}>2.5</button>
+        <button   onClick={(e) => floatingTime.current.value = 3}>3</button>
+        <button  onClick={(e) => floatingTime.current.value = 3.5}>3.5</button>
+        <button  onClick={(e) => floatingTime.current.value = 4}>4</button>
+        
       </div>
 
       <div className="sol-section">
@@ -1722,8 +1737,8 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
             <div className="check" key={currentAudioSrc + pos}>
               <label htmlFor={currentNote}>{currentNote}</label>
-              <input id={id} type="checkbox" name={currentAudioSrc} onChange={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)} />
-              <button onClick={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)}>+</button>
+              <input id={id} type="checkbox" name={currentAudioSrc} onChange={(e) => handleFloatPadChange(e,currentAudioSrc, id, currentNote, pos)} />
+              <button  onClick={(e) => handleFloatPadChange(e, currentAudioSrc, id, currentNote, pos)} >+</button>
             </div>
             
           )
@@ -1741,27 +1756,18 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
 
             <div className="check" key={currentAudioSrc + pos}>
               <label htmlFor={currentNote}>{currentNote}</label>
-              <input id={id} type="checkbox" name={currentAudioSrc} onChange={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)} />
-              <button onClick={() => handleFloatPadChange(currentAudioSrc, id, currentNote, pos)}>+</button>
+              <input id={id} type="checkbox" name={currentAudioSrc} onChange={(e) => handleFloatPadChange(e, currentAudioSrc, id, currentNote, pos)} />
+              <button onClick={(e) => handleFloatPadChange(e, currentAudioSrc, id, currentNote, pos)}>+</button>
             </div>
             
           )
         })}
       </div>
 
-      <div className="timepad">
-        <button onClick={() => floatingTime.current.value = 0.5}>0.5</button>
-        <button onClick={() => floatingTime.current.value = 1}>1</button>
-        <button onClick={() => floatingTime.current.value = 1.5}>1.5</button>
-        <button onClick={() => floatingTime.current.value = 2}>2</button>
-        <button onClick={() => floatingTime.current.value = 2.5}>2.5</button>
-        <button onClick={() => floatingTime.current.value = 3}>3</button>
-        <button onClick={() => floatingTime.current.value = 3.5}>3.5</button>
-        <button onClick={() => floatingTime.current.value = 4}>4</button>
-      </div>
+     
       
         
-    </div>
+    </form>
 
     
        

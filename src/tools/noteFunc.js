@@ -17,11 +17,15 @@ import { startRecording, stopRecording } from './recorderFunc'
 /*
   'amtriangle1'
 
-*/
-const synth2 = new Tone.Synth({
+  {
   oscillator: {
     type: 'amtriangle',
   },
+}
+
+*/
+const synth2 = new Tone.Synth({
+  volume: -5,
 }).toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
@@ -30,7 +34,7 @@ const polysynthPiano = new Tone.PolySynth({
 }).toDestination()
 
 const polysynth = new Tone.PolySynth(Tone.FMSynth, {
-  volume: -16,
+  volume: -20,
 }).toDestination()
 //polysynth.set({ detune: -1200 })
 
@@ -83,6 +87,11 @@ export async function playSnd(
   lineBloc.scrollLeft = 0
 
   if (window.outerWidth > 1000) await startRecording()
+  /*
+  if (otherSounds.length <= 1)
+    polysynth.set({
+      volume: -16,
+    })*/
 
   setTimeout(async () => {
     let mainChords = []
