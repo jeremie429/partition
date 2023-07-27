@@ -833,9 +833,21 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
     
 
     switch (elTime) {
+      case "0.13" :
+          if(noteSyntax !== '-')
+        note = notes.thirthieth
+        else
+        note = notes.sixteenNoteRest
+        break;
       case "0.25":
         if(noteSyntax !== '-')
         note = notes.sixteenth
+        else
+        note = notes.sixteenNoteRest
+        break;
+        case "0.37":
+        if(noteSyntax !== '-')
+        note = notes.sixteenth + "."
         else
         note = notes.sixteenNoteRest
         break;
@@ -898,6 +910,9 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
         note = notes.wholeNoteRest
         break;
       case "6":
+         case "6.25":
+          case "6.5":
+            case "6.75":
         if(noteSyntax !== '-')
         note = notes.whole + "."
         else

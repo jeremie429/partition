@@ -11,6 +11,7 @@ let notes = {
   halfNoteRest: '𝄼',
   eighthNoteRest: '𝄾',
   sixteenNoteRest: '𝄿',
+  thirthieth: '𝅘𝅥𝅱',
   lines: '𝄚',
   line: '𝄖',
   dieze: '♯',
