@@ -24,9 +24,7 @@ import { startRecording, stopRecording } from './recorderFunc'
 }
 
 */
-const synth2 = new Tone.Synth({
-  volume: -5,
-}).toDestination()
+const synth2 = new Tone.Synth().toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
 const polysynthPiano = new Tone.PolySynth({

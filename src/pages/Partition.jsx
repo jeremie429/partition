@@ -100,9 +100,57 @@ const Partition = () => {
     
   
     let titleref = useRef();
+    let halfRef = useRef();
+    let oneRef = useRef();
+    let oneHalfRef = useRef();
+    let twoRef = useRef();
+    let twoHalfRef = useRef();
+    let threeRef = useRef();
+    let threeHalfRef = useRef();
+    let fourRef = useRef();
+
 
     useEffect(() => {
       document.title = "Partion Reader.."
+
+      document.addEventListener('keypress', (e) => {
+        let key = e.key
+
+        switch (key) {
+          case '5':
+            halfRef.current.click()
+            break;
+          case '1':
+            oneRef.current.click()
+            break;
+
+          case '6':
+            oneHalfRef.current.click()
+            break;
+
+          case '2':
+            twoRef.current.click()
+            break;
+          case '7':
+            twoHalfRef.current.click()
+            break;
+
+          case '3':
+            threeRef.current.click()
+            break;
+
+          case '8':
+            threeHalfRef.current.click()
+            break;
+          case '4':
+            fourRef.current.click()
+            break;
+
+          
+          default:
+            break;
+        }
+      })
      
     
     // console.log("Has been refreshed...")
@@ -1730,14 +1778,14 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
       </div>
        <input type="submit" value="Add Notes" hidden/>
        <div className="timepad">
-        <button  onClick={(e) => floatingTime.current.value = 0.5}>0.5</button>
-        <button   onClick={(e) => floatingTime.current.value = 1}>1</button>
-        <button  onClick={(e) => floatingTime.current.value = 1.5}>1.5</button>
-        <button   onClick={(e) => floatingTime.current.value = 2}>2</button>
-        <button   onClick={(e) => floatingTime.current.value = 2.5}>2.5</button>
-        <button   onClick={(e) => floatingTime.current.value = 3}>3</button>
-        <button  onClick={(e) => floatingTime.current.value = 3.5}>3.5</button>
-        <button  onClick={(e) => floatingTime.current.value = 4}>4</button>
+        <button ref={halfRef}  onClick={(e) => floatingTime.current.value = 0.5}>0.5</button>
+        <button ref={oneRef}   onClick={(e) => floatingTime.current.value = 1}>1</button>
+        <button ref={oneHalfRef}  onClick={(e) => floatingTime.current.value = 1.5}>1.5</button>
+        <button ref={twoRef}   onClick={(e) => floatingTime.current.value = 2}>2</button>
+        <button ref={twoHalfRef}   onClick={(e) => floatingTime.current.value = 2.5}>2.5</button>
+        <button ref={threeRef}    onClick={(e) => floatingTime.current.value = 3}>3</button>
+        <button ref={threeHalfRef}  onClick={(e) => floatingTime.current.value = 3.5}>3.5</button>
+        <button ref={fourRef}  onClick={(e) => floatingTime.current.value = 4}>4</button>
         
       </div>
 
