@@ -680,7 +680,7 @@ const Partition = () => {
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, '#')
             currentAudio = currentAudio.join('')
-            console.log({currentAudio})
+           // console.log({currentAudio})
               }else if((keyAlteration !== false && keyAlteration === "b") || (bemolAlterations.indexOf(noteSyntax) !== -1 && keyAlteration !== "c")){
              currentAudio = currentAudio.split('')
             currentAudio.splice(1, 0, 'b')
