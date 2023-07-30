@@ -1619,4 +1619,48 @@ margin-left: -20px;
   }
  }
 
+ .alterations_float{
+  position: absolute;
+  width: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  right: 100px;
+  top: 30px;
+
+  .alteration{
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 3px;
+    font-size: 12px;
+    text-align: center;
+    
+    
+      
+  }
+
+  .alteration:hover{
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+    .dieze {
+      background-color: #19bdb5;
+    }
+  
+    .bemol {
+      background-color: #480ecf;
+    }
+  
+    .becarre {
+      background-color: green;
+     
+    }
+  
+ }
+
       

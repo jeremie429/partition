@@ -882,8 +882,9 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
 
     switch (elTime) {
       case "0.13" :
+      case "0.12":
           if(noteSyntax !== '-')
-        note = notes.thirthieth
+        note = notes.fortieth
         else
         note = notes.sixteenNoteRest
         break;
@@ -1285,6 +1286,27 @@ function addTextToSymbols(arrSymbols, textArr){
       function handleFloatingPupitreSelection(pupitreSelect){
 
         setPupitreSelected(pupitreSelect)
+        switch (pupitreSelect) {
+          case "soprano":
+            setPupitreRef(sopranoNotesRef)
+            break;
+          case "alto":
+            setPupitreRef(altoNotesRef)
+            break;
+          case "tenor":
+            setPupitreRef(tenorNotesRef)
+            break;
+          case "bass":
+            setPupitreRef(bassNotesRef)
+            break;
+           case "piano":
+            setPupitreRef(pianoNotesRef)
+            break;
+            
+        
+          default:
+            break;
+        }
       }
 
       let offsetX;
@@ -1317,6 +1339,60 @@ function handleFloatVisibility(){
             floatingPadRef.current.style.visibility = "hidden"
         else 
         floatingPadRef.current.style.visibility = "visible"
+  }
+
+  function addFloatAlteration(audioAlt, syntaxAlt){
+
+      if(pupitreSelected === 'piano'){
+              let arr = pupitreRef.current.value.split("|")
+              let lastNotes = arr.pop()
+              let lastNotesArr = lastNotes.split(';')
+              let indexToAlterate = parseInt(prompt("Wich index of note do you want to alterate? ", 1))
+              let noteToAlterateWithTime = lastNotesArr[indexToAlterate-1]
+
+              let noteToAlterate = noteToAlterateWithTime.split(',')[0]
+              let newNote = noteToAlterate.split('').join(audioAlt) + ',' + noteToAlterateWithTime.split(',')[1]
+              if(audioAlt === "c"){
+                let noteToAlterateArr = noteToAlterate.split('')
+                noteToAlterateArr.splice(1, 1)
+                newNote = noteToAlterateArr.join('') + ',' + noteToAlterateWithTime.split(',')[1]
+              }
+
+              lastNotesArr.splice(indexToAlterate -1, 1, newNote)
+
+              arr.push(lastNotesArr.join(';'))
+
+              pupitreRef.current.value = arr.join('|')
+          }else{
+              pupitreRef.current.value += syntaxAlt
+          }
+  }
+
+  function setFloatTime(){
+
+    if(pupitreSelected !== 'piano') return
+
+     let arr = pupitreRef.current.value.split("|")
+              let lastNotes = arr.pop()
+              let lastNotesArr = lastNotes.split(';')
+              let indexNoteToSet = parseInt(prompt("wich index of note do you want to set? ", 1))
+              let timeToSet = parseFloat(prompt("wich time do you want to set? ", 1))
+              let noteToAlterateWithTime = lastNotesArr[indexNoteToSet-1]
+
+             let convertedTime =  parseFloat(timeToSet*Math.round((60 / tempo) * 100) / 100).toFixed(2)
+
+              let noteToAlterateWithTimeArr = noteToAlterateWithTime.split(',')
+              noteToAlterateWithTimeArr.splice(1, 1, convertedTime)
+              //let timeToAlterate = noteToAlterateWithTimeArr[1]
+              let newNote = noteToAlterateWithTimeArr.join(',') 
+
+              lastNotesArr.splice(indexNoteToSet -1, 1, newNote)
+
+              arr.push(lastNotesArr.join(';'))
+
+              pupitreRef.current.value = arr.join('|')
+
+    
   }
   
     return (
@@ -1787,6 +1863,14 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
         <button ref={threeHalfRef}  onClick={(e) => floatingTime.current.value = 3.5}>3.5</button>
         <button ref={fourRef}  onClick={(e) => floatingTime.current.value = 4}>4</button>
         
+      </div>
+
+      <div className="alterations_float">
+        <div onClick={() => addFloatAlteration('#', ",d")} className="alteration dieze">#</div>
+        <div onClick={() => addFloatAlteration('b', ",b")} className="alteration bemol">{notes.bemol}</div>
+        <div onClick={() => addFloatAlteration('c', ",c")} className="alteration becarre">{notes.c}</div>
+        <div onClick={() => setFloatTime()} className="alteration ">T</div>
+
       </div>
 
       <div className="sol-section">

@@ -11,12 +11,15 @@ let notes = {
   halfNoteRest: '𝄼',
   eighthNoteRest: '𝄾',
   sixteenNoteRest: '𝄿',
-  thirthieth: '𝅘𝅥𝅱',
+  thirthieth: '𝅘𝅥𝅰',
   lines: '𝄚',
   line: '𝄖',
   dieze: '♯',
   bemol: '♭',
-  breve: '𝅜',
+  breve: '𝄯',
+  becarre: '𝄯',
+  c: '𝄴',
+  fortieth: '𝅘𝅥𝅱',
 }
 
 export default notes
