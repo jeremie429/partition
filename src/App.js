@@ -12,6 +12,7 @@ import Project from './pages/Project'
 
 import Partition2 from './pages/Partition/index'
 import Partition from './pages/Partition'
+import Choirs from './pages/Choirs'
 function App() {
   return (
     <Router>
@@ -25,6 +26,8 @@ function App() {
             </Layout>
           }
         />
+
+        <Route exact path="/choirs" element={<Choirs />} />
         <Route
           exact
           path="partition"

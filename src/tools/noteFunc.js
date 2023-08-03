@@ -24,16 +24,29 @@ import { startRecording, stopRecording } from './recorderFunc'
 }
 
 */
-const synth2 = new Tone.Synth().toDestination()
+//const filter = new Tone.AutoFilter(4).toDestination().start()
+//const chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination().start()
+const synth2 = new Tone.Synth({ volume: -5 }).toDestination()
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
-const polysynthPiano = new Tone.PolySynth({
-  volume: -12,
-}).toDestination()
 
-const polysynth = new Tone.PolySynth(Tone.FMSynth, {
+const polysynthPiano = new Tone.PolySynth({
   volume: -20,
 }).toDestination()
+
+//const amOsc = new Tone.AMOscillator(30, 'sine', 'square').toDestination()
+
+const polysynth = new Tone.PolySynth(Tone.AMSynth, {
+  volume: -10,
+}).toDestination()
+
+//Tone.Transport.bpm = 110
+
+//const amOsc = new Tone.AMOscillator(30, 'sine', 'square').toDestination()
+
+// connect a node to the pitch shift and filter in parallel
+//filter.connect(polysynth, 3, 3)
+//amOsc.connect(synth2)
 //polysynth.set({ detune: -1200 })
 
 //const pluckysynth = new Tone.PluckSynth().toDestination()
