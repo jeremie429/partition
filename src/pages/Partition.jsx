@@ -1,27 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Block from '../components/Block';
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon,poweredIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
 import { playOneAudio, playPianoNotes, playSnd } from "../tools/noteFunc";
-import * as Tone from 'tone'
-
 import notes from './Partition/musicNotes';
-
-
 import "../styles/partition.scss"
 import Piano from '../components/Piano';
-import Block2 from '../components/Block2';
 import CompleteLine2 from '../components/CompleteLine2';
-import { Checkbox } from '@mui/material';
 
 
 const Partition = () => {
   
+  /*
     let altoNotes = [];
     let sopranoNotes = [];
     let tenorNotes = [];
     let bassNotes = [];
+    */
   
     const [notesForSoprano, setNotesForSoprano] = useState(notesSolKey)
     const [audioForSoprano, setAudioForSoprano] = useState(audioSolKey)
@@ -52,11 +47,12 @@ const Partition = () => {
   
     //let audioArrForAlto = audioSolKey;
     // let audioArrForTenor = audioFaKey;
-  
+  /*
     const [numSopranoBlock, setNumSopranoBlock] = useState(1);
     const [numAltoBlock, setNumAltoBlock] = useState(1);
     const [numTenorBlock, setNumTenorBlock] = useState(1);
     const [numBassBlock, setNumBassBlock] = useState(1);
+    */
 
     const [playTempo, setPlayTempo] = useState(false)
 
@@ -86,7 +82,7 @@ const Partition = () => {
     let tenorDivToTrigger = []
     let bassDivToTrigger = []
 
-    var uniCodeBemol = '\u266d'
+   // var uniCodeBemol = '\u266d'
 
     const [namePupitre1, setNamePupitre1] = useState("Soprano")
     const [namePupitre2, setNamePupitre2] = useState("Alto")
@@ -100,6 +96,7 @@ const Partition = () => {
     
   
     let titleref = useRef();
+    let quaterRef = useRef();
     let halfRef = useRef();
     let oneRef = useRef();
     let oneHalfRef = useRef();
@@ -145,6 +142,9 @@ const Partition = () => {
           case '4':
             fourRef.current.click()
             break;
+          case 'q':
+            quaterRef.current.click()
+            break;
 
           
           default:
@@ -155,7 +155,7 @@ const Partition = () => {
     
     // console.log("Has been refreshed...")
     }, [])
-
+/*
     function handleAdText(words,pupitre){
 
       let wordsArr = words.split("-");
@@ -193,13 +193,13 @@ const Partition = () => {
     }
 
     }
-
+*/
 
 
 
  
     
-  
+  /*
     function handleNoteClick(
       currentAudioSrc,
       pupitreName,
@@ -328,6 +328,8 @@ const Partition = () => {
           break;
       }
     }
+    */
+    /*
     function cancelVisibility(id, pupitreName) {
       switch (pupitreName) {
         case "Soprano":
@@ -347,8 +349,8 @@ const Partition = () => {
         default:
           break;
       }
-    }
-  
+    }*/
+  /*
     function handleDelay(id, value) {
       let altoNote = altoNotes.find((obj) => obj.id === id);
       let sopranoNote = sopranoNotes.find((obj) => obj.id === id);
@@ -377,15 +379,18 @@ const Partition = () => {
         bassNotes[index] = bassNote;
       }
     }
+  */
   
-  
-
+/*
     function sleep(time) {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
    // let lastTime = 0
     let duration
+
+    */
    // let currentDiv
+   /*
   async function triggerClass(notesArr) {
      // let link = document.createElement("a")
       let currentBlock
@@ -412,11 +417,7 @@ const Partition = () => {
             block: 'center'
             
           })
-          /*currentBlock = blocContainer
-
-          let attr = blocContainer.getAttribute('id')
-          link.href = "#" + attr
-          link.click()*/
+       
 
           //timeToReduce = 20
           
@@ -440,7 +441,7 @@ const Partition = () => {
       
       }
     }
-
+*/
   
 
 
@@ -460,7 +461,7 @@ const Partition = () => {
         case "soprano-btn":
           currentPitre = "S";
 
-          let noteDuration = (Math.round((60 / tempo) * 100) / 100)
+         // let noteDuration = (Math.round((60 / tempo) * 100) / 100)
            tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
            altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
            bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
@@ -631,6 +632,66 @@ const Partition = () => {
       }
     }
 
+    const lengthArrObj = [
+
+      {
+        type : "Largo",
+        tempo : 40
+      },
+      {
+        type : "Lento",
+        tempo : 52
+      },
+      {
+        type : "Adagio",
+        tempo : 60
+      },
+      {
+        type : "Andante",
+        tempo : 76
+      },
+      {
+        type : "Moderato",
+        tempo : 88
+      },
+      {
+        type : "Allegretto",
+        tempo : 100
+      },
+      {
+        type : "Allegro",
+        tempo : 112
+      },
+      {
+        type : "Vivace",
+        tempo : 120
+      },
+      {
+        type : "Presto",
+        tempo : 140
+      },
+      {
+        type : "Prestissimo",
+        tempo : 150
+      },
+    ]
+
+    /*
+
+    Largo	Large	40 - 60
+Lento	Lent	52 - 68
+Adagio	À l'aise	60 - 80
+Andante	Allant	76 - 100
+Moderato	Modéré	88 - 112
+Allegretto	légèrement allègre	100 - 128
+Allegro	allègre (joyeux)	112 - 160
+Vivace	Vif	120 - 140
+Presto	Pressé, rapide	140 - 200
+Prestissimo	Très rapide	140 - 200
+
+
+    */
+
      function getNotesDirectly(syntaxRef, keySyntaxArr, audioArr){
 
       if(syntaxRef.current.value === "") return []
@@ -641,6 +702,8 @@ const Partition = () => {
 
         let chord = []
 
+        let temp = tempo
+
         for (let i = 0; i < notesWithTimeArr.length; i++) {
             const element = notesWithTimeArr[i]
             let noteSyntax = element.split(',')[0].trim()
@@ -648,13 +711,29 @@ const Partition = () => {
             let elTime = parseFloat(element.split(',')[1].trim())
             let keyAlteration = element.split(',')[2] !== undefined && element.split(',')[2].trim()
            // keyAlteration !== false && console.log({keyAlteration})
-            const regex = /[0-9]/
+         
 
             let obj = {}
            // console.log(element.split(',').indexOf('tr'))
               if(element.split(',').indexOf('tr') !== -1)
                 elTime = (elTime*2)/3
-             let duration =elTime * (Math.round((60 / tempo) * 100) / 100)
+            for (let j = 0; j < lengthArrObj.length; j++) {
+              const object = lengthArrObj[j];
+             // console.log(object)
+             // console.log(element.split(',').indexOf(object.type))
+              if(element.split(',').indexOf(object.type) !== -1){
+
+                   temp = object.tempo
+                  // console.log({temp})
+              break;
+              }
+             
+            }
+
+            if(element.split(',').indexOf('fine') !== -1)
+               temp = tempo
+              
+             let duration =elTime * (Math.round((60 / temp) * 100) / 100)
 
              //console.log({duration})
 
@@ -710,7 +789,7 @@ const Partition = () => {
     }
 
  
-
+/*
   async function handleAdNotes(e, pupitre, arrNotes, setNumBloc, numBloc,ref) {
 
       
@@ -835,7 +914,7 @@ const Partition = () => {
        // console.log({sopranoNotes})
         
       }
-
+*/
 function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
 
 
@@ -970,7 +1049,7 @@ function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
     
       default:
         if(noteSyntax !== '-')
-        note = notes.breve
+        note = notes.whole
         else
         note = notes.wholeNoteRest 
         break;
@@ -1247,7 +1326,7 @@ function addTextToSymbols(arrSymbols, textArr){
          
         }
 
-        if(arr.length == 0) return
+        if(arr.length === 0) return
 
          //console.log({currentValueInTextArea})
           //console.log({pupitreSelected})
@@ -1309,30 +1388,8 @@ function addTextToSymbols(arrSymbols, textArr){
         }
       }
 
-      let offsetX;
-let offsetY;
 
-function onDragStart (ev) {
-  const rect = ev.target.getBoundingClientRect();
 
-  offsetX = ev.clientX - rect.x;
-  offsetY = ev.clientY - rect.y;
-};
-
-function drop_handler (ev) {
-  ev.preventDefault();
-
- ev.target.style.left = (offsetX- ev.clientX )+ "px"
- ev.target.style.top = (offsetY - ev.clientY ) + "px"
-
-    
- 
-};
-
-  function dragover_handler (ev) {
-  ev.preventDefault();
-  ev.dataTransfer.dropEffect = "move";
-};
 
 function handleFloatVisibility(){
         if(floatingPadRef.current.style.visibility === "visible")
@@ -1854,6 +1911,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
       </div>
        <input type="submit" value="Add Notes" hidden/>
        <div className="timepad">
+        <button ref={quaterRef}  onClick={(e) => floatingTime.current.value = 0.25}>0.25</button>
         <button ref={halfRef}  onClick={(e) => floatingTime.current.value = 0.5}>0.5</button>
         <button ref={oneRef}   onClick={(e) => floatingTime.current.value = 1}>1</button>
         <button ref={oneHalfRef}  onClick={(e) => floatingTime.current.value = 1.5}>1.5</button>
