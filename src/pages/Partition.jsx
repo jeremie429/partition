@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { audioFaKey, audioSolKey, audioUt1, audioUt2,audioUt3, audioUt4, notesFaKey, notesFaSyntax, notesSolKey, notesSolSyntax, notesUt1, notesUt1Syntax, notesUt2, notesUt2Syntax, notesUt3,notesUt3Syntax,notesUt4, notesUt4Syntax } from '../tools/noteArr';
 import {solIcon, faIcon, utIcon,poweredIcon} from "../tools/keysIcon";
 import { v4 as uuidv4 } from "uuid";
-import { playOneAudio, playPianoNotes, playSnd } from "../tools/noteFunc";
+import counter, { playOneAudio, playPianoNotes, playSnd } from "../tools/noteFunc";
 import notes from './Partition/musicNotes';
 import "../styles/partition.scss"
 import Piano from '../components/Piano';
 import CompleteLine2 from '../components/CompleteLine2';
+import { stopRecording } from '../tools/recorderFunc';
+import * as Tone from 'tone'
 
 
 const Partition = () => {
@@ -74,6 +76,8 @@ const Partition = () => {
     const pianoNotesRef = useRef()
     const floatingTime = useRef()
     const floatingPadRef = useRef()
+    const titleName = useRef()
+    const titleDescription = useRef()
 
     const arr = [19,18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 
@@ -87,7 +91,7 @@ const Partition = () => {
     const [namePupitre1, setNamePupitre1] = useState("Soprano")
     const [namePupitre2, setNamePupitre2] = useState("Alto")
     const [namePupitre3, setNamePupitre3] = useState("Tenor")
-    const [namePupitre4, setNamePupitre4] = useState("Bass")
+    const [namePupitre4, setNamePupitre4] = useState("Basse")
 
     const [pupitreRef, setPupitreRef] = useState(pianoNotesRef)
     const [pupitreSelected, setPupitreSelected] = useState("piano")
@@ -105,6 +109,8 @@ const Partition = () => {
     let threeRef = useRef();
     let threeHalfRef = useRef();
     let fourRef = useRef();
+
+    let threequartRef = useRef()
 
 
     useEffect(() => {
@@ -142,11 +148,19 @@ const Partition = () => {
           case '4':
             fourRef.current.click()
             break;
-          case 'q':
+          case '.':
             quaterRef.current.click()
             break;
+          case '9':
+            Tone.Transport.stop()
+            stopRecording("soprano", "cancel");
+            clearTimeout(counter)
 
-          
+          break;
+
+          case '0':
+            threequartRef.current.click()
+            break;
           default:
             break;
         }
@@ -456,8 +470,14 @@ const Partition = () => {
           let altoArr = []
           let bassArr = []
           let sopranoArr = []
+          let pianoArrNotes = []
+
+          if(pianoNotesRef.current.value !== "")
+            pianoArrNotes = await handlePlayPiano(e, false)
 
       switch (e.target.id) {
+
+        
         case "soprano-btn":
           currentPitre = "S";
 
@@ -469,7 +489,8 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(altoArr)
           othersSounds.push(bassArr)
-          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds, sopranoDivToTrigger, floatingPadRef);
+          await playSnd(sopranoArr, currentPitre, titleref.current.value, othersSounds, sopranoDivToTrigger, floatingPadRef, pianoArrNotes);
+          
           //triggerClass(sopranoNotes);
           break;
         case "alto-btn":
@@ -481,7 +502,7 @@ const Partition = () => {
           othersSounds.push(tenorArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds, altoDivToTrigger, floatingPadRef);
+          await playSnd(altoArr, currentPitre, titleref.current.value, othersSounds, altoDivToTrigger, floatingPadRef, pianoArrNotes);
          
          // await playSnd(altoNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
          // triggerClass(altoNotes);
@@ -497,7 +518,7 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(bassArr)
-          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds, tenorDivToTrigger, floatingPadRef);
+          await playSnd(tenorArr, currentPitre, titleref.current.value, othersSounds, tenorDivToTrigger, floatingPadRef, pianoArrNotes);
 
          
           //await playSnd(tenorNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
@@ -514,7 +535,7 @@ const Partition = () => {
           othersSounds.push(altoArr)
           othersSounds.push(sopranoArr)
           othersSounds.push(tenorArr)
-          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds, bassDivToTrigger, floatingPadRef);
+          await playSnd(bassArr, currentPitre, titleref.current.value, othersSounds, bassDivToTrigger, floatingPadRef, pianoArrNotes);
           
          // await playSnd(bassNotes, noteDuration, timePerTempo, currentPitre, titleref.current.value, playTempo);
           //triggerClass(bassNotes);
@@ -788,133 +809,80 @@ Prestissimo	Très rapide	140 - 200
 
     }
 
+ async function handleSaveWithNotes(){
+  let title = titleName.current.value
+  let fileToSave = title + parseInt(Math.random()*1000) + '.txt'
+
+  let content = title.trim() + ' - '+ "\n\r"
  
-/*
-  async function handleAdNotes(e, pupitre, arrNotes, setNumBloc, numBloc,ref) {
 
-      
+  let tenorArr = getNotesDirectly(tenorNotesRef, tenorNotesSyntax,audioForTenor)
+  let sopranoArr = getNotesDirectly(sopranoNotesRef, sopranoNotesSyntax,audioForSoprano)
+  let bassArr = getNotesDirectly(bassNotesRef, bassNotesSyntax,audioFaKey)
+  let altoArr = getNotesDirectly(altoNotesRef, altoNotesSyntax,audioForAlto)
 
-        let notesWithTimeArr = ref.current.value.trim().split(';')
+  console.log({tenorArr})
+  console.log({sopranoArr})
+  console.log({bassArr})
+  console.log({altoArr})
 
-        let mLength = Math.floor(notesWithTimeArr.length /25) + (notesWithTimeArr.length % 25 > 0 ? 1 : 0)
-        
+  content += "BEGIN SOPRANO --------------------------------------------------------------------------\n\r"
+  
+  content += sopranoWordsRef.current.value.split('-').join(" ") + '\n\n\r'
+  content += sopranoNotesRef.current.value + '\n\n\r'
+  content += "END SOPRANO --------------------------------------------------------------------------\n\n\r"
 
-        if(mLength !== numBloc){
+ }
+async function handleSave() {
+  
+  let title = titleName.current.value
+  let desc = titleDescription.current.value
+  let diezesAlt = diezeAlterations.join(',')
+  let bemolsAlt = bemolAlterations.join(',')
 
-          setNumBloc(Math.floor(notesWithTimeArr.length /25) +1)
-         return
-        }
-        
-        const sectionDiv = document.getElementById(`${pupitre}-section`)
+  let fileToSave = title + parseInt(Math.random()*1000) + '.txt'
 
-       // console.log({sectionDiv})
+  let content = title.trim() + ' - ' + desc.trim() + ' - '+ "\n\r"
+  content += "Tempo : " + tempo +"\n\r"
+  content += "Diezes : "+ diezesAlt + "\n\r"
+  content += "Bemols : "+ bemolsAlt + "\n\n\r"
 
-        const arrBlocsContainer = sectionDiv.querySelectorAll(".block-container")
+  content += "BEGIN SOPRANO --------------------------------------------------------------------------\n\r"
+  
+  content += sopranoWordsRef.current.value + '\n\n\r'
+  content += sopranoNotesRef.current.value + '\n\n\r'
+  content += "END SOPRANO --------------------------------------------------------------------------\n\n\r"
 
-        let currentBloc = 1
+  content += "BEGIN ALTO --------------------------------------------------------------------------\n\r"
+  
+  content += altoWordsRef.current.value + '\n\n\r'
+  content += altoNotesRef.current.value + '\n\n\r'
+  content += "END ALTO --------------------------------------------------------------------------\n\n\r"
 
-        let slicedArr 
+  content += "BEGIN TENOR --------------------------------------------------------------------------"+"\n\r"
+  
+  content += tenorWordsRef.current.value + '\n\n'
+  content += tenorNotesRef.current.value + '\n\n'
+  content += "END TENOR --------------------------------------------------------------------------\n\n"
 
-        const diezeCode = "d"
-        const bemolCode = "b"
-        const becarreCode = "c"
+  content += "BEGIN BASS --------------------------------------------------------------------------\n\r"
+  
+  content += bassWordsRef.current.value + '\n\n'
+  content += bassNotesRef.current.value + '\n\n'
+  content += "END BASS --------------------------------------------------------------------------\n\n"
+  
+var myFile = new Blob([content], {type: 'text/plain',endings: 'native'});
 
-        while(currentBloc <= mLength){
+window.URL = window.URL || window.webkitURL;
+var dlBtn = document.createElement('a');
+dlBtn.style.display = "none"
 
-          slicedArr = notesWithTimeArr.slice((currentBloc -1)*25, currentBloc*25)
-          let currenBlocContainer = arrBlocsContainer[currentBloc-1]
-        //  console.log({currenBlocContainer})
-          let completeLinesOfBloc = currenBlocContainer.querySelectorAll(".complete-line")
-         
+dlBtn.setAttribute("href", window.URL.createObjectURL(myFile));
+dlBtn.setAttribute("download", fileToSave);
+dlBtn.click()
 
-          for (let i = 0; i < slicedArr.length; i++) {
-            const element = slicedArr[i]
-            const elNoteWithPos = element.split(',')[0]
-            const elTime = element.split(',')[1]
-            const regex = /[0-9]/
-      
-            const isSilent = elNoteWithPos[0] === '-'
-      
-           
-            let duration = parseFloat(elTime) * (Math.round((60 / tempo) * 100) / 100)
-      
-            if (isSilent) {
-              const divToClick = Array.from(
-                completeLinesOfBloc
-              )
-                .reverse()[9]
-                .children.item(1)
-           
-              await divToClick.click()
-              let noteContainer = divToClick.children.item(i)
-              
-              let soupirToTriggered = noteContainer.children.item(0).children.item(1)
-      
-              await soupirToTriggered.click()
-      
-              const formDelay =  noteContainer.querySelector('.form-delay')
-              const noteControls =  formDelay.querySelector('.note-controls')
-              const inputDelay =  formDelay.querySelector('.input-delay')
-      
-              inputDelay.value = parseFloat(duration).toFixed(2)
-      
-              const okBtn = noteControls.querySelector('.ok')
-              await okBtn.click()
-      
-              
-            } else {
-              const elNote = elNoteWithPos.split(regex)[0]
-              const notePos = parseInt(elNoteWithPos.match(regex)[0])
 
-              const posInNoteArr = arrNotes.indexOf(elNote) + (notePos - 1) * 7
-      
-              const divToClick = Array.from(
-                completeLinesOfBloc
-              )
-                .reverse()
-                [posInNoteArr].children.item(1)
-      
-              if (divToClick.children.length === 0) await divToClick.click()
-             
-           
-      
-              let noteContainer = divToClick.children.item(i)
-              //console.log({noteContainer})
-            
-              let noteToTriggered = noteContainer.children.item(0).children.item(0)
-      
-              await noteToTriggered.click()
-      
-              const formDelay =  noteContainer.querySelector('.form-delay')
-      
-             
-              const noteControls =  formDelay.querySelector('.note-controls')
-              const inputDelay =  formDelay.querySelector('.input-delay')
-      
-              
-      
-              inputDelay.value = parseFloat(duration).toFixed(2)
-      
-              const okBtn =  noteControls.querySelector('.ok')
-
-              if(element.split(',').indexOf(diezeCode) !== -1)
-              await noteControls.querySelector('.dieze').click()
-              if(element.split(',').indexOf(bemolCode) !== -1)
-              await  noteControls.querySelector('.bemol').click()
-              if(element.split(',').indexOf(becarreCode) !== -1)
-              await noteControls.querySelector('.becarre').click()
-             
-              await okBtn.click()
-            }
-          }
-
-          currentBloc +=1
-        }
-
-       // console.log({sopranoNotes})
-        
-      }
-*/
+}
 function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
 
 
@@ -1190,9 +1158,9 @@ function addTextToSymbols(arrSymbols, textArr){
     
         ref.current.value = currentValueInTextArea + valueToAdd
       }
-      async function handlePlayPiano(e){
+      async function handlePlayPiano(e, playDirectly=true){
 
-        e.preventDefault()
+        //e.preventDefault()
 
          
 
@@ -1221,8 +1189,10 @@ function addTextToSymbols(arrSymbols, textArr){
         }
 
       //  console.log(notesArrObj)
+        if(playDirectly)
+          playPianoNotes(notesArrObj, floatingPadRef)
 
-        playPianoNotes(notesArrObj, floatingPadRef)
+          return notesArrObj
       }
 
       let pianoNotes = []
@@ -1334,7 +1304,13 @@ function addTextToSymbols(arrSymbols, textArr){
 
          // console.log(duration)
 
-          let seperSign = pupitreSelected === 'piano' ? "|" : ";"
+          let seperSign = ";"
+          if(pupitreSelected === 'piano'){
+            let endSyntax = prompt("Please enter the end syntax. 1 for | and 2 for ;")
+            if(endSyntax === "1")
+               seperSign = "|" + "\n"
+          }
+          
 
         let valueToAdd =currentValueInTextArea === "" ? "" : seperSign
 
@@ -1349,6 +1325,8 @@ function addTextToSymbols(arrSymbols, textArr){
         }
      
         ref.current.value = currentValueInTextArea + valueToAdd
+        ref.current.scrollTop= ref.current.scrollHeight
+        
 
         //let container1 = document.getElementsByClassName("sol-section")
 
@@ -1458,10 +1436,10 @@ function handleFloatVisibility(){
         <div className="presentation">
           
           <div className="title-name">
-            <input type="text" name="title" id="title-input" />
+            <input ref={titleName} type="text" name="title" id="title-input" />
           </div>
           <div className="description">
-            <input type="text" name="description" id="description-input" />
+            <input ref={titleDescription} type="text" name="description" id="description-input" />
           </div>
         </div>
     
@@ -1481,6 +1459,13 @@ function handleFloatVisibility(){
           
             <button onClick={handlePlayPiano} >
               Play Piano
+            </button>
+
+            <button onClick={handleSave} >
+              Save All
+            </button>
+            <button onClick={handleSaveWithNotes} >
+              Save With notes
             </button>
             
           </div>
@@ -1913,6 +1898,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
        <div className="timepad">
         <button ref={quaterRef}  onClick={(e) => floatingTime.current.value = 0.25}>0.25</button>
         <button ref={halfRef}  onClick={(e) => floatingTime.current.value = 0.5}>0.5</button>
+        <button ref={threequartRef}  onClick={(e) => floatingTime.current.value = 0.75}>0.75</button>
         <button ref={oneRef}   onClick={(e) => floatingTime.current.value = 1}>1</button>
         <button ref={oneHalfRef}  onClick={(e) => floatingTime.current.value = 1.5}>1.5</button>
         <button ref={twoRef}   onClick={(e) => floatingTime.current.value = 2}>2</button>
@@ -1927,7 +1913,7 @@ let currentNote = getAudioAndNoteForPiano(audioForTenor, notesForTenor,pos)[1]
         <div onClick={() => addFloatAlteration('#', ",d")} className="alteration dieze">#</div>
         <div onClick={() => addFloatAlteration('b', ",b")} className="alteration bemol">{notes.bemol}</div>
         <div onClick={() => addFloatAlteration('c', ",c")} className="alteration becarre">{notes.c}</div>
-        <div onClick={() => setFloatTime()} className="alteration ">T</div>
+        <div onClick={() => addFloatAlteration('tr', ",tr")} className="alteration ">T</div>
 
       </div>
 
