@@ -34,7 +34,14 @@ const Piano = ({
             if(isPiano){
               if(currentValueInTextArea[currentValueInTextArea.length -1].trim() === "|")
               valueToAdd = currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
-              else valueToAdd += ";"  + currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
+              else{
+                let endSyntax = prompt("Please enter the end syntax. 1 for | and 2 for ;")
+                if(endSyntax == "1"){
+                  endSyntax = "|"+"\n"
+                }else
+                endSyntax = ";"
+                valueToAdd += endSyntax  + currentAudioSrc + "," + parseFloat(tempo*time).toFixed(2)
+              } 
           }else{
 
             valueToAdd += ";" + noteSyntax + "," + time

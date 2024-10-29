@@ -12,10 +12,15 @@ import Project from './pages/Project'
 
 import Partition2 from './pages/Partition/index'
 import Partition from './pages/Partition'
+import Shorts from './pages/Partition/Shorts'
+import Checkout from './components/Checkout'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { CLIENT_ID } from './tools/paypalConfig'
 
 function App() {
   return (
     <Router>
+      {/* <PayPalScriptProvider options={{ 'client-id': CLIENT_ID }}> */}
       <Routes>
         <Route
           exact
@@ -36,6 +41,7 @@ function App() {
             </Layout>
           }
         />
+        <Route exact path="shorts" element={<Shorts />} />
         <Route
           exact
           path="wargame"
@@ -55,6 +61,7 @@ function App() {
             </Layout>
           }
         />
+        <Route axact path="buy/:id" element={<Checkout />} />
         <Route
           exact
           path="contact"
@@ -74,6 +81,7 @@ function App() {
           }
         />
       </Routes>
+      {/* </PayPalScriptProvider> */}
     </Router>
   )
 }
