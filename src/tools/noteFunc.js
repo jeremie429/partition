@@ -2,19 +2,17 @@ import * as Tone from 'tone'
 import { AMSynth } from 'tone'
 import { startRecording, stopRecording } from './recorderFunc'
 
-const synth2 = new Tone.Synth({ volume: -5 }).toDestination()
+const synth2 = new Tone.Synth({ oscillator: { type: 'fmsine' }}).toDestination();
 const amSynth = new Tone.AMSynth().toDestination()
-const amSynth2 = new Tone.AMSynth({ volume: -14 }).toDestination()
+const amSynth2 = new Tone.AMSynth({ volume: -5 }).toDestination()
 
 const polysynthPiano = new Tone.PolySynth({
-  volume: -20,
+  volume: -15,
 }).toDestination()
 
 //const amOsc = new Tone.AMOscillator(30, 'sine', 'square').toDestination()
 
-const polysynth = new Tone.PolySynth(Tone.AMSynth, {
-  volume: -10,
-}).toDestination()
+const polysynth = new Tone.PolySynth(Tone.AMSynth).toDestination()
 //Tone.Transport.bpm = 110
 
 const MAX_BUFFERS = 7
