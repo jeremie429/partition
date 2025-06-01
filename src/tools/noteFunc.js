@@ -7,7 +7,7 @@ const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -5 }).toDestination()
 
 const polysynthPiano = new Tone.PolySynth({
-  volume: -15,
+  volume: -5,
 }).toDestination()
 
 //const amOsc = new Tone.AMOscillator(30, 'sine', 'square').toDestination()
