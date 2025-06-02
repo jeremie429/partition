@@ -46,13 +46,6 @@ export const audioSolKey = [
   'B9',
 ]
 export const audioFaKey =[
-  'B1',
-  'C2',
-  'D2',
-  'E2',
-  'F2',
-  'G2',
-  'A2',
   'B2',
   'C3',
   'D3',
@@ -96,6 +89,13 @@ export const audioFaKey =[
   'G8',
   'A8',
   'B8',
+  'C9',
+  'D9',
+  'E9',
+  'F9',
+  'G9',
+  'A9',
+  'B9',
 ]
 
 export const notesSolKey = [
