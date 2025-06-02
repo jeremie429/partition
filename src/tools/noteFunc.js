@@ -2,12 +2,12 @@ import * as Tone from 'tone'
 import { AMSynth } from 'tone'
 import { startRecording, stopRecording } from './recorderFunc'
 
-const synth2 = new Tone.Synth({ oscillator: { type: 'fmsine' }}).toDestination();
+const synth2 = new Tone.Synth().toDestination();
 const amSynth = new Tone.AMSynth().toDestination()
 const amSynth2 = new Tone.AMSynth({ volume: -5 }).toDestination()
 
 const polysynthPiano = new Tone.PolySynth({
-  volume: -5,
+  volume: -20,
 }).toDestination()
 
 //const amOsc = new Tone.AMOscillator(30, 'sine', 'square').toDestination()
