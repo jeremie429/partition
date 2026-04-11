@@ -9,6 +9,7 @@ import Piano from '../components/Piano';
 import CompleteLine2 from '../components/CompleteLine2';
 import { stopRecording } from '../tools/recorderFunc';
 import * as Tone from 'tone'
+import { put } from '@vercel/blob';
 
 
 const Partition = () => {
@@ -842,8 +843,11 @@ async function handleSave() {
 
   let fileToSave = title + parseInt(Math.random()*1000) + '.txt'
 
+  console.log({"token": process.env.BLOB_READ_WRITE_TOKEN})
+
   let content = title.trim() + ' - ' + desc.trim() + ' - '+ "\n\r"
   content += "Tempo : " + tempo +"\n\r"
+
   content += "Diezes : "+ diezesAlt + "\n\r"
   content += "Bemols : "+ bemolsAlt + "\n\n\r"
 
@@ -880,7 +884,13 @@ dlBtn.style.display = "none"
 dlBtn.setAttribute("href", window.URL.createObjectURL(myFile));
 dlBtn.setAttribute("download", fileToSave);
 dlBtn.click()
+const {url} = await put(fileToSave, myFile, {
+  access: 'public',
+  token: "vercel_blob_rw_MXtEiX1TCvvX8amY_tLl7wZNZUTAxwFOemCwR6hRPeomShM"
 
+} )
+
+console.log({url})
 
 }
 function addNotesSymbol(arrNotesSyntax, pupitre, arrDiv){
