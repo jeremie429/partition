@@ -1,0 +1,33 @@
+Child Safety Compliance Declaration for Google Play
+
+App Name: Mario Game
+Developer: [Your Name or Company]
+Date: April 16, 2026
+
+This declaration outlines our commitment to Google Play's Family Policy and child safety standards, including COPPA (Children's Online Privacy Protection Act) compliance.
+
+1. **Target Audience**: This app is designed for general audiences, including users of all ages. It does not specifically target children under 13.
+
+2. **Data Collection and Privacy**:
+   - The app does not collect, store, or transmit any personal information, including names, emails, locations, or device identifiers.
+   - No user data is shared with third parties.
+   - The app operates offline and does not require internet access for core functionality.
+
+3. **Safety Features**:
+   - No in-app purchases or ads that could lead to unintended charges.
+   - Content is appropriate for all ages, with no violent, explicit, or harmful material.
+   - The game includes simple platforming mechanics without real-world risks.
+
+4. **Parental Controls**: Parents are encouraged to monitor their children's app usage. The app does not include features that bypass parental controls.
+
+5. **Compliance with Google Play Policies**:
+   - We adhere to all Google Play Developer Program Policies, including the Family Policy.
+   - If any future updates introduce data collection, we will obtain verifiable parental consent for users under 13.
+   - The app's privacy policy (if applicable) will be clearly posted and accessible.
+
+6. **Contact Information**: For questions regarding privacy or safety, contact [your email or support channel].
+
+By publishing this app on Google Play, we confirm that it meets all required standards for child safety and data protection.
+
+Signed,
+[Your Name or Company]
