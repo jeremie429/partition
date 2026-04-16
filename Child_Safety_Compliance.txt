@@ -1,7 +1,7 @@
 Child Safety Compliance Declaration for Google Play
 
-App Name: Mario Game
-Developer: [Your Name or Company]
+App Name: Forum de Fiscalté
+Developer: TTJ
 Date: April 16, 2026
 
 This declaration outlines our commitment to Google Play's Family Policy and child safety standards, including COPPA (Children's Online Privacy Protection Act) compliance.
